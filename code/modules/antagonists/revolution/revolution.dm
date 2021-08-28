@@ -84,7 +84,7 @@
 	objectives |= rev_team.objectives
 
 /datum/antagonist/rev/proc/remove_objectives()
-	objectives -= rev_team.objectives
+	qdel(rev_team.objectives)
 
 //Bump up to head_rev
 /datum/antagonist/rev/proc/promote()

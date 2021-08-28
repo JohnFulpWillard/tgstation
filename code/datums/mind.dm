@@ -600,7 +600,7 @@
 				new_objective = new selected_type
 				new_objective.owner = src
 				new_objective.admin_edit(usr)
-				target_antag.objectives -= old_objective
+				qdel(old_objective)
 				target_antag.objectives.Insert(objective_pos, new_objective)
 			message_admins("[key_name_admin(usr)] edited [current]'s objective to [new_objective.explanation_text]")
 			log_admin("[key_name(usr)] edited [current]'s objective to [new_objective.explanation_text]")
@@ -610,12 +610,11 @@
 		for(var/datum/antagonist/A in antag_datums)
 			objective = locate(href_list["obj_delete"]) in A.objectives
 			if(istype(objective))
-				A.objectives -= objective
+				qdel(objective)
 				break
 		if(!objective)
 			to_chat(usr,"Invalid objective.")
 			return
-		//qdel(objective) Needs cleaning objective destroys
 		message_admins("[key_name_admin(usr)] removed an objective for [current]: [objective.explanation_text]")
 		log_admin("[key_name(usr)] removed an objective for [current]: [objective.explanation_text]")
 

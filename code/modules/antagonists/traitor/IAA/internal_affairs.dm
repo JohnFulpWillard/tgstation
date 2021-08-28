@@ -121,7 +121,7 @@
 	for (var/objective in objectives)
 		if(!(istype(objective, /datum/objective/escape) || istype(objective, /datum/objective/survive/malf)))
 			continue
-		objectives -= objective
+		qdel(objective)
 
 	var/datum/objective/martyr/martyr_objective = new
 	martyr_objective.owner = owner
@@ -135,12 +135,12 @@
 	for (var/objective in objectives)
 		if(!istype(objective, /datum/objective/martyr))
 			continue
-		objectives -= objective
+		qdel(objective)
 
 /datum/antagonist/traitor/internal_affairs/reinstate_escape_objective()
 	..()
 	for (var/datum/objective/martyr/martyr_objective in objectives)
-		objectives -= martyr_objective
+		qdel(martyr_objective)
 
 	var/datum/objective/escape_objective = new /datum/objective/escape()
 	escape_objective.owner = owner

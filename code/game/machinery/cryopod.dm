@@ -169,7 +169,6 @@ GLOBAL_LIST_EMPTY(cryopod_computers)
 		// We don't want revs to get objectives that aren't for heads of staff. Letting
 		// them win or lose based on cryo is silly so we remove the objective.
 		if(istype(objective,/datum/objective/mutiny) && objective.target == mob_occupant.mind)
-			objective.team.objectives -= objective
 			qdel(objective)
 			for(var/datum/mind/mind in objective.team.members)
 				to_chat(mind.current, "<BR>[span_userdanger("Your target is no longer within reach. Objective removed!")]")
@@ -193,7 +192,7 @@ GLOBAL_LIST_EMPTY(cryopod_computers)
 				if(!objective.target && objective.owner)
 					to_chat(objective.owner.current, "<BR>[span_userdanger("Your target is no longer within reach. Objective removed!")]")
 					for(var/datum/antagonist/antag in objective.owner.antag_datums)
-						antag.objectives -= objective
+						qdel(objective)
 				if (!objective.team)
 					objective.update_explanation_text()
 					objective.owner.announce_objectives()

@@ -87,7 +87,7 @@
 	objectives |= nation.objectives
 
 /datum/antagonist/separatist/proc/remove_objectives()
-	objectives -= nation.objectives
+	qdel(nation.objectives)
 
 /datum/antagonist/separatist/create_team(datum/team/nation/new_team)
 	if(!new_team)

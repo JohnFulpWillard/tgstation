@@ -97,10 +97,7 @@
 	log_admin("[key_name(usr)] added objective \"[O.explanation_text]\" to [name]")
 
 /datum/team/proc/admin_remove_objective(mob/user,datum/objective/O)
-	for(var/datum/mind/M in members)
-		for(var/datum/antagonist/A in M.antag_datums)
-			A.objectives -= O
-	objectives -= O
+	qdel(O)
 
 	message_admins("[key_name_admin(usr)] removed objective \"[O.explanation_text]\" from [name]")
 	log_admin("[key_name(usr)] removed objective \"[O.explanation_text]\" from [name]")
