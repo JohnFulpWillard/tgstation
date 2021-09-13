@@ -43150,10 +43150,10 @@
 	dir = 1;
 	name = "mix to port"
 	},
-/obj/machinery/button/door/incinerator_vent_toxmix{
+/obj/machinery/button/door/incinerator_vent_ordmix{
 	pixel_y = 28
 	},
-/obj/machinery/button/ignition/incinerator/toxmix{
+/obj/machinery/button/ignition/incinerator/ordmix{
 	pixel_x = 8;
 	pixel_y = 28
 	},
@@ -43179,7 +43179,7 @@
 	dir = 1;
 	name = "port to mix"
 	},
-/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_toxmix{
+/obj/machinery/embedded_controller/radio/airlock_controller/incinerator_ordmix{
 	pixel_y = 28
 	},
 /obj/effect/turf_decal/stripes/corner{
@@ -44330,9 +44330,9 @@
 /obj/item/reagent_containers/glass/bucket,
 /obj/item/reagent_containers/glass/bucket,
 /obj/item/soap/deluxe,
-/obj/item/caution,
-/obj/item/caution,
-/obj/item/caution,
+/obj/item/clothing/suit/caution,
+/obj/item/clothing/suit/caution,
+/obj/item/clothing/suit/caution,
 /obj/item/storage/bag/trash,
 /turf/open/floor/plating,
 /area/maintenance/aft)
@@ -45258,7 +45258,7 @@
 /area/tcommsat/computer)
 "cdH" = (
 /obj/structure/table/wood,
-/obj/item/toy/talking/AI,
+/obj/item/toy/talking/ai,
 /turf/open/floor/iron/grimy,
 /area/tcommsat/computer)
 "cdI" = (
@@ -47842,7 +47842,7 @@
 /area/hallway/primary/central)
 "jaf" = (
 /obj/structure/table/wood,
-/obj/item/storage/photo_album/Captain,
+/obj/item/storage/photo_album/captain,
 /obj/item/camera,
 /turf/open/floor/wood,
 /area/command/heads_quarters/captain)
@@ -49218,7 +49218,7 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "okR" = (
-/obj/item/toy/plush/plushvar,
+/obj/item/toy/plush/ratplush,
 /obj/effect/decal/remains/human,
 /turf/open/floor/plating,
 /area/maintenance/port/fore)
@@ -49419,7 +49419,7 @@
 /obj/item/radio/intercom{
 	pixel_y = 29
 	},
-/obj/machinery/computer/atmos_control/toxinsmix,
+/obj/machinery/computer/atmos_control/ordnancemix,
 /turf/open/floor/iron/white,
 /area/science/mixing)
 "oPn" = (
@@ -49790,7 +49790,7 @@
 	pixel_y = 5
 	},
 /obj/item/pen/red,
-/obj/machinery/doorButtons/airlock_controller{
+/obj/machinery/door_buttons/airlock_controller{
 	idExterior = "virology_airlock_exterior";
 	idInterior = "virology_airlock_interior";
 	idSelf = "virology_airlock_control";
@@ -51088,7 +51088,7 @@
 /turf/open/floor/iron,
 /area/construction/mining/aux_base)
 "uuc" = (
-/obj/machinery/air_sensor/atmos/toxins_mixing_tank,
+/obj/machinery/air_sensor/atmos/ordnance_mixing_tank,
 /turf/open/floor/engine/vacuum,
 /area/science/mixing)
 "uva" = (
@@ -51371,7 +51371,7 @@
 /obj/structure/sign/poster/contraband/donut_corp{
 	pixel_y = 32
 	},
-/obj/item/reagent_containers/food/snacks/donut/chaos,
+/obj/item/food/donut/chaos,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "vjt" = (
