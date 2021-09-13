@@ -1,0 +1,31 @@
+{
+	"version": 1,
+	"map_name": "DonutStation",
+	"map_path": "map_files/Donutstation",
+	"map_file": [
+		"Donutstation_LVL2.dmm",
+		"Donutstation.dmm"
+	],
+	"shuttles": {
+		"cargo": "cargo_box",
+		"ferry": "ferry_fancy",
+		"whiteship": "whiteship_donut",
+		"emergency": "emergency_donut"
+	},
+	"traits": [
+		{
+			"Up" : 1,
+			"Linkage" : "Cross"
+		},
+		{
+			"Down" : -1,
+			"Baseturf" : "/turf/open/openspace",
+			"Linkage" : "Cross"
+		}
+	],
+	"job_changes": {
+		"cook": {
+			"additional_cqc_areas": ["/area/service/kitchen/diner"]
+		}
+	}
+}
