@@ -113,10 +113,6 @@
 /obj/effect/turf_decal/tile/yellow,
 /turf/open/floor/iron/white,
 /area/medical/chemistry)
-"ap" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/turf/open/floor/iron/white,
-/area/medical/chemistry)
 "aq" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 5
@@ -1555,16 +1551,6 @@
 /obj/structure/railing{
 	dir = 4
 	},
-/turf/open/floor/iron,
-/area/hallway/primary/upper)
-"dy" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
-	dir = 4
-	},
-/obj/structure/cable,
 /turf/open/floor/iron,
 /area/hallway/primary/upper)
 "dz" = (
@@ -3933,8 +3919,8 @@
 "iC" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/wood,
 /area/service/library/upper)
@@ -3942,8 +3928,8 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/wood,
 /area/service/library)
@@ -4029,8 +4015,8 @@
 	dir = 1
 	},
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/wood,
 /area/service/library/upper)
@@ -4049,8 +4035,8 @@
 	dir = 8
 	},
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/wood,
 /area/service/library/upper)
@@ -4794,8 +4780,8 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
@@ -5107,8 +5093,8 @@
 "ld" = (
 /obj/structure/cable,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
@@ -5615,8 +5601,8 @@
 /obj/structure/table,
 /obj/item/storage/fancy/donut_box,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /obj/effect/turf_decal/tile/red{
 	dir = 4
@@ -5748,16 +5734,6 @@
 	name = "Lower-Floor Maintenance Access";
 	req_access_txt = "10"
 	},
-/turf/open/floor/plating,
-/area/maintenance/fore/upper)
-"mz" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
-	dir = 4
-	},
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/maintenance/fore/upper)
 "mA" = (
@@ -6056,8 +6032,8 @@
 /obj/structure/table,
 /obj/item/book/manual/wiki/security_space_law,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/iron,
 /area/security/brig/upper)
@@ -6311,8 +6287,8 @@
 /obj/effect/turf_decal/bot,
 /obj/vehicle/ridden/secway,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/iron,
 /area/security/brig/upper)
@@ -6383,8 +6359,8 @@
 	},
 /obj/structure/rack,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/iron,
 /area/security/brig/upper)
@@ -7980,8 +7956,8 @@
 /obj/structure/table,
 /obj/machinery/recharger,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/iron,
 /area/security/brig/upper)
@@ -11935,8 +11911,8 @@
 	dir = 8
 	},
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/wood,
 /area/service/library/upper)
@@ -12164,8 +12140,8 @@
 "yS" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/wood,
 /area/service/library/upper)
@@ -12226,8 +12202,8 @@
 /obj/structure/table,
 /obj/machinery/recharger,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /obj/effect/turf_decal/tile/red,
 /turf/open/floor/iron,
@@ -12402,8 +12378,8 @@
 	},
 /obj/structure/cable,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/floor/wood,
 /area/service/library/upper)
@@ -13290,10 +13266,6 @@
 	},
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)
-"AU" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible,
-/turf/open/floor/iron,
-/area/engineering/atmos/upper)
 "AV" = (
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
@@ -13305,10 +13277,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible{
 	dir = 5
 	},
-/turf/open/floor/iron,
-/area/engineering/atmos/upper)
-"AX" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/general/visible,
 /turf/open/floor/iron,
 /area/engineering/atmos/upper)
 "AY" = (
@@ -16306,7 +16274,6 @@
 /turf/open/floor/plating,
 /area/maintenance/fore/upper)
 "IA" = (
-/obj/structure/closet/secure_closet/lethalshots,
 /obj/machinery/power/apc{
 	areastring = "/area/ai_monitored/security/armory/upper";
 	dir = 1;
@@ -17202,8 +17169,8 @@
 "Km" = (
 /obj/structure/lattice,
 /obj/structure/railing{
-	icon_state = "railing";
-	dir = 8
+	dir = 8;
+	icon_state = "railing"
 	},
 /turf/open/openspace/airless,
 /area/space/nearstation)
@@ -46176,8 +46143,8 @@ dE
 fq
 ae
 bq
-ap
-ap
+bV
+bV
 aq
 ae
 ae
@@ -55650,7 +55617,7 @@ rA
 hK
 bA
 bA
-dy
+ef
 bv
 lQ
 mv
@@ -56424,7 +56391,7 @@ ip
 jo
 jU
 lS
-mz
+oe
 nK
 nK
 of
@@ -56927,7 +56894,7 @@ aN
 bz
 bz
 bA
-dy
+ef
 dA
 fm
 fm
@@ -57184,7 +57151,7 @@ aO
 bA
 bA
 bA
-dy
+ef
 dA
 fm
 fm
@@ -57512,7 +57479,7 @@ Ad
 As
 lZ
 AL
-AU
+Be
 AW
 Bh
 Bx
@@ -57698,7 +57665,7 @@ aP
 bA
 bA
 bA
-dy
+ef
 dA
 fm
 fm
@@ -58026,7 +57993,7 @@ Ad
 At
 AD
 AM
-AX
+Be
 Be
 Bu
 lZ
@@ -58540,7 +58507,7 @@ Ad
 As
 lZ
 AN
-AU
+Be
 AY
 Bh
 Bx
