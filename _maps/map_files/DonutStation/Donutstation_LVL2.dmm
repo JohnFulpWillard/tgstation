@@ -5483,7 +5483,7 @@
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "lU" = (
 /obj/machinery/light{
 	dir = 8
@@ -5512,7 +5512,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "lX" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 1
@@ -5522,7 +5522,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "lY" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -6581,7 +6581,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oo" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 1
@@ -6593,7 +6593,7 @@
 	dir = 10
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "op" = (
 /obj/effect/turf_decal/trimline/yellow/filled/corner{
 	dir = 1
@@ -6602,13 +6602,13 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oq" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 1
 	},
 /obj/machinery/power/apc{
-	areastring = "/area/engine/gravity_generator";
+	areastring = "/area/engineering/gravity_generator";
 	dir = 1;
 	name = "Gravity Generator APC";
 	pixel_y = 23
@@ -6618,7 +6618,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "or" = (
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/glowstick,
@@ -6635,7 +6635,7 @@
 	dir = 6
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "ot" = (
 /obj/effect/turf_decal/trimline/yellow/filled/corner{
 	dir = 4
@@ -6644,11 +6644,11 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "ou" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/closed/wall,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "ov" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
@@ -6662,7 +6662,7 @@
 	dir = 5
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "ow" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -6674,7 +6674,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "ox" = (
 /obj/effect/turf_decal/trimline/yellow/filled/corner{
 	dir = 4
@@ -6686,7 +6686,7 @@
 	dir = 10
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oy" = (
 /obj/machinery/camera{
 	c_tag = "Engineering - Gravity Generator Internal North";
@@ -6695,7 +6695,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oz" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -6703,13 +6703,13 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oA" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
 	},
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oB" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -6717,7 +6717,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oC" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -6728,11 +6728,11 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oD" = (
 /obj/machinery/atmospherics/pipe/multiz/scrubbers/visible/layer2,
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oE" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -6744,7 +6744,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oF" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 4
@@ -6757,7 +6757,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oG" = (
 /obj/machinery/door/airlock/engineering/glass{
 	name = "Power Strut Access";
@@ -6771,49 +6771,49 @@
 	dir = 10
 	},
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oH" = (
 /obj/structure/cable/layer1,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general/hidden{
 	dir = 9
 	},
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oI" = (
 /turf/closed/wall/r_wall,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oJ" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 9
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oK" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/closed/wall/r_wall,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oL" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on,
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oM" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 5
 	},
 /turf/closed/wall/r_wall,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oN" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 5
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oO" = (
 /obj/effect/turf_decal/trimline/yellow/filled/corner{
 	dir = 1
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oP" = (
 /obj/effect/turf_decal/stripes/corner,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -6821,29 +6821,29 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oQ" = (
 /obj/structure/ladder,
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oR" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/sign/warning/radiation/rad_area{
 	pixel_y = -32
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oS" = (
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oT" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 9
 	},
 /turf/closed/wall,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oU" = (
 /obj/machinery/camera{
 	c_tag = "Engineering - Gravity Generator Internal South";
@@ -6854,19 +6854,19 @@
 	dir = 5
 	},
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oV" = (
 /obj/effect/turf_decal/stripes/corner,
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oW" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oX" = (
 /turf/closed/wall,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oY" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
@@ -6875,14 +6875,14 @@
 /obj/effect/turf_decal/box,
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "oZ" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pa" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 8
@@ -6891,27 +6891,27 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pb" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pc" = (
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pd" = (
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pe" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pf" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 4
@@ -6920,13 +6920,13 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pg" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 8
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "ph" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -6936,7 +6936,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pi" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
@@ -6948,13 +6948,13 @@
 	dir = 6
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pj" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 4
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pk" = (
 /obj/machinery/gravity_generator/main/station,
 /obj/effect/turf_decal/bot_white,
@@ -6969,7 +6969,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pl" = (
 /obj/effect/turf_decal/bot_white/right,
 /obj/effect/turf_decal/tile/neutral{
@@ -6983,14 +6983,14 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pm" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pn" = (
 /obj/effect/turf_decal/bot_white/left,
 /obj/effect/turf_decal/tile/neutral{
@@ -7004,7 +7004,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "po" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
@@ -7016,17 +7016,17 @@
 	dir = 9
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pp" = (
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pq" = (
 /obj/machinery/door/airlock/engineering/glass{
 	name = "Gravity Generator";
 	req_access_txt = "11"
 	},
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pr" = (
 /obj/effect/turf_decal/bot_white,
 /obj/effect/turf_decal/tile/neutral{
@@ -7040,27 +7040,27 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "ps" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pt" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 4
 	},
 /obj/structure/cable/layer1,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pu" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4{
 	dir = 10
 	},
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pv" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
@@ -7071,16 +7071,16 @@
 	dir = 6
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pw" = (
 /obj/structure/ladder,
 /obj/structure/cable/layer1,
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "px" = (
 /obj/structure/cable/multilayer/multiz,
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "py" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
@@ -7089,7 +7089,7 @@
 /obj/effect/turf_decal/box,
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pz" = (
 /obj/machinery/door/airlock/engineering/glass{
 	name = "Gravity Generator";
@@ -7097,7 +7097,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pA" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
@@ -7107,7 +7107,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pB" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
@@ -7117,7 +7117,7 @@
 	dir = 9
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pC" = (
 /obj/effect/turf_decal/trimline/yellow/filled/corner{
 	dir = 8
@@ -7126,7 +7126,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pD" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 4
@@ -7136,19 +7136,19 @@
 	},
 /obj/structure/cable/layer1,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pE" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 10
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pF" = (
 /obj/effect/turf_decal/trimline/yellow/filled/corner{
 	dir = 8
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pG" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -7158,7 +7158,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pH" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -7167,24 +7167,24 @@
 /obj/structure/cable/layer1,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pI" = (
 /obj/effect/turf_decal/trimline/yellow/filled/corner,
 /obj/structure/cable/layer1,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pJ" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 6
 	},
 /obj/structure/cable/layer1,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pK" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line,
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pL" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -7211,7 +7211,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pO" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -7221,7 +7221,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pP" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
@@ -7231,28 +7231,28 @@
 	dir = 9
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pQ" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line,
 /obj/machinery/light,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pR" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pS" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line,
 /obj/machinery/power/smes/engineering,
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pT" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 6
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pU" = (
 /obj/machinery/light{
 	dir = 1
@@ -7276,7 +7276,7 @@
 	network = list("ss13","Engineering")
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "pW" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -7309,7 +7309,7 @@
 "pZ" = (
 /obj/machinery/light/small,
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "qa" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 5
@@ -7320,7 +7320,7 @@
 	network = list("ss13","Engineering")
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "qb" = (
 /obj/effect/turf_decal/trimline/yellow/filled/corner,
 /obj/structure/cable/layer1,
@@ -7328,7 +7328,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "qc" = (
 /obj/effect/turf_decal/trimline/white/filled/line{
 	dir = 4
@@ -7351,7 +7351,7 @@
 	network = list("ss13","Engineering")
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "qe" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 6
@@ -7363,7 +7363,7 @@
 	network = list("ss13","Engineering")
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "qf" = (
 /obj/effect/turf_decal/trimline/white/filled/line{
 	dir = 4
@@ -8051,7 +8051,7 @@
 	pixel_x = -22
 	},
 /turf/open/floor/iron/dark,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "rv" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 4
@@ -8070,7 +8070,7 @@
 	req_one_access_txt = "2;24"
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "rx" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable,
@@ -8426,7 +8426,7 @@
 	},
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/rack,
-/obj/effect/spawner/lootdrop/techstorage/AI,
+/obj/effect/spawner/lootdrop/techstorage/ai,
 /obj/structure/window/reinforced/spawner/north,
 /turf/open/floor/iron/dark,
 /area/ai_monitored/command/nuke_storage)
@@ -8451,7 +8451,7 @@
 	},
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/rack,
-/obj/effect/spawner/lootdrop/techstorage/RnD_secure,
+/obj/effect/spawner/lootdrop/techstorage/rnd_secure,
 /obj/structure/window/reinforced/spawner/north,
 /turf/open/floor/iron/dark,
 /area/ai_monitored/command/nuke_storage)
@@ -14712,7 +14712,7 @@
 	},
 /obj/structure/cable,
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "Em" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 1
@@ -14725,7 +14725,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "En" = (
 /obj/machinery/door/airlock/external{
 	name = "External Hull Access"
@@ -16172,8 +16172,8 @@
 /area/maintenance/aft/upper)
 "Ig" = (
 /obj/structure/closet/cardboard,
-/obj/item/reagent_containers/food/snacks/canned/beans,
-/obj/item/reagent_containers/food/snacks/canned/beans,
+/obj/item/trash/can/food/beans,
+/obj/item/trash/can/food/beans,
 /obj/effect/turf_decal/bot,
 /turf/open/floor/plating,
 /area/maintenance/aft/upper)
@@ -18416,7 +18416,7 @@
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "ML" = (
 /obj/machinery/door/airlock/external{
 	name = "Gravity Generator External Access";
@@ -18426,7 +18426,7 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "MM" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -20493,7 +20493,7 @@
 	name = "openspace baseturf editor"
 	},
 /turf/closed/wall,
-/area/engine/gravity_generator)
+/area/engineering/gravity_generator)
 "Qy" = (
 /obj/effect/baseturf_helper/space{
 	baseturf = /turf/open/openspace;
