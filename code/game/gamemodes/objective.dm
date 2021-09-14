@@ -19,10 +19,9 @@ GLOBAL_LIST_EMPTY(objectives)
 	if(text)
 		explanation_text = text
 
-//Apparently objectives can be qdel'd. Learn a new thing every day
 /datum/objective/Destroy()
-	for(var/datum/antagonist/A in owner?.antag_datums)
-		A.objectives -= src
+	for(var/datum/antagonist/solo_antag_datum in owner?.antag_datums)
+		solo_antag_datum.objectives -= src
 	for(var/datum/mind/team_minds in team?.members)
 		for(var/datum/antagonist/antag_datum in team_minds.antag_datums)
 			antag_datum.objectives -= src
