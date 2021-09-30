@@ -407,18 +407,17 @@
 /datum/reagents/proc/has_reagent(reagent, amount = -1, needs_metabolizing = FALSE)
 	var/list/cached_reagents = reagent_list
 	for(var/datum/reagent/holder_reagent as anything in cached_reagents)
-		if (holder_reagent.type == reagent)
-			if(!amount)
-				if(needs_metabolizing && !holder_reagent.metabolizing)
-					return FALSE
-				return holder_reagent
-			else
-				if(round(holder_reagent.volume, CHEMICAL_QUANTISATION_LEVEL) >= amount)
-					if(needs_metabolizing && !holder_reagent.metabolizing)
-						return FALSE
-					return holder_reagent
+		if(holder_reagent.type != reagent)
+			continue
+		if(!amount)
+			if(needs_metabolizing && !holder_reagent.metabolizing)
+				return FALSE
+			return holder_reagent
+		if(round(holder_reagent.volume, CHEMICAL_QUANTISATION_LEVEL) >= amount)
+			if(needs_metabolizing && !holder_reagent.metabolizing)
+				return FALSE
+			return holder_reagent
 	return FALSE
-
 
 /**
  * Transfer some stuff from this holder to a target object

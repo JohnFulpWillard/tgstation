@@ -11,8 +11,6 @@
 		. = ..()
 		reagents.handle_stasis_chems(src, delta_time, times_fired)
 	else
-		//Reagent processing needs to come before breathing, to prevent edge cases.
-		handle_organs(delta_time, times_fired)
 
 		. = ..()
 		if(QDELETED(src))
@@ -42,7 +40,7 @@
 			var/datum/addiction/addiction = SSaddiction.all_addictions[key]
 			addiction.process_addiction(src, delta_time, times_fired)
 	if(stat != DEAD)
-		return 1
+		return TRUE
 
 ///////////////
 // BREATHING //
@@ -340,19 +338,6 @@
 		var/obj/item/bodypart/BP = I
 		if(BP.needs_processing)
 			. |= BP.on_life(delta_time, times_fired, stam_regen)
-
-/mob/living/carbon/proc/handle_organs(delta_time, times_fired)
-	if(stat != DEAD)
-		for(var/organ_slot in GLOB.organ_process_order)
-			var/obj/item/organ/organ = getorganslot(organ_slot)
-			if(organ?.owner) // This exist mostly because reagent metabolization can cause organ reshuffling
-				organ.on_life(delta_time, times_fired)
-	else
-		if(reagents.has_reagent(/datum/reagent/toxin/formaldehyde, 1) || reagents.has_reagent(/datum/reagent/cryostylane)) // No organ decay if the body contains formaldehyde.
-			return
-		for(var/V in internal_organs)
-			var/obj/item/organ/O = V
-			O.on_death(delta_time, times_fired) //Needed so organs decay while inside the body.
 
 /mob/living/carbon/handle_diseases(delta_time, times_fired)
 	for(var/thing in diseases)

@@ -23,34 +23,27 @@
 	GLOB.zombie_infection_list -= src
 	. = ..()
 
-/obj/item/organ/zombie_infection/Insert(mob/living/carbon/M, special = 0)
+/obj/item/organ/zombie_infection/Remove(mob/living/carbon/organ_owner, special = FALSE)
 	. = ..()
-	START_PROCESSING(SSobj, src)
-
-/obj/item/organ/zombie_infection/Remove(mob/living/carbon/M, special = 0)
-	. = ..()
-	STOP_PROCESSING(SSobj, src)
-	if(iszombie(M) && old_species && !QDELETED(M))
-		M.set_species(old_species)
+	if(iszombie(organ_owner) && old_species && !QDELETED(organ_owner))
+		organ_owner.set_species(old_species)
 	if(timer_id)
 		deltimer(timer_id)
 
 /obj/item/organ/zombie_infection/on_find(mob/living/finder)
-	to_chat(finder, "<span class='warning'>Inside the head is a disgusting black \
-		web of pus and viscera, bound tightly around the brain like some \
-		biological harness.</span>")
+	to_chat(finder, span_warning("Inside the head is a disgusting black web of pus and viscera, bound tightly around the brain like some biological harness."))
 
-/obj/item/organ/zombie_infection/process(delta_time)
+/obj/item/organ/zombie_infection/process(delta_time, times_fired)
 	if(!owner)
 		return
 	if(!(src in owner.internal_organs))
 		Remove(owner)
-	if(owner.mob_biotypes & MOB_MINERAL)//does not process in inorganic things
-		return
-	if (causes_damage && !iszombie(owner) && owner.stat != DEAD)
+	if(causes_damage && !iszombie(owner) && owner.stat != DEAD)
 		owner.adjustToxLoss(0.5 * delta_time)
 		if(DT_PROB(5, delta_time))
 			to_chat(owner, span_danger("You feel sick..."))
+	if(owner.mob_biotypes & MOB_MINERAL)//does not process in inorganic things
+		return
 	if(timer_id)
 		return
 	if(owner.suiciding)
@@ -60,9 +53,9 @@
 	if(!owner.getorgan(/obj/item/organ/brain))
 		return
 	if(!iszombie(owner))
-		to_chat(owner, "<span class='cultlarge'>You can feel your heart stopping, but something isn't right... \
-		life has not abandoned your broken form. You can only feel a deep and immutable hunger that \
-		not even death can stop, you will rise again!</span>")
+		to_chat(owner, span_cultlarge("You can feel your heart stopping, but something isn't right... \
+			life has not abandoned your broken form. You can only feel a deep and immutable hunger that \
+			not even death can stop, you will rise again!"))
 	var/revive_time = rand(revive_time_min, revive_time_max)
 	var/flags = TIMER_STOPPABLE
 	timer_id = addtimer(CALLBACK(src, .proc/zombify), revive_time, flags)
@@ -88,7 +81,10 @@
 		return
 
 	owner.grab_ghost()
-	owner.visible_message(span_danger("[owner] suddenly convulses, as [owner.p_they()][stand_up ? " stagger to [owner.p_their()] feet and" : ""] gain a ravenous hunger in [owner.p_their()] eyes!"), span_alien("You HUNGER!"))
+	owner.visible_message(
+		span_danger("[owner] suddenly convulses, as [owner.p_they()][stand_up ? " stagger to [owner.p_their()] feet and" : ""] gain a ravenous hunger in [owner.p_their()] eyes!"),
+		span_alien("You HUNGER!"),
+	)
 	playsound(owner.loc, 'sound/hallucinations/far_noise.ogg', 50, TRUE)
 	owner.do_jitter_animation(living_transformation_time)
 	owner.Stun(living_transformation_time)

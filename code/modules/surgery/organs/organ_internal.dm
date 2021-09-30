@@ -5,18 +5,23 @@
 	var/status = ORGAN_ORGANIC
 	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
+	///The body zone this organ fits into
 	var/zone = BODY_ZONE_CHEST
-	var/slot
-	// DO NOT add slots with matching names to different zones - it will break internal_organs_slot list!
+	var/slot // DO NOT add slots with matching names to different zones - it will break internal_organs_slot list!
 	var/organ_flags = ORGAN_EDIBLE
 	var/maxHealth = STANDARD_ORGAN_THRESHOLD
-	var/damage = 0 //total damage this organ has sustained
-	///Healing factor and decay factor function on % of maxhealth, and do not work by applying a static number per tick
-	var/healing_factor = 0 //fraction of maxhealth healed per on_life(), set to 0 for generic organs
-	var/decay_factor = 0 //same as above but when without a living owner, set to 0 for generic organs
-	var/high_threshold = STANDARD_ORGAN_THRESHOLD * 0.45 //when severe organ damage occurs
-	var/low_threshold = STANDARD_ORGAN_THRESHOLD * 0.1 //when minor organ damage occurs
-	var/severe_cooldown //cooldown for severe effects, used for synthetic organ emp effects.
+	///Total damage this organ has sustained
+	var/damage = 0
+	///Healing factor function on % of maxhealth, and do not work by applying a static number per tick
+	var/healing_factor = 0
+	///Decay factor function on % of maxhealth, and do not work by applying a static number per tick
+	var/decay_factor = 0
+	///Threshold for severe organ damage occurs
+	var/high_threshold = STANDARD_ORGAN_THRESHOLD * 0.45
+	///Threshold for minor organ damage occurs
+	var/low_threshold = STANDARD_ORGAN_THRESHOLD * 0.1
+	///Cooldown for severe effects, like synthetic organ emp effects.
+	var/severe_cooldown
 	///Organ variables for determining what we alert the owner with when they pass/clear the damage thresholds
 	var/prev_damage = 0
 	var/low_threshold_passed
@@ -42,12 +47,21 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 
 /obj/item/organ/Initialize(mapload)
 	. = ..()
-	if(organ_flags & ORGAN_EDIBLE)
-		AddComponent(/datum/component/edible,\
-			initial_reagents = food_reagents,\
-			foodtypes = RAW | MEAT | GROSS,\
-			volume = reagent_vol,\
-			after_eat = CALLBACK(src, .proc/OnEatFrom))
+	START_PROCESSING(SSobj, src)
+	if(!(organ_flags & ORGAN_EDIBLE))
+		return
+	AddComponent(/datum/component/edible,\
+		initial_reagents = food_reagents,\
+		foodtypes = RAW | MEAT | GROSS,\
+		volume = reagent_vol,\
+		after_eat = CALLBACK(src, .proc/OnEatFrom))
+
+/obj/item/organ/Destroy()
+	if(owner)
+		Remove(owner, special = TRUE)
+	STOP_PROCESSING(SSobj, src)
+	return ..()
+
 /*
  * Insert the organ into the select mob.
  *
@@ -77,7 +91,6 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 	RegisterSignal(owner, COMSIG_PARENT_EXAMINE, .proc/on_owner_examine)
 	for(var/datum/action/action as anything in actions)
 		action.Grant(reciever)
-	STOP_PROCESSING(SSobj, src)
 
 /*
  * Remove the organ from the select mob.
@@ -90,20 +103,16 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 	UnregisterSignal(owner, COMSIG_PARENT_EXAMINE)
 
 	owner = null
-	if(organ_owner)
-		organ_owner.internal_organs -= src
-		if(organ_owner.internal_organs_slot[slot] == src)
-			organ_owner.internal_organs_slot.Remove(slot)
-		if((organ_flags & ORGAN_VITAL) && !special && !(organ_owner.status_flags & GODMODE))
-			organ_owner.death()
+	organ_owner.internal_organs -= src
+	if(organ_owner.internal_organs_slot[slot] == src)
+		organ_owner.internal_organs_slot.Remove(slot)
+	if((organ_flags & ORGAN_VITAL) && !special && !(organ_owner.status_flags & GODMODE))
+		organ_owner.death()
 	for(var/datum/action/action as anything in actions)
 		action.Remove(organ_owner)
 
 	SEND_SIGNAL(src, COMSIG_ORGAN_REMOVED, organ_owner)
 	SEND_SIGNAL(organ_owner, COMSIG_CARBON_LOSE_ORGAN, src, special)
-
-	START_PROCESSING(SSobj, src)
-
 
 /obj/item/organ/proc/on_owner_examine(datum/source, mob/user, list/examine_list)
 	SIGNAL_HANDLER
@@ -113,15 +122,21 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 	return
 
 /obj/item/organ/process(delta_time, times_fired)
-	on_death(delta_time, times_fired) //Kinda hate doing it like this, but I really don't want to call process directly.
+	check_failing_thresholds()
 
-/obj/item/organ/proc/on_death(delta_time, times_fired) //runs decay when outside of a person
-	if(organ_flags & (ORGAN_SYNTHETIC | ORGAN_FROZEN))
-		return
-	applyOrganDamage(decay_factor * maxHealth * delta_time)
+	if(owner)
+		if(owner.IS_IN_STASIS(src))
+			return
+		if(owner.stat != DEAD)
+			on_life(delta_time, times_fired)
+			return
+		// Organs won't decay if Formaldehyde/Cryostylane is in their system
+		if(owner.reagents.has_reagent(/datum/reagent/toxin/formaldehyde, 1) || owner.reagents.has_reagent(/datum/reagent/cryostylane))
+			return
+	on_death(delta_time, times_fired)
 
-/obj/item/organ/proc/on_life(delta_time, times_fired) //repair organ damage if the organ is not failing
-	check_failing_thresholds(owner) // Check if an organ should/shouldnt be failing
+/// Processes the organ's life, repairing overtime if not failing
+/obj/item/organ/proc/on_life(delta_time, times_fired)
 	if(organ_flags & ORGAN_FAILING)
 		handle_failing_organs(delta_time)
 		return
@@ -138,6 +153,12 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 	healing_amount += (owner.satiety > 0) ? (4 * healing_factor * owner.satiety / MAX_SATIETY) : 0
 	applyOrganDamage(-healing_amount * maxHealth * delta_time, damage) // pass curent damage incase we are over cap
 
+/// Processes the organ decaying
+/obj/item/organ/proc/on_death(delta_time, times_fired)
+	if(organ_flags & (ORGAN_SYNTHETIC | ORGAN_FROZEN))
+		return
+	applyOrganDamage(decay_factor * maxHealth * delta_time)
+
 /obj/item/organ/examine(mob/user)
 	. = ..()
 
@@ -152,19 +173,6 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 
 	if(damage > high_threshold)
 		. += span_warning("[src] is starting to look discolored.")
-
-/obj/item/organ/Initialize(mapload)
-	. = ..()
-	START_PROCESSING(SSobj, src)
-
-/obj/item/organ/Destroy()
-	if(owner)
-		// The special flag is important, because otherwise mobs can die
-		// while undergoing transformation into different mobs.
-		Remove(owner, special=TRUE)
-	else
-		STOP_PROCESSING(SSobj, src)
-	return ..()
 
 /obj/item/organ/proc/OnEatFrom(eater, feeder)
 	useable = FALSE //You can't use it anymore after eating it you spaztic
@@ -213,11 +221,8 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 		if(prev_damage == maxHealth)
 			return now_fixed
 
-/**check_failing_thresholds
- * input: mob/organ_owner (a mob, the owner of the organ we call the proc on)
- * output: failing organ flags on a failing/no longer failing organ.
- */
-/obj/item/organ/proc/check_failing_thresholds(mob/organ_owner)
+///Check if an organ should/shouldn't be failing
+/obj/item/organ/proc/check_failing_thresholds()
 	if(damage >= maxHealth)
 		organ_flags |= ORGAN_FAILING
 	if(damage < maxHealth)
@@ -234,36 +239,35 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 		dna.species.regenerate_organs(src)
 		return
 
-	else
-		var/obj/item/organ/lungs/lungs = getorganslot(ORGAN_SLOT_LUNGS)
-		if(!lungs)
-			lungs = new()
-			lungs.Insert(src)
-		lungs.setOrganDamage(0)
+	var/obj/item/organ/lungs/lungs = getorganslot(ORGAN_SLOT_LUNGS)
+	if(!lungs)
+		lungs = new()
+		lungs.Insert(src)
+	lungs.setOrganDamage(0)
 
-		var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)
-		if(!heart)
-			heart = new()
-			heart.Insert(src)
-		heart.setOrganDamage(0)
+	var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)
+	if(!heart)
+		heart = new()
+		heart.Insert(src)
+	heart.setOrganDamage(0)
 
-		var/obj/item/organ/tongue/tongue = getorganslot(ORGAN_SLOT_TONGUE)
-		if(!tongue)
-			tongue = new()
-			tongue.Insert(src)
-		tongue.setOrganDamage(0)
+	var/obj/item/organ/tongue/tongue = getorganslot(ORGAN_SLOT_TONGUE)
+	if(!tongue)
+		tongue = new()
+		tongue.Insert(src)
+	tongue.setOrganDamage(0)
 
-		var/obj/item/organ/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
-		if(!eyes)
-			eyes = new()
-			eyes.Insert(src)
-		eyes.setOrganDamage(0)
+	var/obj/item/organ/eyes/eyes = getorganslot(ORGAN_SLOT_EYES)
+	if(!eyes)
+		eyes = new()
+		eyes.Insert(src)
+	eyes.setOrganDamage(0)
 
-		var/obj/item/organ/ears/ears = getorganslot(ORGAN_SLOT_EARS)
-		if(!ears)
-			ears = new()
-			ears.Insert(src)
-		ears.setOrganDamage(0)
+	var/obj/item/organ/ears/ears = getorganslot(ORGAN_SLOT_EARS)
+	if(!ears)
+		ears = new()
+		ears.Insert(src)
+	ears.setOrganDamage(0)
 
 ///Organs don't die instantly, and neither should you when you get fucked up
 /obj/item/organ/proc/handle_failing_organs(delta_time)
@@ -301,7 +305,7 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 /obj/item/organ/proc/get_status_text()
 	var/status = ""
 	if(owner.has_reagent(/datum/reagent/inverse/technetium))
-		status = "<font color='#E42426'> organ is [round((damage/maxHealth)*100, 1)]% damaged.</font>"
+		status = "<font color='#E42426'>Organ is [round((damage/maxHealth)*100, 1)]% damaged.</font>"
 	else if(organ_flags & ORGAN_FAILING)
 		status = "<font color='#cc3333'>Non-Functional</font>"
 	else if(damage > high_threshold)
