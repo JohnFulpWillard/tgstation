@@ -24,6 +24,11 @@
 	decomp_req_handle = TRUE //so laid eggs can actually become chickens
 	var/static/chick_count = 0 //I copied this from the chicken_count (note the "en" in there) variable from chicken code.
 
+/obj/item/food/egg/willy_nimble_french_bird_quail_egg_imported_real
+	name = "willy nimble french bird quail egg (imported) (real)"
+	desc = "An willy nimble french bird quail egg (imported) (real) egg!"
+	microwaved_type = /obj/item/food/boiledegg/willy_nimble_french_bird_quail_egg_imported_real
+
 /obj/item/food/egg/rotten
 	food_reagents = list(/datum/reagent/consumable/eggrot = 10, /datum/reagent/consumable/mold = 10)
 	microwaved_type = /obj/item/food/boiledegg/rotten
@@ -130,6 +135,10 @@
 	w_class = WEIGHT_CLASS_SMALL
 	ant_attracting = FALSE
 	decomp_type = /obj/item/food/boiledegg/rotten
+
+/obj/item/food/boiledegg/willy_nimble_french_bird_quail_egg_imported_real
+	name = "boiled willy nimble french bird quail egg (imported) (real)"
+	desc = "A hard boiled willy nimble french bird quail egg (imported) (real) egg!"
 
 /obj/item/food/eggsausage
 	name = "egg with sausage"
