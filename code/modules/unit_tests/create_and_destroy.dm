@@ -52,7 +52,7 @@
 	ignore += typesof(/obj/effect/baseturf_helper)
 	//There's no shapeshift to hold
 	ignore += typesof(/obj/shapeshift_holder)
-	//No tauma to pass in
+	//No trauma to pass in
 	ignore += typesof(/mob/camera/imaginary_friend)
 	//No pod to gondola
 	ignore += typesof(/mob/living/simple_animal/pet/gondola/gondolapod)
