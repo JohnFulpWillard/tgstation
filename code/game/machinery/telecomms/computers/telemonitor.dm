@@ -1,28 +1,37 @@
-/*
-	Telecomms monitor tracks the overall trafficing of a telecommunications network
-	and displays a heirarchy of linked machines.
-*/
-
+///Main Menu screen page.
 #define MAIN_VIEW 0
+///Machine view screen page.
 #define MACHINE_VIEW 1
+///Character limit on how long a network ID can be.
 #define MAX_NETWORK_ID_LENGTH 15
 
+/*
+ * Telecomms monitor tracks the overall trafficing of a telecommunications network
+ * and displays a heirarchy of linked machines.
+ */
 /obj/machinery/computer/telecomms/monitor
 	name = "telecommunications monitoring console"
 	icon_screen = "comm_monitor"
 	desc = "Monitors the details of the telecommunications network it's synced with."
+	circuit = /obj/item/circuitboard/computer/comm_monitor
 
 	/// Current screen the user is viewing
 	var/screen = MAIN_VIEW
-	/// Weakrefs of the machines located by the computer
-	var/list/machine_list = list()
-	/// Weakref of the currently selected tcomms machine
+	/// List of weakrefs of the machines the computer can monitor.
+	var/list/datum/weakref/machine_list = list()
+	/// Weakref of the currently selected tcomms machine we're monitoring.
 	var/datum/weakref/selected_machine_ref
 	/// The network to probe
 	var/network = "NULL"
 	/// Error message to show
 	var/error_message = ""
-	circuit = /obj/item/circuitboard/computer/comm_monitor
+
+/obj/machinery/computer/telecomms/monitor/ui_interact(mob/user, datum/tgui/ui)
+	. = ..()
+	ui = SStgui.try_update_ui(user, src, ui)
+	if (!ui)
+		ui = new(user, src, "TelecommsMonitor", name)
+		ui.open()
 
 /obj/machinery/computer/telecomms/monitor/ui_data(mob/user)
 	var/list/data = list(
@@ -32,7 +41,6 @@
 	)
 
 	switch(screen)
-	  	// --- Main Menu ---
 		if(MAIN_VIEW)
 			var/list/found_machinery = list()
 			for(var/datum/weakref/tcomms_ref in machine_list)
@@ -40,9 +48,12 @@
 				if(!telecomms)
 					machine_list -= tcomms_ref
 					continue
-				found_machinery += list(list("ref" = REF(telecomms), "name" = telecomms.name, "id" = telecomms.id))
+				found_machinery += list(list(
+					"ref" = REF(telecomms),
+					"name" = telecomms.name,
+					"id" = telecomms.id,
+				))
 			data["machinery"] = found_machinery
-	  	// --- Viewing Machine ---
 		if(MACHINE_VIEW)
 			// Send selected machinery data
 			var/list/machine_out = list()
@@ -51,8 +62,12 @@
 				machine_out["name"] = selected.name
 				// Get the linked machinery
 				var/list/linked_machinery = list()
-				for(var/obj/machinery/telecomms/T in selected.links)
-					linked_machinery += list(list("ref" = REF(T.id), "name" = T.name, "id" = T.id))
+				for(var/obj/machinery/telecomms/linked_telecomm_machine in selected.links)
+					linked_machinery += list(list(
+						"ref" = REF(linked_telecomm_machine.id),
+						"name" = linked_telecomm_machine.name,
+						"id" = linked_telecomm_machine.id,
+					))
 				machine_out["linked_machinery"] = linked_machinery
 				data["machine"] = machine_out
 	return data
@@ -81,11 +96,11 @@
 
 			network = new_network
 
-			for(var/obj/machinery/telecomms/T in urange(25, src))
-				if(T.network == network)
-					machine_list += WEAKREF(T)
-			if(machine_list.len == 0)
-				error_message = "OPERATION FAILED: UNABLE TO LOCATE NETWORK ENTITIES IN  [network]."
+			for(var/obj/machinery/telecomms/telecomm_machines in urange(25, src))
+				if(telecomm_machines.network == network)
+					machine_list += WEAKREF(telecomm_machines)
+			if(!length(machine_list))
+				error_message = "OPERATION FAILED: UNABLE TO LOCATE NETWORK ENTITIES IN [network]."
 				return TRUE
 			error_message = "[machine_list.len] ENTITIES LOCATED & BUFFERED";
 			return TRUE
@@ -110,17 +125,6 @@
 			screen = MAIN_VIEW
 			return TRUE
 	return TRUE
-
-/obj/machinery/computer/telecomms/monitor/attackby()
-	. = ..()
-	updateUsrDialog()
-
-/obj/machinery/computer/telecomms/monitor/ui_interact(mob/user, datum/tgui/ui)
-	. = ..()
-	ui = SStgui.try_update_ui(user, src, ui)
-	if (!ui)
-		ui = new(user, src, "TelecommsMonitor", name)
-		ui.open()
 
 #undef MAIN_VIEW
 #undef MACHINE_VIEW
