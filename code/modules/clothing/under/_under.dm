@@ -355,7 +355,7 @@
 	if(!can_adjust)
 		balloon_alert(user, "can't be adjusted!")
 		return
-	if(!can_use(user))
+	if(!can_use(user, action_bitflags = NEED_HANDS|ALLOW_RESTING))
 		return
 	rolldown()
 
@@ -380,7 +380,7 @@
 	if(!can_adjust)
 		balloon_alert(usr, "can't be adjusted!")
 		return
-	if(!can_use(usr))
+	if(!can_use(usr, action_bitflags = NEED_HANDS|ALLOW_RESTING))
 		return
 	rolldown()
 
@@ -430,8 +430,8 @@
 		body_parts_covered &= ~CHEST
 		body_parts_covered &= ~ARMS
 
-/obj/item/clothing/under/can_use(mob/user)
-	if(ismob(user) && !user.can_perform_action(src, NEED_DEXTERITY|NEED_HANDS|ALLOW_RESTING))
+/obj/item/clothing/under/can_use(mob/user, action_bitflags = NEED_DEXTERITY|NEED_HANDS|ALLOW_RESTING)
+	if(ismob(user) && !user.can_perform_action(src, action_bitflags))
 		return FALSE
 	return ..()
 

@@ -503,10 +503,11 @@ BLIND     // can't see anything
 		tint ^= initial(tint)
 
 /obj/item/clothing/proc/can_use(mob/user)
-	if(user && ismob(user))
-		if(!user.incapacitated())
-			return 1
-	return 0
+	if(!user || istype(user))
+		return FALSE
+	if(user.incapacitated())
+		return FALSE
+	return TRUE
 
 /obj/item/clothing/proc/_spawn_shreds()
 	new /obj/effect/decal/cleanable/shreds(get_turf(src), name)
