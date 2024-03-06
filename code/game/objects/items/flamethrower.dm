@@ -215,9 +215,6 @@
 		sleep(0.1 SECONDS)
 		previousturf = T
 	operating = FALSE
-	for(var/mob/M in viewers(1, loc))
-		if((M.client && M.machine == src))
-			attack_self(M)
 
 
 /obj/item/flamethrower/proc/default_ignite(turf/target, release_amount = 0.05)
