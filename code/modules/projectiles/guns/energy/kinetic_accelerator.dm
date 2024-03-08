@@ -11,11 +11,10 @@
 	can_bayonet = TRUE
 	knife_x_offset = 20
 	knife_y_offset = 12
+	gun_flags = NOT_A_REAL_GUN
 	var/mob/holder
 	var/max_mod_capacity = 100
 	var/list/modkits = list()
-	gun_flags = NOT_A_REAL_GUN
-
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/Initialize(mapload)
 	. = ..()
@@ -145,9 +144,8 @@
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/proc/modify_projectile(obj/projectile/kinetic/K)
 	K.kinetic_gun = src //do something special on-hit, easy!
-	for(var/A in modkits)
-		var/obj/item/borg/upgrade/modkit/M = A
-		M.modify_projectile(K)
+	for(var/obj/item/borg/upgrade/modkit/installed_modkit as anything in modkits)
+		installed_modkit.modify_projectile(K)
 
 /obj/item/gun/energy/recharge/kinetic_accelerator/cyborg
 	icon_state = "kineticgun_b"
@@ -284,8 +282,7 @@
 		return FALSE
 	if(denied_type)
 		var/number_of_denied = 0
-		for(var/A in KA.modkits)
-			var/obj/item/borg/upgrade/modkit/M = A
+		for(var/obj/item/borg/upgrade/modkit/M as anything in KA.modkits)
 			if(istype(M, denied_type))
 				number_of_denied++
 			if(number_of_denied >= maximum_of_type)
@@ -435,6 +432,19 @@
 	name = "minebot passthrough"
 	desc = "Causes kinetic accelerator shots to pass through minebots."
 	cost = 0
+
+/obj/item/borg/upgrade/modkit/minebot_passthrough/modify_projectile(obj/projectile/kinetic/K)
+	. = ..()
+	K.pass_flags |= PASS_MINEBOT
+
+/obj/item/borg/upgrade/modkit/human_passthrough
+	name = "human passthrough"
+	desc = "Causes kinetic accelerator shots to pass through humans, good for preventing friendly fire."
+	cost = 10
+
+/obj/item/borg/upgrade/modkit/human_passthrough/modify_projectile(obj/projectile/kinetic/K)
+	. = ..()
+	K.pass_flags |= PASS_HUMAN
 
 //Tendril-unique modules
 /obj/item/borg/upgrade/modkit/cooldown/repeater
