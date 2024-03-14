@@ -330,7 +330,7 @@
 	name = "Red Wizard"
 
 	suit = /obj/item/clothing/suit/wizrobe/red
-	head = /obj/item/clothing/head/wizard/red
+	head = /datum/outfit/wizard/red::head
 
 /datum/outfit/wizard/weeb
 	name = "Marisa Wizard"
