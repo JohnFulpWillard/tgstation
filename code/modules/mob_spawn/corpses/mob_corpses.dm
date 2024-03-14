@@ -238,7 +238,7 @@
 
 /datum/outfit/wizardcorpse
 	name = "Space Wizard Corpse"
-	uniform = /obj/item/clothing/under/color/lightpurple
+	uniform = /datum/outfit/wizard::uniform
 	suit = /obj/item/clothing/suit/wizrobe
 	shoes = /obj/item/clothing/shoes/sandal/magic
 	head = /obj/item/clothing/head/wizard
