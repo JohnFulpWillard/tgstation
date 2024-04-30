@@ -97,7 +97,7 @@
 	user.remote_control = eyeobj
 	user.reset_perspective(eyeobj)
 	eyeobj.setLoc(eyeobj.loc)
-	if(should_supress_view_changes)
+	if(should_supress_view_changes && user.client.view_size)
 		user.client.view_size.supress()
 	begin_processing()
 
@@ -113,7 +113,8 @@
 	user.reset_perspective(null)
 	if(eyeobj.visible_icon)
 		user.client.images -= eyeobj.user_image
-	user.client.view_size.unsupress()
+	if(user.client.view_size)
+		user.client.view_size.unsupress()
 
 	eyeobj.eye_user = null
 	user.remote_control = null
