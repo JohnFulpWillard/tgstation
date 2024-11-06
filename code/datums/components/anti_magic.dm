@@ -34,12 +34,12 @@
  * * MAGIC_RESISTANCE_HOLY - Holy magic resistance that blocks unholy magic (revenant, cult, vampire, voice of god)
 **/
 /datum/component/anti_magic/Initialize(
-		antimagic_flags = MAGIC_RESISTANCE,
-		charges = INFINITY,
-		inventory_flags = ~ITEM_SLOT_BACKPACK, // items in a backpack won't activate, anywhere else is fine
-		datum/callback/drain_antimagic,
-		datum/callback/expiration,
-	)
+	antimagic_flags = MAGIC_RESISTANCE,
+	charges = INFINITY,
+	inventory_flags = ~ITEM_SLOT_BACKPACK, // items in a backpack won't activate, anywhere else is fine
+	datum/callback/drain_antimagic,
+	datum/callback/expiration,
+)
 
 
 	var/atom/movable/movable = parent

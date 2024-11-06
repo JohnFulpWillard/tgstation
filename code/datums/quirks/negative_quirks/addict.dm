@@ -161,7 +161,7 @@
 /datum/quirk/item_quirk/addict/smoker/process(seconds_per_tick)
 	. = ..()
 	var/mob/living/carbon/human/human_holder = quirk_holder
-	var/obj/item/mask_item = human_holder.get_item_by_slot(ITEM_SLOT_MASK)
+	var/obj/item/mask_item = human_holder.equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 	if(istype(mask_item, /obj/item/cigarette))
 		var/obj/item/storage/fancy/cigarettes/cigarettes = drug_container_type
 		if(istype(mask_item, initial(cigarettes.spawn_type)))

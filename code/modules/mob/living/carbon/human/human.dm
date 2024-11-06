@@ -589,6 +589,7 @@
 	if(obscured & ITEM_SLOT_GLOVES)
 		return FALSE
 
+	var/obj/item/gloves = equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 	if(gloves)
 		if(gloves.wash(clean_types))
 			update_worn_gloves()
@@ -607,12 +608,14 @@
 	if(!is_mouth_covered() && clean_lips())
 		. = TRUE
 
+	var/obj/item/glasses = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 	if(glasses && is_eyes_covered(ITEM_SLOT_MASK|ITEM_SLOT_HEAD) && glasses.wash(clean_types))
 		update_worn_glasses()
 		. = TRUE
 
 	var/obscured = check_obscured_slots()
-	if(wear_mask && !(obscured & ITEM_SLOT_MASK) && wear_mask.wash(clean_types))
+	var/obj/item/mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+	if(mask && !(obscured & ITEM_SLOT_MASK) && mask.wash(clean_types))
 		update_worn_mask()
 		. = TRUE
 

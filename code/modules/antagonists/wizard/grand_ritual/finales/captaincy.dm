@@ -74,18 +74,16 @@
  */
 /datum/grand_finale/usurp/proc/dress_candidate(mob/living/carbon/human/invoker)
 	// Won't be needing these
-	var/obj/id = invoker.get_item_by_slot(ITEM_SLOT_ID)
-	QDEL_NULL(id)
-	var/obj/headset = invoker.get_item_by_slot(ITEM_SLOT_EARS)
-	QDEL_NULL(headset)
+	QDEL_NULL(invoker.equipped_items_by_slot["[ITEM_SLOT_ID]"])
+	QDEL_NULL(invoker.equipped_items_by_slot["[ITEM_SLOT_EARS]"])
 	// We're about to take off your pants so those are going to fall out
-	var/obj/item/pocket_L = invoker.get_item_by_slot(ITEM_SLOT_LPOCKET)
-	var/obj/item/pocket_R = invoker.get_item_by_slot(ITEM_SLOT_RPOCKET)
+	var/obj/item/pocket_L = invoker.equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"]
+	var/obj/item/pocket_R = invoker.equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]
 	// In case we try to put a PDA there
-	var/obj/item/belt = invoker.get_item_by_slot(ITEM_SLOT_BELT)
+	var/obj/item/belt = invoker.equipped_items_by_slot["[ITEM_SLOT_BELT]"]
 	belt?.moveToNullspace()
 
-	var/obj/pants = invoker.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+	var/obj/pants = invoker.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	QDEL_NULL(pants)
 	invoker.equipOutfit(/datum/outfit/job/wizard_captain)
 	// And put everything back!

@@ -106,7 +106,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /// Finds a cigarette on another mob to help light.
 /obj/item/proc/help_light_cig(mob/living/M)
-	var/mask_item = M.get_item_by_slot(ITEM_SLOT_MASK)
+	var/mask_item = M.equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 	if(istype(mask_item, /obj/item/cigarette))
 		return mask_item
 
@@ -242,7 +242,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(!QDELETED(src) && !QDELETED(dropee) && how_long_have_we_been_smokin >= 4 SECONDS && iscarbon(dropee) && iscarbon(loc))
 		var/mob/living/carbon/smoker = dropee
 		// This relies on the fact that dropped is called before slot is nulled
-		if(src == smoker.wear_mask && !smoker.incapacitated)
+		if(src == smoker.equipped_items_by_slot["[ITEM_SLOT_MASK]"] && !smoker.incapacitated)
 			long_exhale(smoker)
 
 	UnregisterSignal(dropee, list(COMSIG_HUMAN_FORCESAY, COMSIG_ATOM_DIR_CHANGE))
@@ -381,7 +381,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 	if(iscarbon(loc))
 		var/mob/living/carbon/smoker = loc
-		if(src == smoker.wear_mask)
+		if(src == smoker.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 			make_mob_smoke(smoker)
 
 /obj/item/cigarette/extinguish()
@@ -424,8 +424,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		return
 	var/to_smoke = smoke_all ? (reagents.total_volume * (dragtime / smoketime)) : REAGENTS_METABOLISM
 	var/mob/living/carbon/smoker = loc
+	var/obj/item/mask = smoker.equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 	// These checks are a bit messy but at least they're fairly readable
-	// Check if the smoker is a carbon mob, since it needs to have wear_mask
+	// Check if the smoker is a carbon mob, since it needs to be able to wear masks
 	if(!istype(smoker))
 		// If not, check if it's a gas mask
 		if(!istype(smoker, /obj/item/clothing/mask/gas))
@@ -435,11 +436,11 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		smoker = smoker.loc
 
 		// If it is, check if that mask is on a carbon mob
-		if(!istype(smoker) || smoker.get_item_by_slot(ITEM_SLOT_MASK) != loc)
+		if(!istype(smoker) || mask != loc)
 			reagents.remove_all(to_smoke)
 			return
 	else
-		if(src != smoker.wear_mask)
+		if(src != mask)
 			reagents.remove_all(to_smoke)
 			return
 
@@ -968,7 +969,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 
 /obj/item/vape/dropped(mob/user)
 	. = ..()
-	if(user.get_item_by_slot(ITEM_SLOT_MASK) == src)
+	if(user.equipped_items_by_slot["[ITEM_SLOT_MASK]"] == src)
 		reagents.flags |= NO_REACT
 		STOP_PROCESSING(SSobj, src)
 
@@ -977,7 +978,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		return
 
 	var/mob/living/carbon/vaper = loc
-	if(!iscarbon(vaper) || src != vaper.wear_mask)
+	if(!iscarbon(vaper) || src != vaper.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 		reagents.remove_all(REAGENTS_METABOLISM)
 		return
 

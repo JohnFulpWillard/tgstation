@@ -87,7 +87,7 @@
 
 /datum/species/snail/on_species_gain(mob/living/carbon/new_snailperson, datum/species/old_species, pref_load)
 	. = ..()
-	var/obj/item/storage/backpack/bag = new_snailperson.get_item_by_slot(ITEM_SLOT_BACK)
+	var/obj/item/storage/backpack/bag = new_snailperson.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(!istype(bag, /obj/item/storage/backpack/snail))
 		new_snailperson.equip_to_slot_or_del(new /obj/item/storage/backpack/snail(new_snailperson), ITEM_SLOT_BACK)
 	new_snailperson.AddElement(/datum/element/lube_walking, require_resting = TRUE)
@@ -97,7 +97,7 @@
 	. = ..()
 	former_snailperson.remove_movespeed_modifier(/datum/movespeed_modifier/snail)
 	former_snailperson.RemoveElement(/datum/element/lube_walking, require_resting = TRUE)
-	var/obj/item/storage/backpack/bag = former_snailperson.get_item_by_slot(ITEM_SLOT_BACK)
+	var/obj/item/storage/backpack/bag = former_snailperson.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(istype(bag, /obj/item/storage/backpack/snail))
 		bag.emptyStorage()
 		former_snailperson.temporarilyRemoveItemFromInventory(bag, TRUE)

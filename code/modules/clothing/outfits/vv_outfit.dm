@@ -84,7 +84,7 @@
 	var/list/result = list()
 	var/list/slots_to_check = list(ITEM_SLOT_ICLOTHING,ITEM_SLOT_BACK,ITEM_SLOT_OCLOTHING,ITEM_SLOT_BELT,ITEM_SLOT_GLOVES,ITEM_SLOT_FEET,ITEM_SLOT_HEAD,ITEM_SLOT_MASK,ITEM_SLOT_NECK,ITEM_SLOT_EARS,ITEM_SLOT_EYES,ITEM_SLOT_ID,ITEM_SLOT_SUITSTORE,ITEM_SLOT_LPOCKET,ITEM_SLOT_RPOCKET)
 	for(var/slot in slots_to_check)
-		var/obj/item/item = get_item_by_slot(slot)
+		var/obj/item/item = equipped_items_by_slot["[slot]"]
 		var/vedits = collect_vv(item)
 		if(vedits)
 			result["[slot]"] = vedits
@@ -93,7 +93,7 @@
 
 	//Copy access
 	outfit.stored_access = list()
-	var/obj/item/id_slot = get_item_by_slot(ITEM_SLOT_ID)
+	var/obj/item/id_slot = equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	if(id_slot)
 		outfit.stored_access |= id_slot.GetAccess()
 		var/obj/item/card/id/ID = id_slot.GetID()
@@ -118,7 +118,7 @@
 				result["RHAND"] = vedits
 	outfit.vv_values = result
 	//Copy backpack contents if exist.
-	var/obj/item/backpack = get_item_by_slot(ITEM_SLOT_BACK)
+	var/obj/item/backpack = equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(istype(backpack) && backpack.atom_storage)
 		var/list/bp_stuff = backpack.atom_storage.return_inv(recursive = FALSE)
 		var/list/typecounts = list()
@@ -151,11 +151,11 @@
 			if("RHAND")
 				item = human.held_items[2]
 			else
-				item = human.get_item_by_slot(text2num(slot))
+				item = human.equipped_items_by_slot["[text2num(slot)]"]
 		for(var/vname in edits)
 			item.vv_edit_var(vname,edits[vname])
 	//Apply access
-	var/obj/item/id_slot = human.get_item_by_slot(ITEM_SLOT_ID)
+	var/obj/item/id_slot = human.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	if(id_slot)
 		var/obj/item/card/id/card = id_slot.GetID()
 		if(istype(card))

@@ -95,7 +95,7 @@
 	. = ..()
 	// Update PDA to match possible new trim.
 	var/obj/item/card/id/worn_id = user.wear_id
-	var/obj/item/modular_computer/pda/pda = user.get_item_by_slot(pda_slot)
+	var/obj/item/modular_computer/pda/pda = user.equipped_items_by_slot["[pda_slot]"]
 	if(!istype(worn_id) || !istype(pda))
 		return
 	var/assignment = worn_id.get_trim_assignment()

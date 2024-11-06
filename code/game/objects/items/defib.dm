@@ -121,13 +121,13 @@
 /obj/item/defibrillator/attack_hand(mob/user, list/modifiers)
 	if(loc == user)
 		if(slot_flags & ITEM_SLOT_BACK)
-			if(user.get_item_by_slot(ITEM_SLOT_BACK) == src)
+			if(user.equipped_items_by_slot["[ITEM_SLOT_BACK]"] == src)
 				ui_action_click()
 			else
 				to_chat(user, span_warning("Put the defibrillator on your back first!"))
 
 		else if(slot_flags & ITEM_SLOT_BELT)
-			if(user.get_item_by_slot(ITEM_SLOT_BELT) == src)
+			if(user.equipped_items_by_slot["[ITEM_SLOT_BELT]"] == src)
 				ui_action_click()
 			else
 				to_chat(user, span_warning("Strap the defibrillator's belt on first!"))

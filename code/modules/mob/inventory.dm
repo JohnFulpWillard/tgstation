@@ -527,9 +527,9 @@
 
 	var/list/obj/item/possible = list(
 		user.get_inactive_held_item(),
-		user.get_item_by_slot(ITEM_SLOT_BELT),
-		user.get_item_by_slot(ITEM_SLOT_DEX_STORAGE),
-		user.get_item_by_slot(ITEM_SLOT_BACK),
+		user.equipped_items_by_slot["[ITEM_SLOT_BELT]"],
+		user.equipped_items_by_slot["[ITEM_SLOT_DEX_STORAGE]"],
+		user.equipped_items_by_slot["[ITEM_SLOT_BACK]"],
 	)
 	for(var/thing in possible)
 		if(isnull(thing))

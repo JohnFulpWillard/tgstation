@@ -370,14 +370,17 @@
 	switch(hit_zone)
 		if(BODY_ZONE_HEAD)
 			if(.)
-				if(wear_mask)
-					wear_mask.add_mob_blood(src)
+				var/obj/item/worn_mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+				if(worn_mask)
+					worn_mask.add_mob_blood(src)
 					update_worn_mask()
-				if(head)
-					head.add_mob_blood(src)
+				var/obj/item/worn_helmet = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+				if(worn_helmet)
+					worn_helmet.add_mob_blood(src)
 					update_worn_head()
-				if(glasses && prob(33))
-					glasses.add_mob_blood(src)
+				var/obj/item/worn_glasses = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
+				if(worn_glasses && prob(33))
+					worn_glasses.add_mob_blood(src)
 					update_worn_glasses()
 
 			if(!attacking_item.get_sharpness() && !HAS_TRAIT(src, TRAIT_HEAD_INJURY_BLOCKED) && attacking_item.damtype == BRUTE)

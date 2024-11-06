@@ -470,7 +470,7 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	// If we're equipped on a mob, we should make sure all the languages
 	// learned from our installed key chips are all still accurate
 	var/mob/mob_loc = loc
-	if(istype(mob_loc) && mob_loc.get_item_by_slot(slot_flags) == src)
+	if(istype(mob_loc) && mob_loc.equipped_items_by_slot["[slot_flags]"] == src)
 		// Remove all the languages we may not be able to know anymore
 		for(var/language in old_language_list)
 			mob_loc.remove_language(language, language_flags = UNDERSTOOD_LANGUAGE, source = LANGUAGE_RADIOKEY)

@@ -60,7 +60,7 @@
 
 /obj/item/clothing/mask/muzzle/tape/dropped(mob/living/user)
 	. = ..()
-	if(user.get_item_by_slot(ITEM_SLOT_MASK) != src)
+	if(user.equipped_items_by_slot["[ITEM_SLOT_MASK]"] != src)
 		return
 	playsound(user, 'sound/items/duct_tape/duct_tape_rip.ogg', 50, TRUE)
 	if(harmful_strip)

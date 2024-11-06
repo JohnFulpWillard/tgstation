@@ -77,7 +77,7 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/human_user = user
-	if(human_user.get_item_by_slot(mod.slot_flags) && !human_user.dropItemToGround(human_user.get_item_by_slot(mod.slot_flags)))
+	if(human_user.equipped_items_by_slot["[mod.slot_flags]"] && !human_user.dropItemToGround(human_user.equipped_items_by_slot["[mod.slot_flags]"]))
 		return
 	if(!human_user.equip_to_slot_if_possible(mod, mod.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))
 		return

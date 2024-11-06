@@ -125,7 +125,7 @@
 	if (wearer.is_holding(parent_gear))
 		parent_gear.balloon_alert(wearer, "wear it first!")
 		return
-	if (wearer.get_item_by_slot(equipped_slot))
+	if (wearer.equipped_items_by_slot["[equipped_slot]"])
 		parent_gear.balloon_alert(wearer, "slot occupied!")
 		return
 	if (!deployable && !create_deployable())

@@ -26,7 +26,7 @@
 		var/obj/item/organ/ears/ears = victim.get_organ_slot(ORGAN_SLOT_EARS)
 		ears?.adjustEarDamage(10, 15)
 		to_chat(victim, "<font color='red' size='8'>HONK</font>")
-		var/obj/item/clothing/shoes/victim_shoes = victim.get_item_by_slot(ITEM_SLOT_FEET)
+		var/obj/item/clothing/shoes/victim_shoes = victim.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
 		if(!victim_shoes?.can_be_tied)
 			continue
 		victim_shoes.adjust_laces(SHOES_KNOTTED)

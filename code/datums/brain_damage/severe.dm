@@ -400,7 +400,7 @@
 
 /datum/brain_trauma/severe/eldritch_beauty/on_life(seconds_per_tick, times_fired)
 	// Jumpsuits ruin the "perfection" of the body
-	if(!owner.get_item_by_slot(ITEM_SLOT_ICLOTHING))
+	if(!owner.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
 		return
 
 	// Scratching code

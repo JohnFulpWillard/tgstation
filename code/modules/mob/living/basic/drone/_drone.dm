@@ -66,6 +66,10 @@
 	var/obj/item/internal_storage
 	/// Headwear slot
 	var/obj/item/head
+	equipped_items_by_slot = list(
+		"[ITEM_SLOT_HEAD]",
+		"[ITEM_SLOT_DEX_STORAGE]",
+	)
 	/// Default [/mob/living/basic/drone/var/internal_storage] item
 	var/obj/item/default_storage = /obj/item/storage/drone_tools
 	/// Default [/mob/living/basic/drone/var/head] item

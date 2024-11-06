@@ -194,7 +194,7 @@ GLOBAL_LIST_INIT(paper_blanks, init_paper_blanks())
 				return FALSE
 			// ASS COPY. By Miauw
 			if(ass)
-				if(ishuman(ass) && (ass.get_item_by_slot(ITEM_SLOT_ICLOTHING) || ass.get_item_by_slot(ITEM_SLOT_OCLOTHING)))
+				if(ishuman(ass) && (ass.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"] || ass.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]))
 					if(ass == usr)
 						to_chat(usr, span_notice("You feel kind of silly, copying your ass with your clothes on."))
 					else

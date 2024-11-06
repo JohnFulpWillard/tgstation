@@ -59,7 +59,7 @@
 	if(!iscarbon(user))
 		return
 	var/mob/living/carbon/carbon_user = user
-	if(carbon_user.get_item_by_slot(ITEM_SLOT_HEAD) != src)
+	if(carbon_user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] != src)
 		return
 	if(!HAS_TRAIT_FROM(src, TRAIT_NODROP, REVERSE_BEAR_TRAP_TRAIT) || struggling)
 		return
@@ -91,14 +91,14 @@
 	struggling = FALSE
 
 /obj/item/reverse_bear_trap/attack(mob/living/target, mob/living/user)
-	if(target.get_item_by_slot(ITEM_SLOT_HEAD))
+	if(target.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 		to_chat(user, span_warning("Remove [target.p_their()] headgear first!"))
 		return
 	target.visible_message(span_warning("[user] starts forcing [src] onto [target]'s head!"), \
 		span_userdanger("[target] starts forcing [src] onto your head!"), "<i>You hear clanking.</i>")
 	to_chat(user, span_danger("You start forcing [src] onto [target]'s head..."))
 
-	if(!do_after(user, 3 SECONDS, target = target) || target.get_item_by_slot(ITEM_SLOT_HEAD))
+	if(!do_after(user, 3 SECONDS, target = target) || target.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 		return
 	target.visible_message(span_warning("[user] forces and locks [src] onto [target]'s head!"), \
 		span_userdanger("[target] locks [src] onto your head!"), "<i>You hear a click, and then a timer ticking down.</i>")
@@ -119,7 +119,7 @@
 /obj/item/reverse_bear_trap/proc/snap()
 	reset()
 	var/mob/living/carbon/human/victim = loc
-	if(!istype(victim) || victim.get_item_by_slot(ITEM_SLOT_HEAD) != src)
+	if(!istype(victim) || victim.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] != src)
 		visible_message(span_warning("[src]'s jaws snap open with an ear-piercing crack!"))
 		playsound(src, 'sound/effects/snap.ogg', 75, TRUE)
 	else

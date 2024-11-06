@@ -30,47 +30,6 @@
 
 	return obscured
 
-/mob/living/carbon/get_item_by_slot(slot_id)
-	switch(slot_id)
-		if(ITEM_SLOT_BACK)
-			return back
-		if(ITEM_SLOT_MASK)
-			return wear_mask
-		if(ITEM_SLOT_NECK)
-			return wear_neck
-		if(ITEM_SLOT_HEAD)
-			return head
-		if(ITEM_SLOT_HANDCUFFED)
-			return handcuffed
-		if(ITEM_SLOT_LEGCUFFED)
-			return legcuffed
-
-	return ..()
-
-/mob/living/carbon/get_slot_by_item(obj/item/looking_for)
-	if(looking_for == back)
-		return ITEM_SLOT_BACK
-
-	if(back && (looking_for in back))
-		return ITEM_SLOT_BACKPACK
-
-	if(looking_for == wear_mask)
-		return ITEM_SLOT_MASK
-
-	if(looking_for == wear_neck)
-		return ITEM_SLOT_NECK
-
-	if(looking_for == head)
-		return ITEM_SLOT_HEAD
-
-	if(looking_for == handcuffed)
-		return ITEM_SLOT_HANDCUFFED
-
-	if(looking_for == legcuffed)
-		return ITEM_SLOT_LEGCUFFED
-
-	return ..()
-
 /// Returns items which are currently visible on the mob
 /mob/living/carbon/proc/get_visible_items()
 	var/static/list/visible_slots = list(
@@ -97,7 +56,7 @@
 	for (var/slot in visible_slots)
 		if (obscured & slot)
 			continue
-		var/obj/item/equipped = get_item_by_slot(slot)
+		var/obj/item/equipped = equipped_items_by_slot["[slot]"]
 		if (equipped)
 			visible_items += equipped
 	for (var/obj/item/held in held_items)

@@ -597,7 +597,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	// if there's an item in the slot we want, fail
 	if(!ignore_equipped)
-		if(H.get_item_by_slot(slot))
+		if(H.equipped_items_by_slot["[slot]"])
 			return FALSE
 
 	// this check prevents us from equipping something to a slot it doesn't support, WITH the exceptions of storage slots (pockets, suit storage, and backpacks)

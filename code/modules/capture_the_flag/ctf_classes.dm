@@ -42,7 +42,7 @@
 
 	// Make clothing in the specified slots NODROP
 	for(var/slot in nodrop_slots)
-		no_drops += human_to_equip.get_item_by_slot(slot)
+		no_drops += human_to_equip.equipped_items_by_slot["[slot]"]
 	// Make items in the hands NODROP
 	for(var/obj/item/held_item in human_to_equip.held_items)
 		no_drops += held_item

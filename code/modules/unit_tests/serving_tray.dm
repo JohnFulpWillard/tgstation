@@ -33,13 +33,13 @@
 	TEST_ASSERT_EQUAL((sugarcookie in test_tray.contents), TRUE, "The sugarcookie did not get picked up by the serving tray")
 
 	human.equip_to_slot(jumpsuit, ITEM_SLOT_ICLOTHING)
-	TEST_ASSERT(human.get_item_by_slot(ITEM_SLOT_ICLOTHING), "Human does not have jumpsuit on")
+	TEST_ASSERT(human.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"], "Human does not have jumpsuit on")
 
 	human.equip_to_slot(test_tray, ITEM_SLOT_LPOCKET)
-	TEST_ASSERT(human.get_item_by_slot(ITEM_SLOT_LPOCKET), "Serving tray failed to fit in the Left Pocket")
+	TEST_ASSERT(human.equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"], "Serving tray failed to fit in the Left Pocket")
 
 	human.equip_to_slot(test_tray, ITEM_SLOT_RPOCKET)
-	TEST_ASSERT(human.get_item_by_slot(ITEM_SLOT_RPOCKET), "Serving tray failed to fit in the Right Pocket")
+	TEST_ASSERT(human.equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"], "Serving tray failed to fit in the Right Pocket")
 
 	test_tray.melee_attack_chain(human, human)
 

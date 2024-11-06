@@ -47,11 +47,11 @@
 	equipped_on.update_body(is_creating = TRUE)
 
 	var/list/no_drops = list()
-	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_FEET)
-	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_ICLOTHING)
-	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_HEAD)
-	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_EYES)
+	no_drops += equipped_on.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
+	no_drops += equipped_on.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
+	no_drops += equipped_on.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+	no_drops += equipped_on.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+	no_drops += equipped_on.equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 	for(var/obj/item/trait_needed as anything in no_drops)
 		ADD_TRAIT(trait_needed, TRAIT_NODROP, CURSED_ITEM_TRAIT(trait_needed.type))
 

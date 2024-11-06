@@ -69,27 +69,36 @@
 
 		switch(target_zone)
 			if(BODY_ZONE_HEAD)
-				if(isobj(infecting_human.head))
-					passed = prob(100-infecting_human.head.get_armor_rating(BIO))
-				if(passed && isobj(infecting_human.wear_mask))
-					passed = prob(100-infecting_human.wear_mask.get_armor_rating(BIO))
-				if(passed && isobj(infecting_human.wear_neck))
-					passed = prob(100-infecting_human.wear_neck.get_armor_rating(BIO))
+				var/obj/item/head = infecting_human.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+				if(isobj(head))
+					passed = prob(100-head.get_armor_rating(BIO))
+				var/obj/item/mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+				if(passed && isobj(mask))
+					passed = prob(100-mask.get_armor_rating(BIO))
+				var/obj/item/tie = infecting_human.equipped_items_by_slot["[ITEM_SLOT_NECK]"]
+				if(passed && isobj(tie))
+					passed = prob(100-tie.get_armor_rating(BIO))
 			if(BODY_ZONE_CHEST)
-				if(isobj(infecting_human.wear_suit))
-					passed = prob(100-infecting_human.wear_suit.get_armor_rating(BIO))
-				if(passed && isobj(infecting_human.w_uniform))
-					passed = prob(100-infecting_human.w_uniform.get_armor_rating(BIO))
+				var/obj/item/suit = infecting_human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+				if(isobj(suit))
+					passed = prob(100-suit.get_armor_rating(BIO))
+				var/obj/item/jumpsuit = infecting_human.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
+				if(passed && isobj(jumpsuit))
+					passed = prob(100-jumpsuit.get_armor_rating(BIO))
 			if(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-				if(isobj(infecting_human.wear_suit) && infecting_human.wear_suit.body_parts_covered&HANDS)
-					passed = prob(100-infecting_human.wear_suit.get_armor_rating(BIO))
-				if(passed && isobj(infecting_human.gloves))
-					passed = prob(100-infecting_human.gloves.get_armor_rating(BIO))
+				var/obj/item/suit = infecting_human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+				if(isobj(suit) && suit.body_parts_covered & HANDS)
+					passed = prob(100-suit.get_armor_rating(BIO))
+				var/obj/item/gloves = infecting_human.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
+				if(passed && isobj(gloves))
+					passed = prob(100-gloves.get_armor_rating(BIO))
 			if(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-				if(isobj(infecting_human.wear_suit) && infecting_human.wear_suit.body_parts_covered&FEET)
-					passed = prob(100-infecting_human.wear_suit.get_armor_rating(BIO))
-				if(passed && isobj(infecting_human.shoes))
-					passed = prob(100-infecting_human.shoes.get_armor_rating(BIO))
+				var/obj/item/suit = infecting_human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+				if(isobj(suit) && suit.body_parts_covered & FEET)
+					passed = prob(100-suit.get_armor_rating(BIO))
+				var/obj/item/shoes = infecting_human.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
+				if(passed && isobj(shoes))
+					passed = prob(100-shoes.get_armor_rating(BIO))
 
 	if(passed)
 		disease.try_infect(src)
@@ -144,8 +153,8 @@
 		return TRUE
 	// Check both hat and mask for bio protection
 	// Anything above 50 individually is a shoe-in, and stacking two items at 25 is also a shoe-in
-	var/obj/item/clothing/hat = is_mouth_covered(ITEM_SLOT_HEAD)
-	var/obj/item/clothing/mask = is_mouth_covered(ITEM_SLOT_MASK)
+	var/obj/item/hat = is_mouth_covered(ITEM_SLOT_HEAD)
+	var/obj/item/mask = is_mouth_covered(ITEM_SLOT_MASK)
 	var/total_prot = 2 * (hat?.get_armor_rating(BIO) + mask?.get_armor_rating(BIO))
 	if(prob(total_prot))
 		return FALSE
@@ -170,8 +179,8 @@
 		return FALSE
 	// Bio check for head AND mask
 	// Meaning if we're masked up and wearing a dome, we are very likely never getting sick
-	var/obj/item/clothing/hat = is_mouth_covered(ITEM_SLOT_HEAD)
-	var/obj/item/clothing/mask = is_mouth_covered(ITEM_SLOT_MASK)
+	var/obj/item/hat = is_mouth_covered(ITEM_SLOT_HEAD)
+	var/obj/item/mask = is_mouth_covered(ITEM_SLOT_MASK)
 	var/total_prot = (hat?.get_armor_rating(BIO) + mask?.get_armor_rating(BIO))
 	if(prob(total_prot))
 		return FALSE

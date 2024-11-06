@@ -19,7 +19,7 @@
 	emote_type = EMOTE_VISIBLE
 
 /datum/emote/living/carbon/human/glasses/can_run_emote(mob/user, status_check = TRUE, intentional, params)
-	var/obj/eyes_slot = user.get_item_by_slot(ITEM_SLOT_EYES)
+	var/obj/eyes_slot = user.equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 	if(istype(eyes_slot, /obj/item/clothing/glasses/regular) || istype(eyes_slot, /obj/item/clothing/glasses/sunglasses))
 		return ..()
 	return FALSE

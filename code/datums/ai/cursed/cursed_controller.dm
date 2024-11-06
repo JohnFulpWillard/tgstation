@@ -59,7 +59,7 @@
 			to_chat(curse_victim, span_danger("[item_pawn] leaps into your hands!"))
 			what_a_horrible_night_to_have_a_curse()
 		return
-	var/obj/item/blocking = curse_victim.get_item_by_slot(attempted_slot)
+	var/obj/item/blocking = curse_victim.equipped_items_by_slot["[attempted_slot]"]
 	if(!curse_victim.dropItemToGround(blocking, silent = TRUE))
 		return //cannot equip to this person so whatever just keep whacking them until they die or fugg off
 	curse_victim.equip_to_slot_if_possible(item_pawn, attempted_slot, qdel_on_fail = FALSE, disable_warning = FALSE)

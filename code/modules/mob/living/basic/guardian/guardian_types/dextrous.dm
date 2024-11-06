@@ -10,6 +10,9 @@
 	creator_icon = "dextrous"
 	hud_type = /datum/hud/dextrous/guardian
 	held_items = list(null, null)
+	equipped_items_by_slot = list(
+		"[ITEM_SLOT_DEX_STORAGE]",
+	)
 	/// An internal pocket we can put stuff in
 	var/obj/item/internal_storage
 
@@ -50,16 +53,6 @@
 	if(slot != ITEM_SLOT_DEX_STORAGE)
 		return FALSE
 	return isnull(internal_storage)
-
-/mob/living/basic/guardian/dextrous/get_item_by_slot(slot_id)
-	if(slot_id == ITEM_SLOT_DEX_STORAGE)
-		return internal_storage
-	return ..()
-
-/mob/living/basic/guardian/dextrous/get_slot_by_item(obj/item/looking_for)
-	if(internal_storage == looking_for)
-		return ITEM_SLOT_DEX_STORAGE
-	return ..()
 
 /mob/living/basic/guardian/dextrous/equip_to_slot(obj/item/equipping, slot, initial = FALSE, redraw_mob = FALSE, indirect_action = FALSE)
 	if (slot != ITEM_SLOT_DEX_STORAGE)

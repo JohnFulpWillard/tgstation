@@ -52,7 +52,7 @@
 	var/stamina_exhaustion = 3
 	if(ishuman(user))
 		var/mob/living/carbon/human/boxer = user
-		var/obj/item/clothing/gloves/boxing/boxing_gloves = boxer.get_item_by_slot(ITEM_SLOT_GLOVES)
+		var/obj/item/clothing/gloves/boxing/boxing_gloves = boxer.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 		if(istype(boxing_gloves))
 			stamina_exhaustion = 2
 	if (is_heavy_gravity)

@@ -135,7 +135,7 @@
 	if(!iscarbon(user))
 		return NONE
 	var/mob/living/carbon/char = user
-	if((char.get_item_by_slot(ITEM_SLOT_NECK) == src) || (char.get_item_by_slot(ITEM_SLOT_OCLOTHING) == src))
+	if((char.equipped_items_by_slot["[ITEM_SLOT_NECK]"] == src) || (char.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"] == src))
 		to_chat(user, span_warning("You can't adjust [src] while wearing it!"))
 		return CLICK_ACTION_BLOCKING
 	if(!user.is_holding(src))

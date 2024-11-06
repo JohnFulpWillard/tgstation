@@ -183,7 +183,7 @@
 		return TRUE
 
 	if(hud?.mymob && slot_id)
-		var/obj/item/inv_item = hud.mymob.get_item_by_slot(slot_id)
+		var/obj/item/inv_item = hud.mymob.equipped_items_by_slot["[slot_id]"]
 		if(inv_item)
 			return inv_item.Click(location, control, params)
 
@@ -205,7 +205,7 @@
 		icon_empty = icon_state
 
 	if(hud?.mymob && slot_id && icon_full)
-		icon_state = hud.mymob.get_item_by_slot(slot_id) ? icon_full : icon_empty
+		icon_state = hud.mymob.equipped_items_by_slot["[slot_id]"] ? icon_full : icon_empty
 	return ..()
 
 /atom/movable/screen/inventory/proc/add_overlays()
@@ -216,7 +216,7 @@
 
 	var/obj/item/holding = user.get_active_held_item()
 
-	if(!holding || user.get_item_by_slot(slot_id))
+	if(!holding || user.equipped_items_by_slot["[slot_id]"])
 		return
 
 	var/image/item_overlay = image(holding)
@@ -249,7 +249,7 @@
 
 	if(iscarbon(hud.mymob))
 		var/mob/living/carbon/C = hud.mymob
-		if(C.handcuffed)
+		if(C.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 			. += handcuff_overlay
 
 		if(held_index)

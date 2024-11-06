@@ -847,7 +847,7 @@ SUBSYSTEM_DEF(job)
 		new_captain.add_mob_memory(/datum/memory/key/captains_spare_code, safe_code = SSid_access.spare_id_safe_code)
 
 	// Force-give their ID card bridge access.
-	var/obj/item/id_slot = new_captain.get_item_by_slot(ITEM_SLOT_ID)
+	var/obj/item/id_slot = new_captain.equipped_items_by_slot[ITEM_SLOT_ID]
 	if(id_slot)
 		var/obj/item/card/id/id_card = id_slot.GetID()
 		if(!(ACCESS_COMMAND in id_card.access))

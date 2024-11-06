@@ -229,7 +229,7 @@
 	var/mob/living/carbon/human/sent_mob = entered_atom
 
 	for(var/obj/item/belonging in sent_mob.gather_belongings(FALSE, FALSE))
-		if(belonging == sent_mob.get_item_by_slot(ITEM_SLOT_ICLOTHING) || belonging == sent_mob.get_item_by_slot(ITEM_SLOT_FEET))
+		if(belonging == sent_mob.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"] || belonging == sent_mob.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 			continue
 
 		var/unequipped = sent_mob.temporarilyRemoveItemFromInventory(belonging)
@@ -283,7 +283,7 @@
 
 /datum/traitor_objective/target_player/kidnapping/proc/returnal_side_effects(atom/dropoff_location, mob/living/carbon/human/sent_mob)
 	for(var/obj/item/belonging in sent_mob.gather_belongings())
-		if(belonging == sent_mob.get_item_by_slot(ITEM_SLOT_ICLOTHING) || belonging == sent_mob.get_item_by_slot(ITEM_SLOT_FEET))
+		if(belonging == sent_mob.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"] || belonging == sent_mob.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 			continue
 		sent_mob.dropItemToGround(belonging) // No souvenirs, except shoes and t-shirts
 

@@ -260,7 +260,7 @@
 	if(!real || sterile || user.get_organ_by_type(/obj/item/organ/body_egg/alien_embryo))
 		return ..()
 	if(istype(user) && ishuman(loc) && stat != DEAD)
-		if(user == loc && user.get_item_by_slot(slot_flags) == src)
+		if(user == loc && user.equipped_items_by_slot["[slot_flags]"] == src)
 			to_chat(user, span_userdanger("[src] is latched on too tight! Get help or wait for it to let go!"))
 			return FALSE
 	return ..()
@@ -271,7 +271,7 @@
 		return
 	if(!real || sterile || user.get_organ_by_type(/obj/item/organ/body_egg/alien_embryo))
 		return ..()
-	if(wearer.get_item_by_slot(slot_flags) == src && stat != DEAD)
+	if(wearer.equipped_items_by_slot["[slot_flags]"] == src && stat != DEAD)
 		to_chat(user, span_userdanger("[src] is latched on too tight! Get help or wait for it to let go!"))
 		return
 	return ..()

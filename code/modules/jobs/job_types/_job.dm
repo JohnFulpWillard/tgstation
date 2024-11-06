@@ -417,7 +417,7 @@
 
 		equipped.sec_hud_set_ID()
 
-	var/obj/item/modular_computer/pda/pda = equipped.get_item_by_slot(pda_slot)
+	var/obj/item/modular_computer/pda/pda = equipped.equipped_items_by_slot["[pda_slot]"]
 
 	if(istype(pda))
 		pda.imprint_id(equipped.real_name, equipped_job.title)

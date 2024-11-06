@@ -40,7 +40,7 @@
 /obj/item/minigunpack/attack_hand(mob/living/carbon/user, list/modifiers)
 	if(src.loc == user)
 		if(!armed)
-			if(user.get_item_by_slot(ITEM_SLOT_BACK) == src)
+			if(user.equipped_items_by_slot["[ITEM_SLOT_BACK]"] == src)
 				armed = TRUE
 				if(!user.put_in_hands(gun))
 					armed = FALSE

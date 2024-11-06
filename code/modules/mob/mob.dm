@@ -399,17 +399,15 @@
 		return FALSE
 	return TRUE
 
-
-///Get the item on the mob in the storage slot identified by the id passed in
-/mob/proc/get_item_by_slot(slot_id)
-	return null
-
 /// Gets what slot the item on the mob is held in.
 /// Returns null if the item isn't in any slots on our mob.
 /// Does not check if the passed item is null, which may result in unexpected outcoms.
 /mob/proc/get_slot_by_item(obj/item/looking_for)
 	if(looking_for in held_items)
 		return ITEM_SLOT_HANDS
+	for(var/slots in equipped_items_by_slot)
+		if(equipped_items_by_slot[slots] == looking_for)
+			return GLOB.inventory_flag_to_slot[slots]
 
 	return null
 
@@ -444,7 +442,7 @@
 
 	if(!W)
 		// Activate the item
-		var/obj/item/I = get_item_by_slot(slot)
+		var/obj/item/I = equipped_items_by_slot["[slot]"]
 		if(istype(I))
 			var/list/modifiers = params2list(params)
 			I.attack_hand(src, modifiers)

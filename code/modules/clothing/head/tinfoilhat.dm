@@ -71,7 +71,7 @@
 		return
 	var/mob/living/target = loc
 	UnregisterSignal(target, COMSIG_HUMAN_SUICIDE_ACT)
-	if(target.get_item_by_slot(ITEM_SLOT_HEAD) != src)
+	if(target.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] != src)
 		return
 	QDEL_NULL(paranoia)
 	if(target.stat < UNCONSCIOUS)

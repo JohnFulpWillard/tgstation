@@ -117,24 +117,22 @@ Regenerative extracts:
 		return
 	var/mob/living/carbon/human/H = target
 	var/fireproofed = FALSE
-	if(H.get_item_by_slot(ITEM_SLOT_OCLOTHING))
+	if(H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
 		fireproofed = TRUE
-		var/obj/item/clothing/C = H.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-		fireproof(C)
-	if(H.get_item_by_slot(ITEM_SLOT_HEAD))
+		fireproof(H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
+	if(H.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 		fireproofed = TRUE
-		var/obj/item/clothing/C = H.get_item_by_slot(ITEM_SLOT_HEAD)
-		fireproof(C)
+		fireproof(H.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 	if(fireproofed)
 		target.visible_message(span_notice("Some of [target]'s clothing gets coated in the goo, and turns blue!"))
 
-/obj/item/slimecross/regenerative/darkblue/proc/fireproof(obj/item/clothing/C)
-	C.name = "fireproofed [C.name]"
-	C.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
-	C.add_atom_colour(COLOR_NAVY, FIXED_COLOUR_PRIORITY)
-	C.max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
-	C.heat_protection = C.body_parts_covered
-	C.resistance_flags |= FIRE_PROOF
+/obj/item/slimecross/regenerative/darkblue/proc/fireproof(obj/item/fireproofed_clothing)
+	fireproofed_clothing.name = "fireproofed [C.name]"
+	fireproofed_clothing.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+	fireproofed_clothing.add_atom_colour(COLOR_NAVY, FIXED_COLOUR_PRIORITY)
+	fireproofed_clothing.max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+	fireproofed_clothing.heat_protection = C.body_parts_covered
+	fireproofed_clothing.resistance_flags |= FIRE_PROOF
 
 /obj/item/slimecross/regenerative/silver
 	colour = SLIME_TYPE_SILVER

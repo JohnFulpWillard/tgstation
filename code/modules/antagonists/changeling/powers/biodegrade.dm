@@ -9,38 +9,32 @@
 	disabled_by_fire = FALSE
 
 /datum/action/changeling/biodegrade/sting_action(mob/living/carbon/human/user)
-	if(user.handcuffed)
-		var/obj/O = user.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
-		if(!istype(O))
-			return FALSE
-		user.visible_message(span_warning("[user] vomits a glob of acid on [user.p_their()] [O]!"), \
-			span_warning("We vomit acidic ooze onto our restraints!"))
+	var/obj/item/handcuffs = user.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]
+	if(handcuffs && handcuffs.breakouttime)
+		user.visible_message(span_warning("[user] vomits a glob of acid on [user.p_their()] [handcuffs]!"), \
+			span_warning("We vomit acidic ooze onto our [handcuffs.name]!"))
 
-		addtimer(CALLBACK(src, PROC_REF(dissolve_handcuffs), user, O), 3 SECONDS)
-		log_combat(user, user.handcuffed, "melted handcuffs", addition = "(biodegrade)")
+		addtimer(CALLBACK(src, PROC_REF(dissolve_handcuffs), user, handcuffs), 3 SECONDS)
+		log_combat(user, handcuffs, "melted handcuffs", addition = "(biodegrade)")
 		..()
 		return TRUE
 
-	if(user.legcuffed)
-		var/obj/O = user.get_item_by_slot(ITEM_SLOT_LEGCUFFED)
-		if(!istype(O))
-			return FALSE
-		user.visible_message(span_warning("[user] vomits a glob of acid on [user.p_their()] [O]!"), \
-			span_warning("We vomit acidic ooze onto our restraints!"))
+	var/obj/item/legcuffs = user.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]
+	if(legcuffs && legcuffs.breakouttime)
+		user.visible_message(span_warning("[user] vomits a glob of acid on [user.p_their()] [legcuffs]!"), \
+			span_warning("We vomit acidic ooze onto our [legcuffs.name]!"))
 
-		addtimer(CALLBACK(src, PROC_REF(dissolve_legcuffs), user, O), 3 SECONDS)
-		log_combat(user, user.legcuffed, "melted legcuffs", addition = "(biodegrade)")
+		addtimer(CALLBACK(src, PROC_REF(dissolve_legcuffs), user, legcuffs), 3 SECONDS)
+		log_combat(user, legcuffs, "melted legcuffs", addition = "(biodegrade)")
 		..()
 		return TRUE
 
-	if(user.wear_suit?.breakouttime)
-		var/obj/item/clothing/suit/S = user.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-		if(!istype(S))
-			return FALSE
-		user.visible_message(span_warning("[user] vomits a glob of acid across the front of [user.p_their()] [S]!"), \
-			span_warning("We vomit acidic ooze onto our [user.wear_suit.name]!"))
-		addtimer(CALLBACK(src, PROC_REF(dissolve_straightjacket), user, S), 3 SECONDS)
-		log_combat(user, user.wear_suit, "melted [user.wear_suit]", addition = "(biodegrade)")
+	var/obj/item/suit = user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+	if(suit && suit.breakouttime)
+		user.visible_message(span_warning("[user] vomits a glob of acid across the front of [user.p_their()] [suit]!"), \
+			span_warning("We vomit acidic ooze onto our [suit.name]!"))
+		addtimer(CALLBACK(src, PROC_REF(dissolve_straightjacket), user, suit), 3 SECONDS)
+		log_combat(user, suit, "melted [suit]", addition = "(biodegrade)")
 		..()
 		return TRUE
 
@@ -66,8 +60,8 @@
 		..()
 		return TRUE
 
-	var/obj/item/clothing/shoes/shoes = user.shoes
-	if(istype(shoes) && shoes.tied == SHOES_KNOTTED && !(shoes.resistance_flags & (INDESTRUCTIBLE|UNACIDABLE|ACID_PROOF)))
+	var/obj/item/shoes = user.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
+	if(shoes.tied == SHOES_KNOTTED && !(shoes.resistance_flags & (INDESTRUCTIBLE|UNACIDABLE|ACID_PROOF)))
 		new /obj/effect/decal/cleanable/greenglow(shoes.drop_location())
 		user.visible_message(
 			span_warning("[user] vomits a glob of acid on [user.p_their()] tied up [shoes.name], melting [shoes.p_them()] into a pool of goo!"),

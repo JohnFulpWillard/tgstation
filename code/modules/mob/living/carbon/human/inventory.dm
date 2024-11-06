@@ -21,109 +21,6 @@
 
 	return dna.species.can_equip(equip_target, slot, disable_warning, src, bypass_equip_delay_self, ignore_equipped, indirect_action)
 
-/mob/living/carbon/human/get_item_by_slot(slot_id)
-	switch(slot_id)
-		if(ITEM_SLOT_BELT)
-			return belt
-		if(ITEM_SLOT_ID)
-			return wear_id
-		if(ITEM_SLOT_EARS)
-			return ears
-		if(ITEM_SLOT_EYES)
-			return glasses
-		if(ITEM_SLOT_GLOVES)
-			return gloves
-		if(ITEM_SLOT_FEET)
-			return shoes
-		if(ITEM_SLOT_OCLOTHING)
-			return wear_suit
-		if(ITEM_SLOT_ICLOTHING)
-			return w_uniform
-		if(ITEM_SLOT_LPOCKET)
-			return l_store
-		if(ITEM_SLOT_RPOCKET)
-			return r_store
-		if(ITEM_SLOT_SUITSTORE)
-			return s_store
-
-	return ..()
-
-/mob/living/carbon/human/get_slot_by_item(obj/item/looking_for)
-	if(looking_for == belt)
-		return ITEM_SLOT_BELT
-
-	if(belt && (looking_for in belt))
-		return ITEM_SLOT_BELTPACK
-
-	if(looking_for == wear_id)
-		return ITEM_SLOT_ID
-
-	if(looking_for == ears)
-		return ITEM_SLOT_EARS
-
-	if(looking_for == glasses)
-		return ITEM_SLOT_EYES
-
-	if(looking_for == gloves)
-		return ITEM_SLOT_GLOVES
-
-	if(looking_for == head)
-		return ITEM_SLOT_HEAD
-
-	if(looking_for == shoes)
-		return ITEM_SLOT_FEET
-
-	if(looking_for == wear_suit)
-		return ITEM_SLOT_OCLOTHING
-
-	if(looking_for == w_uniform)
-		return ITEM_SLOT_ICLOTHING
-
-	if(looking_for == r_store)
-		return ITEM_SLOT_RPOCKET
-
-	if(looking_for == l_store)
-		return ITEM_SLOT_LPOCKET
-
-	if(looking_for == s_store)
-		return ITEM_SLOT_SUITSTORE
-
-	return ..()
-
-/mob/living/carbon/human/proc/get_body_slots()
-	return list(
-		back,
-		s_store,
-		handcuffed,
-		legcuffed,
-		wear_suit,
-		gloves,
-		shoes,
-		belt,
-		wear_id,
-		l_store,
-		r_store,
-		w_uniform
-		)
-
-/mob/living/carbon/human/proc/get_head_slots()
-	return list(
-		head,
-		wear_mask,
-		wear_neck,
-		glasses,
-		ears,
-		)
-
-/mob/living/carbon/human/proc/get_storage_slots()
-	return list(
-		back,
-		belt,
-		l_store,
-		r_store,
-		s_store,
-		)
-
 /mob/living/carbon/human/get_visible_items()
 	var/list/visible_items = ..()
 	var/obj/item/clothing/under/under = w_uniform
@@ -379,7 +276,7 @@
 	if(incapacitated)
 		return
 	var/obj/item/thing = get_active_held_item()
-	var/obj/item/equipped_item = get_item_by_slot(slot_type)
+	var/obj/item/equipped_item = equipped_items_by_slot["[slot_type]"]
 	if(!equipped_item) // We also let you equip an item like this
 		if(!thing)
 			to_chat(src, span_warning("You have no [slot_item_name] to take something out of!"))

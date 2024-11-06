@@ -32,7 +32,7 @@
 	if(!appears_alive())
 		appears_dead = TRUE
 
-		var/obj/item/clothing/glasses/shades = get_item_by_slot(ITEM_SLOT_EYES)
+		var/obj/item/clothing/glasses/shades = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 		var/are_we_in_weekend_at_bernies = shades?.tint && buckled && istype(buckled, /obj/vehicle/ridden/wheelchair)
 
 		if(isliving(user) && (HAS_MIND_TRAIT(user, TRAIT_NAIVE) || are_we_in_weekend_at_bernies))

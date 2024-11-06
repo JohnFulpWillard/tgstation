@@ -27,23 +27,6 @@
 			return TRUE
 	..()
 
-
-/mob/living/basic/drone/get_item_by_slot(slot_id)
-	switch(slot_id)
-		if(ITEM_SLOT_HEAD)
-			return head
-		if(ITEM_SLOT_DEX_STORAGE)
-			return internal_storage
-
-	return ..()
-
-/mob/living/basic/drone/get_slot_by_item(obj/item/looking_for)
-	if(internal_storage == looking_for)
-		return ITEM_SLOT_DEX_STORAGE
-	if(head == looking_for)
-		return ITEM_SLOT_HEAD
-	return ..()
-
 /mob/living/basic/drone/equip_to_slot(obj/item/equipping, slot, initial = FALSE, redraw_mob = FALSE, indirect_action = FALSE)
 	if(!slot)
 		return

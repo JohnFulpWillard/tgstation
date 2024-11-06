@@ -24,8 +24,26 @@
 	if(!damage_type)
 		return 0
 	var/protection = 100
-	var/list/covering_clothing = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id, wear_neck) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
-	for(var/obj/item/clothing/clothing_item in covering_clothing)
+	//Everything but pockets, handcuffs and legcuffs.
+	//If pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor
+	var/list/covering_clothing = list(
+		equipped_items_by_slot["[ITEM_SLOT_GLOVES]"],
+		equipped_items_by_slot["[ITEM_SLOT_EYES]"],
+		equipped_items_by_slot["[ITEM_SLOT_EARS]"],
+		equipped_items_by_slot["[ITEM_SLOT_MASK]"],
+		equipped_items_by_slot["[ITEM_SLOT_HEAD]"],
+		equipped_items_by_slot["[ITEM_SLOT_FEET]"],
+		equipped_items_by_slot["[ITEM_SLOT_BACK]"],
+		equipped_items_by_slot["[ITEM_SLOT_NECK]"],
+		equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"],
+		equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"],
+		equipped_items_by_slot["[ITEM_SLOT_BELT]"],
+		equipped_items_by_slot["[ITEM_SLOT_ID]"],
+		equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"],
+	)
+	for(var/obj/item/clothing_item as anything in covering_clothing)
+		if(!clothing_item)
+			continue
 		if(clothing_item.body_parts_covered & def_zone.body_part)
 			protection *= (100 - min(clothing_item.get_armor_rating(damage_type), 100)) * 0.01
 	protection *= (100 - min(physiology.armor.get_rating(damage_type), 100)) * 0.01
@@ -34,14 +52,28 @@
 ///Get all the clothing on a specific body part
 /mob/living/carbon/human/proc/get_clothing_on_part(obj/item/bodypart/def_zone)
 	var/list/covering_part = list()
-	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id, wear_neck) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
-	for(var/bp in body_parts)
-		if(!bp)
+	//Everything but pockets, handcuffs and legcuffs.
+	//If pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor
+	var/list/worn_items = list(
+		equipped_items_by_slot["[ITEM_SLOT_GLOVES]"],
+		equipped_items_by_slot["[ITEM_SLOT_EYES]"],
+		equipped_items_by_slot["[ITEM_SLOT_EARS]"],
+		equipped_items_by_slot["[ITEM_SLOT_MASK]"],
+		equipped_items_by_slot["[ITEM_SLOT_HEAD]"],
+		equipped_items_by_slot["[ITEM_SLOT_FEET]"],
+		equipped_items_by_slot["[ITEM_SLOT_BACK]"],
+		equipped_items_by_slot["[ITEM_SLOT_NECK]"],
+		equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"],
+		equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"],
+		equipped_items_by_slot["[ITEM_SLOT_BELT]"],
+		equipped_items_by_slot["[ITEM_SLOT_ID]"],
+		equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"],
+	)
+	for(var/obj/item/clothing_item as anything in worn_items)
+		if(!clothing_item)
 			continue
-		if(bp && istype(bp , /obj/item/clothing))
-			var/obj/item/clothing/C = bp
-			if(C.body_parts_covered & def_zone.body_part)
-				covering_part += C
+		if(clothing_item.body_parts_covered & def_zone.body_part)
+			covering_part += clothing_item
 	return covering_part
 
 /mob/living/carbon/human/bullet_act(obj/projectile/bullet, def_zone, piercing_hit = FALSE)
@@ -79,6 +111,7 @@
 	if(wear_suit)
 		if(wear_suit.IsReflect(def_zone))
 			return TRUE
+	var/obj/item/head = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 	if(head)
 		if(head.IsReflect(def_zone))
 			return TRUE
@@ -370,6 +403,7 @@
 /mob/living/carbon/human/electrocute_act(shock_damage, source, siemens_coeff = 1, flags = NONE, jitter_time = 20 SECONDS, stutter_time = 4 SECONDS, stun_duration = 4 SECONDS)
 	//Calculates the siemens coeff based on clothing. Completely ignores the arguments
 	if(flags & SHOCK_TESLA) //I hate this entire block. This gets the siemens_coeff for tesla shocks
+		var/obj/item/gloves = equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 		if(gloves && gloves.siemens_coefficient <= 0)
 			siemens_coeff -= 0.5
 		if(wear_suit)
@@ -406,14 +440,16 @@
 	//HEAD//
 	if(!bodyzone_hit || bodyzone_hit == BODY_ZONE_HEAD) //only if we didn't specify a zone or if that zone is the head.
 		var/obj/item/clothing/head_clothes = null
-		if(glasses)
-			head_clothes = glasses
-		if(wear_mask)
-			head_clothes = wear_mask
-		if(wear_neck)
-			head_clothes = wear_neck
-		if(head)
-			head_clothes = head
+		//This is a priority list, head is acid'ed first, then tie, etc.
+		if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+			head_clothes = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		else if(!isnull(equipped_items_by_slot["[ITEM_SLOT_NECK]"]))
+			head_clothes = equipped_items_by_slot["[ITEM_SLOT_NECK]"]
+		else if(!isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+			head_clothes = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+		else if(!isnull(equipped_items_by_slot["[ITEM_SLOT_EYES]"]))
+			head_clothes = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
+
 		if(head_clothes)
 			if(!(head_clothes.resistance_flags & UNACIDABLE))
 				head_clothes.acid_act(acidpwr, acid_volume)
@@ -427,8 +463,8 @@
 			. = get_bodypart(BODY_ZONE_HEAD)
 			if(.)
 				damaged += .
-			if(ears)
-				inventory_items_to_kill += ears
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_EARS]"]))
+				inventory_items_to_kill += equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 
 	//CHEST//
 	if(!bodyzone_hit || bodyzone_hit == BODY_ZONE_CHEST)
@@ -448,14 +484,14 @@
 			. = get_bodypart(BODY_ZONE_CHEST)
 			if(.)
 				damaged += .
-			if(wear_id)
-				inventory_items_to_kill += wear_id
-			if(r_store)
-				inventory_items_to_kill += r_store
-			if(l_store)
-				inventory_items_to_kill += l_store
-			if(s_store)
-				inventory_items_to_kill += s_store
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_ID]"]))
+				inventory_items_to_kill += equipped_items_by_slot["[ITEM_SLOT_ID]"]
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"]))
+				inventory_items_to_kill += equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"]
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"]))
+				inventory_items_to_kill += equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"]
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]))
+				inventory_items_to_kill += equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]
 
 
 	//ARMS & HANDS//
@@ -757,46 +793,50 @@
 	var/obscured = check_obscured_slots(TRUE)
 	//HEAD//
 
-	if(glasses && !(obscured & ITEM_SLOT_EYES))
-		burning_items += glasses
-	if(wear_mask && !(obscured & ITEM_SLOT_MASK))
-		burning_items += wear_mask
-	if(wear_neck && !(obscured & ITEM_SLOT_NECK))
-		burning_items += wear_neck
-	if(ears && !(obscured & ITEM_SLOT_EARS))
-		burning_items += ears
-	if(head)
-		burning_items += head
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_EYES]"]) && !(obscured & ITEM_SLOT_EYES))
+		burning_items += equipped_items_by_slot["[ITEM_SLOT_EYES]"]
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]) && !(obscured & ITEM_SLOT_MASK))
+		burning_items += equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_NECK]"]) && !(obscured & ITEM_SLOT_NECK))
+		burning_items += equipped_items_by_slot["[ITEM_SLOT_NECK]"]
+
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_EARS]"]) && !(obscured & ITEM_SLOT_EARS))
+		burning_items += equipped_items_by_slot["[ITEM_SLOT_EARS]"]
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		burning_items += equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 
 	//CHEST//
-	if(w_uniform && !(obscured & ITEM_SLOT_ICLOTHING))
-		burning_items += w_uniform
-	if(wear_suit)
-		burning_items += wear_suit
+	var/obj/item/suit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+	var/obj/item/jumpsuit = equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
+	if(!isnull(suit) && !(obscured & ITEM_SLOT_ICLOTHING))
+		burning_items += suit
+	if(!isnull(jumpsuit))
+		burning_items += jumpsuit
 
 	//ARMS & HANDS//
+	var/obj/item/gloves = equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 	var/obj/item/clothing/arm_clothes = null
-	if(gloves && !(obscured & ITEM_SLOT_GLOVES))
+	if(!isnull(gloves) && !(obscured & ITEM_SLOT_GLOVES))
 		arm_clothes = gloves
-	else if(wear_suit && ((wear_suit.body_parts_covered & HANDS) || (wear_suit.body_parts_covered & ARMS)))
-		arm_clothes = wear_suit
-	else if(w_uniform && ((w_uniform.body_parts_covered & HANDS) || (w_uniform.body_parts_covered & ARMS)))
-		arm_clothes = w_uniform
+	else if(!isnull(suit) && ((suit.body_parts_covered & HANDS) || (suit.body_parts_covered & ARMS)))
+		arm_clothes = suit
+	else if(!isnull(jumpsuit) && ((jumpsuit.body_parts_covered & HANDS) || (jumpsuit.body_parts_covered & ARMS)))
+		arm_clothes = jumpsuit
 	if(arm_clothes)
 		burning_items |= arm_clothes
 
 	//LEGS & FEET//
 	var/obj/item/clothing/leg_clothes = null
-	if(shoes && !(obscured & ITEM_SLOT_FEET))
-		leg_clothes = shoes
-	else if(wear_suit && ((wear_suit.body_parts_covered & FEET) || (wear_suit.body_parts_covered & LEGS)))
-		leg_clothes = wear_suit
-	else if(w_uniform && ((w_uniform.body_parts_covered & FEET) || (w_uniform.body_parts_covered & LEGS)))
-		leg_clothes = w_uniform
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_FEET]"]) && !(obscured & ITEM_SLOT_FEET))
+		leg_clothes = equipped_items_by_slot["[ITEM_SLOT_FEET]"]
+	else if(!isnull(suit) && ((suit.body_parts_covered & FEET) || (suit.body_parts_covered & LEGS)))
+		leg_clothes = suit
+	else if(!isnull(jumpsuit) && ((jumpsuit.body_parts_covered & FEET) || (jumpsuit.body_parts_covered & LEGS)))
+		leg_clothes = jumpsuit
 	if(leg_clothes)
 		burning_items |= leg_clothes
 
-	if (!gloves || (!(gloves.resistance_flags & FIRE_PROOF) && (gloves.resistance_flags & FLAMMABLE)))
+	if(isnull(gloves) || (!(gloves.resistance_flags & FIRE_PROOF) && (gloves.resistance_flags & FLAMMABLE)))
 		for(var/obj/item/burnable_item in held_items)
 			burning_items |= burnable_item
 

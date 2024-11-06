@@ -54,17 +54,15 @@
 	var/obj/effect/particle_effect/fluid/smoke/poof = new(get_turf(victim))
 	poof.lifetime = 2 SECONDS
 
-	var/obj/item/tank/internal = victim.internal
+	var/obj/item/tank/internal = victim.equipped_internal_tank
 	// We're about to take off your pants so those are going to fall out
-	var/obj/item/pocket_L = victim.get_item_by_slot(ITEM_SLOT_LPOCKET)
-	var/obj/item/pocket_R = victim.get_item_by_slot(ITEM_SLOT_RPOCKET)
-	var/obj/item/id = victim.get_item_by_slot(ITEM_SLOT_ID)
-	var/obj/item/belt = victim.get_item_by_slot(ITEM_SLOT_BELT)
+	var/obj/item/pocket_L = victim.equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"]
+	var/obj/item/pocket_R = victim.equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]
+	var/obj/item/id = victim.equipped_items_by_slot["[ITEM_SLOT_ID]"]
+	var/obj/item/belt = victim.equipped_items_by_slot["[ITEM_SLOT_BELT]"]
 
-	var/obj/pants = victim.get_item_by_slot(ITEM_SLOT_ICLOTHING)
-	var/obj/mask = victim.get_item_by_slot(ITEM_SLOT_MASK)
-	QDEL_NULL(pants)
-	QDEL_NULL(mask)
+	QDEL_NULL(victim.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
+	QDEL_NULL(victim.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 	if(isplasmaman(victim))
 		victim.equip_to_slot_if_possible(new /obj/item/clothing/under/plasmaman/clown/magic(), ITEM_SLOT_ICLOTHING, disable_warning = TRUE)
 		victim.equip_to_slot_if_possible(new /obj/item/clothing/mask/gas/clown_hat/plasmaman(), ITEM_SLOT_MASK, disable_warning = TRUE)
@@ -72,7 +70,7 @@
 		victim.equip_to_slot_if_possible(new /obj/item/clothing/under/rank/civilian/clown/magic(), ITEM_SLOT_ICLOTHING, disable_warning = TRUE)
 		victim.equip_to_slot_if_possible(new /obj/item/clothing/mask/gas/clown_hat(), ITEM_SLOT_MASK, disable_warning = TRUE)
 
-	var/obj/item/clothing/mask/gas/clown_hat/clown_mask = victim.get_item_by_slot(ITEM_SLOT_MASK)
+	var/obj/item/clothing/mask/gas/clown_hat/clown_mask = victim.equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 	if (clown_mask)
 		var/list/options = GLOB.clown_mask_options
 		clown_mask.icon_state = options[pick(clown_mask.clownmask_designs)]

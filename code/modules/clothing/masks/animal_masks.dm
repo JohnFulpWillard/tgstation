@@ -52,7 +52,7 @@ GLOBAL_LIST_INIT(cursed_animal_masks, list(
 			clear_curse()
 	if(vname == NAMEOF(src, modifies_speech) && ismob(loc))
 		var/mob/M = loc
-		if(M.get_item_by_slot(ITEM_SLOT_MASK) == src)
+		if(M.equipped_items_by_slot["[ITEM_SLOT_MASK]"] == src)
 			if(vval)
 				if(!modifies_speech)
 					RegisterSignal(M, COMSIG_MOB_SAY, PROC_REF(handle_speech))
@@ -86,7 +86,7 @@ GLOBAL_LIST_INIT(cursed_animal_masks, list(
 		modifies_speech = TRUE
 	if(ismob(loc))
 		var/mob/M = loc
-		if(M.get_item_by_slot(ITEM_SLOT_MASK) == src)
+		if(M.equipped_items_by_slot["[ITEM_SLOT_MASK]"] == src)
 			if(update_speech_mod)
 				RegisterSignal(M, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 			to_chat(M, span_userdanger("[src] was cursed!"))
@@ -103,7 +103,7 @@ GLOBAL_LIST_INIT(cursed_animal_masks, list(
 		modifies_speech = FALSE
 	if(ismob(loc))
 		var/mob/M = loc
-		if(M.get_item_by_slot(ITEM_SLOT_MASK) == src)
+		if(M.equipped_items_by_slot["[ITEM_SLOT_MASK]"] == src)
 			to_chat(M, span_notice("[src]'s curse has been lifted!"))
 			if(update_speech_mod)
 				UnregisterSignal(M, COMSIG_MOB_SAY)

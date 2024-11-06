@@ -550,7 +550,7 @@
 	///  the amount of mols in a breath is significantly lower than in the environment so we are just going to use the tank's
 	///  distribution pressure as an abstraction rather than calculate it using the ideal gas equation.
 	///  balanced around a tank set to 4kpa = about 0.2 healing power. maxes out at 0.75 healing power, or 15kpa.
-	var/obj/item/tank/internals/internals_tank = infected_mob.internal
+	var/obj/item/tank/internals/internals_tank = infected_mob.equipped_internal_tank
 	if(internals_tank)
 		var/datum/gas_mixture/tank_contents = internals_tank.return_air()
 		if(tank_contents && round(tank_contents.return_pressure())) // make sure the tank is not empty or 0 pressure

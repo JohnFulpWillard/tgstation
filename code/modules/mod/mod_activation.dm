@@ -89,7 +89,7 @@
 		balloon_alert(user, "[part.name] already deployed!")
 		playsound(src, 'sound/machines/scanner/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 	if(part_datum.can_overslot)
-		var/obj/item/overslot = wearer.get_item_by_slot(part.slot_flags)
+		var/obj/item/overslot = wearer.equipped_items_by_slot["[part.slot_flags]"]
 		if(overslot)
 			part_datum.overslotting = overslot
 			wearer.transferItemToLoc(overslot, part, force = TRUE)

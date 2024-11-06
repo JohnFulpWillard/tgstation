@@ -18,34 +18,28 @@
 	///Same as [above][/mob/living/carbon/var/organs], but stores "slot ID" - "organ" pairs for easy access.
 	var/list/organs_slot = list()
 
-	///Whether or not the mob is handcuffed
-	var/obj/item/handcuffed = null
-	///Same as handcuffs but for legs. Bear traps use this.
-	var/obj/item/legcuffed = null
-
 	/// Measure of how disgusted we are. See DISGUST_LEVEL_GROSS and friends
 	var/disgust = 0
 	/// How disgusted we were LAST time we processed disgust. Helps prevent unneeded work
 	var/old_disgust = 0
 
-	//inventory slots
-	var/obj/item/back = null
-	var/obj/item/clothing/mask/wear_mask = null
-	var/obj/item/clothing/neck/wear_neck = null
-	/// Equipped air tank. Never set this manually.
-	var/obj/item/tank/internal = null
-	/// "External" air tank. Never set this manually. Not required to stay directly equipped on the mob (i.e. could be a machine or MOD suit module).
-	var/obj/item/tank/external = null
-	var/obj/item/clothing/head = null
+	equipped_items_by_slot = list(
+		"[ITEM_SLOT_GLOVES]",
+		"[ITEM_SLOT_EYES]",
+		"[ITEM_SLOT_EARS]",
+		"[ITEM_SLOT_MASK]",
+		"[ITEM_SLOT_HEAD]",
+		"[ITEM_SLOT_FEET]",
+		"[ITEM_SLOT_BACK]",
+		"[ITEM_SLOT_NECK]",
+		"[ITEM_SLOT_HANDCUFFED]",
+		"[ITEM_SLOT_LEGCUFFED]",
+	)
 
-	///only used by humans
-	var/obj/item/clothing/gloves = null
-	///only used by humans.
-	var/obj/item/clothing/shoes/shoes = null
-	///only used by humans.
-	var/obj/item/clothing/glasses/glasses = null
-	///only used by humans.
-	var/obj/item/clothing/ears = null
+	/// Equipped air tank. Never set this manually.
+	var/obj/item/tank/equipped_internal_tank = null
+	/// "External" air tank. Never set this manually. Not required to stay directly equipped on the mob (i.e. could be a machine or MOD suit module).
+	var/obj/item/tank/equipped_external_tank = null
 
 	/// Carbon, you should really only be accessing this through has_dna() but it's your life
 	var/datum/dna/dna = null

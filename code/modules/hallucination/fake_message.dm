@@ -20,7 +20,7 @@
 		if(adjacent_to_us)
 			message_pool[span_warning("You feel a tiny prick!")] = 5
 
-		var/obj/item/storage/equipped_backpack = suspicious_personnel.get_item_by_slot(ITEM_SLOT_BACK)
+		var/obj/item/storage/equipped_backpack = suspicious_personnel.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 		if(istype(equipped_backpack))
 			// in the future, this could / should be de-harcoded and
 			// just draw from a pool uplink, theft, and antag item typepaths

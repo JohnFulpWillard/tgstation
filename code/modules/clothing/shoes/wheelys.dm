@@ -27,7 +27,7 @@
 /obj/item/clothing/shoes/wheelys/ui_action_click(mob/user, action)
 	if(!isliving(user))
 		return
-	if(!istype(user.get_item_by_slot(ITEM_SLOT_FEET), /obj/item/clothing/shoes/wheelys))
+	if(!istype(user.equipped_items_by_slot["[ITEM_SLOT_FEET]"], /obj/item/clothing/shoes/wheelys))
 		balloon_alert(user, "must be worn!")
 		return
 	if(!(wheels.is_occupant(user)))

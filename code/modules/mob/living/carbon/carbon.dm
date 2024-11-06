@@ -255,13 +255,15 @@
 	last_special = world.time + CLICK_CD_BREAKOUT
 	var/buckle_cd = 1 MINUTES
 
-	if(handcuffed)
-		var/obj/item/restraints/cuffs = src.get_item_by_slot(ITEM_SLOT_HANDCUFFED)
+	var/obj/item/restraints/cuffs = equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]
+	if(cuffs)
 		buckle_cd = cuffs.breakouttime
 
-	visible_message(span_warning("[src] attempts to unbuckle [p_them()]self!"),
-				span_notice("You attempt to unbuckle yourself... \
-				(This will take around [DisplayTimeText(buckle_cd)] and you must stay still.)"))
+	visible_message(
+		span_warning("[src] attempts to unbuckle [p_them()]self!"),
+		span_notice("You attempt to unbuckle yourself... \
+		(This will take around [DisplayTimeText(buckle_cd)] and you must stay still.)"),
+	)
 
 	if(!do_after(src, buckle_cd, target = src, timed_action_flags = IGNORE_HELD_ITEM, hidden = TRUE))
 		if(buckled)

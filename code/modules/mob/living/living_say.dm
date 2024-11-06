@@ -448,7 +448,7 @@ GLOBAL_LIST_INIT(message_modes_stat_limits, list(
 
 /mob/living/proc/get_tts_voice(list/filter, list/special_filter)
 	. = voice
-	var/obj/item/clothing/mask/mask = get_item_by_slot(ITEM_SLOT_MASK)
+	var/obj/item/clothing/mask/mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 	if(!istype(mask) || mask.up)
 		return
 	if(mask.voice_override)
