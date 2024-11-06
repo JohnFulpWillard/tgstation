@@ -81,4 +81,4 @@
 	equip_to_slot_then_hands(victim, ITEM_SLOT_RPOCKET, pocket_R)
 	equip_to_slot_then_hands(victim, ITEM_SLOT_ID, id)
 	equip_to_slot_then_hands(victim, ITEM_SLOT_BELT, belt)
-	victim.internal = internal
+	victim.equipped_internal_tank = internal

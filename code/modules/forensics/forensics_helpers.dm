@@ -36,8 +36,8 @@
 	if (QDELETED(src))
 		return
 	var/old = 0
-	if(suspect.gloves && istype(suspect.gloves, /obj/item/clothing))
-		var/obj/item/clothing/gloves/suspect_gloves = suspect.gloves
+	if(suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"] && istype(suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"], /obj/item/clothing))
+		var/obj/item/clothing/gloves/suspect_gloves = suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 		old = length(GET_ATOM_BLOOD_DNA(suspect_gloves))
 		if(suspect_gloves.transfer_blood > 1) //bloodied gloves transfer blood to touched objects
 			if(add_blood_DNA(GET_ATOM_BLOOD_DNA(suspect_gloves)) && GET_ATOM_BLOOD_DNA_LENGTH(suspect_gloves) > old) //only reduces the bloodiness of our gloves if the item wasn't already bloody
@@ -118,9 +118,9 @@
 	else if(w_uniform)
 		w_uniform.add_blood_DNA(blood_DNA_to_add)
 		update_worn_undersuit()
-	if(gloves)
-		var/obj/item/clothing/gloves/mob_gloves = gloves
-		mob_gloves.add_blood_DNA(blood_DNA_to_add)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]))
+		var/obj/item/gloves = equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
+		gloves.add_blood_DNA(blood_DNA_to_add)
 	else if(length(blood_DNA_to_add))
 		if (isnull(forensics))
 			forensics = new(src)

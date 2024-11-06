@@ -345,7 +345,7 @@
 		return
 	if(iscarbon(owner))
 		var/mob/living/carbon/C = owner
-		if(C.handcuffed)
+		if(C.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 			return
 	var/list/huggables = list()
 	for(var/mob/living/carbon/L in range(get_turf(owner),1))

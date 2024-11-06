@@ -52,7 +52,7 @@
 
 	if(get_turf(hallucinator) in flood_turfs)
 		var/mob/living/carbon/carbon_hallucinator = hallucinator
-		if(istype(carbon_hallucinator) && !carbon_hallucinator.internal)
+		if(istype(carbon_hallucinator) && !carbon_hallucinator.equipped_internal_tank)
 			hallucinator.cause_hallucination(/datum/hallucination/fake_alert/bad_plasma, "fake plasmaflood hallucination")
 
 	next_expand = world.time + FAKE_FLOOD_EXPAND_TIME

@@ -484,7 +484,7 @@ DEFINE_BITFIELD(turret_flags, list(
 		else if(iscarbon(A))
 			var/mob/living/carbon/C = A
 			//If not emagged, only target carbons that can use items
-			if(mode != TURRET_LETHAL && (C.stat || C.handcuffed || !(C.mobility_flags & MOBILITY_USE)))
+			if(mode != TURRET_LETHAL && (C.stat || C.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] || !(C.mobility_flags & MOBILITY_USE)))
 				continue
 
 			//If emagged, target all but dead carbons
@@ -1181,7 +1181,7 @@ DEFINE_BITFIELD(turret_flags, list(
 	. = 0
 	if(team_color == "blue") //Lasertag turrets target the opposing team, how great is that? -Sieve
 		. = 0 //But does not target anyone else
-		if(istype(perp.wear_suit, /obj/item/clothing/suit/redtag))
+		if(istype(perp.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], /obj/item/clothing/suit/redtag))
 			. += 4
 		if(perp.is_holding_item_of_type(/obj/item/gun/energy/laser/redtag))
 			. += 4
@@ -1190,7 +1190,7 @@ DEFINE_BITFIELD(turret_flags, list(
 
 	if(team_color == "red")
 		. = 0
-		if(istype(perp.wear_suit, /obj/item/clothing/suit/bluetag))
+		if(istype(perp.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], /obj/item/clothing/suit/bluetag))
 			. += 4
 		if(perp.is_holding_item_of_type(/obj/item/gun/energy/laser/bluetag))
 			. += 4
@@ -1205,9 +1205,9 @@ DEFINE_BITFIELD(turret_flags, list(
 /obj/machinery/porta_turret/lasertag/ui_status(mob/user, datum/ui_state/state)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		if(team_color == "blue" && istype(H.wear_suit, /obj/item/clothing/suit/redtag))
+		if(team_color == "blue" && istype(H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], /obj/item/clothing/suit/redtag))
 			return UI_CLOSE
-		if(team_color == "red" && istype(H.wear_suit, /obj/item/clothing/suit/bluetag))
+		if(team_color == "red" && istype(H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], /obj/item/clothing/suit/bluetag))
 			return UI_CLOSE
 	return ..()
 

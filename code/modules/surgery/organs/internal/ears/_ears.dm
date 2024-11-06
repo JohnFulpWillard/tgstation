@@ -173,7 +173,7 @@
 	return SSaccessories.ears_list
 
 /datum/bodypart_overlay/mutant/cat_ears/can_draw_on_bodypart(mob/living/carbon/human/human)
-	if((human.head?.flags_inv & HIDEHAIR) || (human.wear_mask?.flags_inv & HIDEHAIR))
+	if((human.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]?.flags_inv & HIDEHAIR) || (human.equipped_items_by_slot["[ITEM_SLOT_MASK]"]?.flags_inv & HIDEHAIR))
 		return FALSE
 	return TRUE
 

@@ -462,7 +462,7 @@
 		turn_off()
 		return
 	var/mob/living/carbon/human/user = loc
-	if(user.back != src)
+	if(user.equipped_items_by_slot["[ITEM_SLOT_BACK]"] != src)
 		turn_off()
 		return
 

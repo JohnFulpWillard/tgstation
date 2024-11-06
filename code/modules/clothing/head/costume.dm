@@ -120,8 +120,8 @@
 	..()
 	if(ishuman(user) && (slot & ITEM_SLOT_HEAD))
 		var/mob/living/carbon/human/human_user = user
-		if(istype(human_user.wear_suit, /obj/item/clothing/suit/costume/cardborg))
-			var/obj/item/clothing/suit/costume/cardborg/suit = human_user.wear_suit
+		if(istype(human_user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], /obj/item/clothing/suit/costume/cardborg))
+			var/obj/item/clothing/suit/costume/cardborg/suit = human_user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
 			suit.disguise(user, src)
 
 /obj/item/clothing/head/costume/bronze

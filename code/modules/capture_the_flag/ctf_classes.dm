@@ -52,7 +52,7 @@
 		ADD_TRAIT(item_to_nodrop, TRAIT_NODROP, CAPTURE_THE_FLAG_TRAIT)
 
 	if(has_radio)
-		var/obj/item/radio/headset = human_to_equip.ears
+		var/obj/item/radio/headset = human_to_equip.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 		headset.set_frequency(team_radio_freq)
 		headset.freqlock = RADIO_FREQENCY_LOCKED
 		headset.special_channels |= RADIO_SPECIAL_CENTCOM

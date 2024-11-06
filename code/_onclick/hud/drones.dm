@@ -35,11 +35,11 @@
 		if(!isnull(drone.internal_storage))
 			drone.internal_storage.screen_loc = ui_drone_storage
 			drone.client.screen += drone.internal_storage
-		if(!isnull(drone.head))
-			drone.head.screen_loc = ui_drone_head
-			drone.client.screen += drone.head
+		if(!isnull(drone.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+			drone.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].screen_loc = ui_drone_head
+			drone.client.screen += drone.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 	else
 		drone.internal_storage?.screen_loc = null
-		drone.head?.screen_loc = null
+		drone.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]?.screen_loc = null
 
 	..()

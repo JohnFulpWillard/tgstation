@@ -274,7 +274,7 @@
 
 /obj/item/clothing/neck/link_scryer/proc/get_user()
 	var/mob/living/carbon/user = loc
-	return istype(user) && user.wear_neck == src ? user : null
+	return istype(user) && user.equipped_items_by_slot["[ITEM_SLOT_NECK]"] == src ? user : null
 
 /obj/item/clothing/neck/link_scryer/proc/can_call()
 	var/mob/living/user = loc

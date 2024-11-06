@@ -24,7 +24,7 @@
 	W.update_label()
 	W.update_icon()
 
-	var/obj/item/radio/headset/R = H.ears
+	var/obj/item/radio/headset/R = H.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 	R.set_frequency(FREQ_CENTCOM)
 	R.freqlock = RADIO_FREQENCY_LOCKED
 	..()
@@ -307,7 +307,7 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/spellbook/new_spellbook = locate() in wizard.back
+	var/obj/item/spellbook/new_spellbook = locate() in wizard.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(new_spellbook)
 		new_spellbook.owner = wizard.mind
 
@@ -406,7 +406,7 @@
 
 /datum/outfit/chrono_agent/post_equip(mob/living/carbon/human/agent, visuals_only)
 	. = ..()
-	var/obj/item/mod/control/mod = agent.back
+	var/obj/item/mod/control/mod = agent.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(!istype(mod))
 		return
 	var/obj/item/mod/module/eradication_lock/lock = locate(/obj/item/mod/module/eradication_lock) in mod.modules

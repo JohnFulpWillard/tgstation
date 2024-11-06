@@ -3,7 +3,7 @@
 
 /datum/strippable_item/parrot_headset/get_item(atom/source)
 	var/mob/living/basic/parrot/parrot_source = source
-	return istype(parrot_source) ? parrot_source.ears : null
+	return istype(parrot_source) ? parrot_source.equipped_items_by_slot["[ITEM_SLOT_EARS]"] : null
 
 /datum/strippable_item/parrot_headset/try_equip(atom/source, obj/item/equipping, mob/user)
 	. = ..()
@@ -32,7 +32,7 @@
 	if (!user.transferItemToLoc(radio, source))
 		return
 
-	parrot_source.ears = radio
+	parrot_source.equipped_items_by_slot["[ITEM_SLOT_EARS]"] = radio
 
 	to_chat(user, span_notice("You fit [radio] onto [source]."))
 
@@ -56,5 +56,5 @@
 	if (!istype(parrot_source))
 		return
 
-	parrot_source.ears.forceMove(parrot_source.drop_location())
-	parrot_source.ears = null
+	parrot_source.equipped_items_by_slot["[ITEM_SLOT_EARS]"].forceMove(parrot_source.drop_location())
+	parrot_source.equipped_items_by_slot["[ITEM_SLOT_EARS]"] = null

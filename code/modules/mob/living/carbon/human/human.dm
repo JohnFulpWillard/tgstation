@@ -260,7 +260,7 @@
 				if(human_user.stat || human_user == src) //|| !human_user.canmove || human_user.restrained()) Fluff: Sechuds have eye-tracking technology and sets 'arrest' to people that the wearer looks and blinks at.
 					return   //Non-fluff: This allows sec to set people to arrest as they get disarmed or beaten
 			// Checks the user has security clearence before allowing them to change arrest status via hud, comment out to enable all access
-				var/obj/item/clothing/glasses/hud/security/user_glasses = human_user.glasses
+				var/obj/item/clothing/glasses/hud/security/user_glasses = human_user.equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 				if(istype(user_glasses) && (user_glasses.obj_flags & EMAGGED))
 					allowed_access = "@%&ERROR_%$*"
 				else //Implant and standard glasses check access
@@ -402,7 +402,8 @@
 
 /mob/living/carbon/human/get_footprint_sprite()
 	var/obj/item/bodypart/leg/L = get_bodypart(BODY_ZONE_R_LEG) || get_bodypart(BODY_ZONE_L_LEG)
-	return shoes?.footprint_sprite || L?.footprint_sprite
+	var/obj/item/clothing/shoes/boots = equipped_items_by_slot["[ITEM_SLOT_FEET]"]
+	return boots?.footprint_sprite || L?.footprint_sprite
 
 #define CHECK_PERMIT(item) (item && item.item_flags & NEEDS_PERMIT)
 
@@ -444,7 +445,7 @@
 			for(var/obj/item/toy_gun in held_items) //if they're holding a gun
 				if(CHECK_PERMIT(toy_gun))
 					threatcount += 4
-			if(CHECK_PERMIT(belt) || CHECK_PERMIT(back)) //if a weapon is present in the belt or back slot
+			if(CHECK_PERMIT(belt) || CHECK_PERMIT(equipped_items_by_slot["[ITEM_SLOT_BACK]"])) //if a weapon is present in the belt or back slot
 				threatcount += 2 //not enough to trigger look_for_perp() on it's own unless they also have criminal status.
 
 	//Check for arrest warrant
@@ -463,7 +464,7 @@
 					threatcount += 2
 
 	//Check for dresscode violations
-	if(istype(head, /obj/item/clothing/head/wizard))
+	if(istype(equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item/clothing/head/wizard))
 		threatcount += 2
 
 	//Check for nonhuman scum
@@ -645,7 +646,7 @@
 		. = TRUE
 
 	// Wash hands if exposed
-	if(!gloves && (clean_types & CLEAN_TYPE_BLOOD) && blood_in_hands > 0 && !(obscured & ITEM_SLOT_GLOVES))
+	if(!equipped_items_by_slot["[ITEM_SLOT_GLOVES]"] && (clean_types & CLEAN_TYPE_BLOOD) && blood_in_hands > 0 && !(obscured & ITEM_SLOT_GLOVES))
 		blood_in_hands = 0
 		update_worn_gloves()
 		. = TRUE

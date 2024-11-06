@@ -18,7 +18,7 @@
 	aoe_radius = 3
 
 /datum/action/cooldown/spell/aoe/wave_of_desperation/is_valid_target(mob/living/carbon/cast_on)
-	return ..() && istype(cast_on) && (cast_on.handcuffed || cast_on.legcuffed)
+	return ..() && istype(cast_on) && (cast_on.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] || cast_on.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
 
 // Before the cast, we do some small AOE damage around the caster
 /datum/action/cooldown/spell/aoe/wave_of_desperation/before_cast(mob/living/carbon/cast_on)
@@ -26,12 +26,12 @@
 	if(. & SPELL_CANCEL_CAST)
 		return
 
-	if(cast_on.handcuffed)
-		cast_on.visible_message(span_danger("[cast_on.handcuffed] on [cast_on] shatter!"))
-		QDEL_NULL(cast_on.handcuffed)
-	if(cast_on.legcuffed)
-		cast_on.visible_message(span_danger("[cast_on.legcuffed] on [cast_on] shatters!"))
-		QDEL_NULL(cast_on.legcuffed)
+	if(cast_on.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
+		cast_on.visible_message(span_danger("[cast_on.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]] on [cast_on] shatter!"))
+		QDEL_NULL(cast_on.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
+	if(cast_on.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
+		cast_on.visible_message(span_danger("[cast_on.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]] on [cast_on] shatters!"))
+		QDEL_NULL(cast_on.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
 
 	cast_on.apply_status_effect(/datum/status_effect/heretic_lastresort)
 	new /obj/effect/temp_visual/knockblast(get_turf(cast_on))

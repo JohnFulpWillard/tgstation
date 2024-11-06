@@ -128,7 +128,7 @@
 // Space Suit temperature regulation and power usage
 /obj/item/clothing/suit/space/process(seconds_per_tick)
 	var/mob/living/carbon/human/user = loc
-	if(!user || !ishuman(user) || user.wear_suit != src)
+	if(!user || !ishuman(user) || user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"] != src)
 		return
 
 	// Do nothing if thermal regulators are off

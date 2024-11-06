@@ -16,7 +16,7 @@
 	var/obj/item/grenade/c4/ninja/charge = ninja.l_store
 	if(istype(charge))
 		charge.set_detonation_area(ninja.mind?.has_antag_datum(/datum/antagonist/ninja))
-	var/obj/item/mod/control/mod = ninja.back
+	var/obj/item/mod/control/mod = ninja.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(!istype(mod))
 		return
 	var/obj/item/mod/module/dna_lock/reinforced/lock = locate(/obj/item/mod/module/dna_lock/reinforced) in mod.modules

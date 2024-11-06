@@ -92,7 +92,7 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 	balloon_alert_to_viewers("extracting!")
 	if(loc == user && ishuman(user))
 		var/mob/living/carbon/human/human_user = user
-		human_user.back?.atom_storage?.attempt_insert(src, user, force = STORAGE_SOFT_LOCKED)
+		human_user.equipped_items_by_slot["[ITEM_SLOT_BACK]"]?.atom_storage?.attempt_insert(src, user, force = STORAGE_SOFT_LOCKED)
 	uses_left--
 
 	if(uses_left <= 0)

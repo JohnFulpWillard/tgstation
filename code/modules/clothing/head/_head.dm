@@ -21,8 +21,8 @@
 		return
 	if(iscarbon(hit_atom))
 		var/mob/living/carbon/H = hit_atom
-		if(istype(H.head, /obj/item))
-			var/obj/item/WH = H.head
+		if(istype(H.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item))
+			var/obj/item/WH = H.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 			///check if the item has NODROP
 			if(HAS_TRAIT(WH, TRAIT_NODROP))
 				H.visible_message(span_warning("[src] bounces off [H]'s [WH.name]!"), span_warning("[src] bounces off your [WH.name], falling to the floor."))

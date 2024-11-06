@@ -113,16 +113,16 @@
 
 
 	var/mob/living/carbon/human/human_mob = affected_mob
-	if(prob(chance) && !(human_mob.head?.item_flags & CASTING_CLOTHES))
-		if(human_mob.dropItemToGround(human_mob.head))
+	if(prob(chance) && !(human_mob.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]?.item_flags & CASTING_CLOTHES))
+		if(human_mob.dropItemToGround(human_mob.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
 			human_mob.equip_to_slot_or_del(new hat_type(human_mob), ITEM_SLOT_HEAD)
 
-	if(prob(chance) && !(human_mob.wear_suit?.item_flags & CASTING_CLOTHES))
-		if(human_mob.dropItemToGround(human_mob.wear_suit))
+	if(prob(chance) && !(human_mob.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]?.item_flags & CASTING_CLOTHES))
+		if(human_mob.dropItemToGround(human_mob.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]))
 			human_mob.equip_to_slot_or_del(new robe_type(human_mob), ITEM_SLOT_OCLOTHING)
 
-	if(prob(chance) && !istype(human_mob.shoes, /obj/item/clothing/shoes/sandal/magic))
-		if(human_mob.dropItemToGround(human_mob.shoes))
+	if(prob(chance) && !istype(human_mob.equipped_items_by_slot["[ITEM_SLOT_FEET]"], /obj/item/clothing/shoes/sandal/magic))
+		if(human_mob.dropItemToGround(human_mob.equipped_items_by_slot["[ITEM_SLOT_FEET]"]))
 			human_mob.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal/magic(human_mob), ITEM_SLOT_FEET)
 
 /datum/disease/wizarditis/proc/init_spells()

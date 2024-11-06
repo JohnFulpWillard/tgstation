@@ -39,7 +39,7 @@
 		AM.add_filter("teambuilder", 2, list("type" = "outline", "color" = team_color, "size" = 2))
 	if(ishuman(AM) && team_radio)
 		var/mob/living/carbon/human/human = AM
-		var/obj/item/radio/Radio = human.ears
+		var/obj/item/radio/Radio = human.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 		if(!Radio)
 			return
 		Radio.set_frequency(team_radio)

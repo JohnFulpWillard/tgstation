@@ -122,8 +122,8 @@
 
 	if(ishuman(possible_throwable))
 		var/mob/living/carbon/human/human_throwable = possible_throwable
-		if(human_throwable.wear_suit && (human_throwable.wear_suit.flags_inv & HIDEJUMPSUIT))
-			to_chat(user, span_warning("You can't reach [human_throwable]'s tail through [human_throwable.p_their()] [human_throwable.wear_suit.name]!"))
+		if(human_throwable.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"] && (human_throwable.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].flags_inv & HIDEJUMPSUIT))
+			to_chat(user, span_warning("You can't reach [human_throwable]'s tail through [human_throwable.p_their()] [human_throwable.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].name]!"))
 			return
 
 	user.face_atom(clicked_atom)

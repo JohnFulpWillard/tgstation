@@ -320,7 +320,7 @@
 			stun_attack(attack_target, TRUE)
 		else
 			stun_attack(attack_target)
-	else if(carbon_target.canBeHandcuffed() && !carbon_target.handcuffed)
+	else if(carbon_target.canBeHandcuffed() && !carbon_target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 		start_handcuffing(attack_target)
 
 /mob/living/simple_animal/bot/secbot/hitby(atom/movable/hitting_atom, skipcatch = FALSE, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum)
@@ -346,7 +346,7 @@
 		return FALSE
 	if(!Adjacent(current_target))
 		return FALSE
-	if(!current_target.handcuffed)
+	if(!current_target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 		current_target.set_handcuffed(new cuff_type(current_target))
 		current_target.update_handcuffed()
 		playsound(src, SFX_LAW, 50, FALSE)
@@ -432,7 +432,7 @@
 				return
 
 			if(security_mode_flags & SECBOT_HANDCUFF_TARGET)
-				if(!target.handcuffed) //he's not cuffed? Try to cuff him!
+				if(!target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]) //he's not cuffed? Try to cuff him!
 					start_handcuffing(target)
 				else
 					back_to_idle()
@@ -446,7 +446,7 @@
 				frustration = 0
 				return
 
-			if(target.handcuffed) //no target or target cuffed? back to idle.
+			if(target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]) //no target or target cuffed? back to idle.
 				if(!check_nap_violations())
 					stun_attack(target, TRUE)
 					return
@@ -487,7 +487,7 @@
 	set_anchored(FALSE)
 	var/judgement_criteria = judgement_criteria()
 	for(var/mob/living/carbon/nearby_carbons in view(7, src)) //Let's find us a criminal
-		if((nearby_carbons.stat) || (nearby_carbons.handcuffed))
+		if((nearby_carbons.stat) || (nearby_carbons.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]))
 			continue
 
 		if((nearby_carbons.name == oldtarget_name) && (world.time < last_found + 100))

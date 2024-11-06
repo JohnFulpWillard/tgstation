@@ -50,7 +50,7 @@
 		return FALSE
 	if(ishuman(owner))
 		var/mob/living/carbon/human/human_owner = owner
-		if(human_owner.wear_suit?.flags_inv & HIDEMUTWINGS)
+		if(human_owner.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]?.flags_inv & HIDEMUTWINGS)
 			return FALSE //Can't fly with hidden wings
 	if(burnt)
 		return FALSE
@@ -134,7 +134,7 @@
 	return SSaccessories.moth_wings_list
 
 /datum/bodypart_overlay/mutant/wings/moth/can_draw_on_bodypart(mob/living/carbon/human/human)
-	if(!(human.wear_suit?.flags_inv & HIDEMUTWINGS))
+	if(!(human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]?.flags_inv & HIDEMUTWINGS))
 		return TRUE
 	return FALSE
 

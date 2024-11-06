@@ -39,7 +39,7 @@
 
 	if(ishuman(victim))
 		var/mob/living/carbon/human/human_victim = victim
-		var/obj/item/clothing/suit/worn_suit = human_victim.wear_suit
+		var/obj/item/clothing/suit/worn_suit = human_victim.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
 		if(istype(worn_suit, /obj/item/clothing/suit/hooded/bloated_human))
 			human_victim.visible_message(span_danger("[victim]'s [worn_suit] explodes off of them into a puddle of gore!"))
 			human_victim.dropItemToGround(worn_suit)

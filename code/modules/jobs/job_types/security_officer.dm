@@ -113,8 +113,8 @@ GLOBAL_LIST_EMPTY(security_officer_distribution)
 		worn_under.attach_accessory(new accessory)
 
 	if(ears)
-		if(spawning.ears)
-			qdel(spawning.ears)
+		if(spawning.equipped_items_by_slot["[ITEM_SLOT_EARS]"])
+			qdel(spawning.equipped_items_by_slot["[ITEM_SLOT_EARS]"])
 		spawning.equip_to_slot_or_del(new ears(spawning),ITEM_SLOT_EARS)
 
 	// If there's a departmental sec trim to apply to the card, overwrite.

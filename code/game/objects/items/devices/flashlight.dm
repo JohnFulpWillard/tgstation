@@ -108,8 +108,8 @@
 
 /obj/item/flashlight/proc/eye_examine(mob/living/carbon/human/M, mob/living/user)
 	. = list()
-	if((M.head && M.head.flags_cover & HEADCOVERSEYES) || (M.wear_mask && M.wear_mask.flags_cover & MASKCOVERSEYES) || (M.glasses && M.glasses.flags_cover & GLASSESCOVERSEYES))
-		to_chat(user, span_warning("You're going to need to remove that [(M.head && M.head.flags_cover & HEADCOVERSEYES) ? "helmet" : (M.wear_mask && M.wear_mask.flags_cover & MASKCOVERSEYES) ? "mask": "glasses"] first!"))
+	if((M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] && M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].flags_cover & HEADCOVERSEYES) || (M.equipped_items_by_slot["[ITEM_SLOT_MASK]"] && M.equipped_items_by_slot["[ITEM_SLOT_MASK]"].flags_cover & MASKCOVERSEYES) || (M.equipped_items_by_slot["[ITEM_SLOT_EYES]"] && M.equipped_items_by_slot["[ITEM_SLOT_EYES]"].flags_cover & GLASSESCOVERSEYES))
+		to_chat(user, span_warning("You're going to need to remove that [(M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] && M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].flags_cover & HEADCOVERSEYES) ? "helmet" : (M.equipped_items_by_slot["[ITEM_SLOT_MASK]"] && M.equipped_items_by_slot["[ITEM_SLOT_MASK]"].flags_cover & MASKCOVERSEYES) ? "mask": "glasses"] first!"))
 		return
 
 	var/obj/item/organ/eyes/E = M.get_organ_slot(ORGAN_SLOT_EYES)
@@ -148,7 +148,7 @@
 /obj/item/flashlight/proc/mouth_examine(mob/living/carbon/human/M, mob/living/user)
 	. = list()
 	if(M.is_mouth_covered())
-		to_chat(user, span_warning("You're going to need to remove that [(M.head && M.head.flags_cover & HEADCOVERSMOUTH) ? "helmet" : "mask"] first!"))
+		to_chat(user, span_warning("You're going to need to remove that [(M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] && M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].flags_cover & HEADCOVERSMOUTH) ? "helmet" : "mask"] first!"))
 		return
 
 	var/list/mouth_organs = list()

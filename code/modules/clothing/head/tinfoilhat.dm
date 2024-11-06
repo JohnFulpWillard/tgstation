@@ -47,7 +47,7 @@
 	//God Im sorry
 	if(!warped && iscarbon(user))
 		var/mob/living/carbon/C = user
-		if(src == C.head)
+		if(src == C.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 			to_chat(C, span_userdanger("Why would you want to take this off? Do you want them to get into your mind?!"))
 			return
 	return ..()
@@ -80,7 +80,7 @@
 /obj/item/clothing/head/costume/foilhat/attack_hand(mob/user, list/modifiers)
 	if(!warped && iscarbon(user))
 		var/mob/living/carbon/wearer = user
-		if(src == wearer.head)
+		if(src == wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 			to_chat(user, span_userdanger("Why would you want to take this off? Do you want them to get into your mind?!"))
 			return
 	return ..()

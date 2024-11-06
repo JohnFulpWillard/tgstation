@@ -313,40 +313,55 @@
 /datum/outfit/proc/apply_fingerprints(mob/living/carbon/human/user)
 	if(!istype(user))
 		return
-	if(user.back)
-		user.back.add_fingerprint(user, ignoregloves = TRUE)
-		for(var/obj/item/item in user.back.contents)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_BACK]"]))
+		var/obj/item/backpack = user.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
+		backpack.add_fingerprint(user, ignoregloves = TRUE)
+		for(var/obj/item/item as anything in backpack.contents)
 			item.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.wear_id)
-		user.wear_id.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.w_uniform)
-		user.w_uniform.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.wear_suit)
-		user.wear_suit.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.wear_mask)
-		user.wear_mask.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.wear_neck)
-		user.wear_neck.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.head)
-		user.head.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.shoes)
-		user.shoes.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.gloves)
-		user.gloves.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.ears)
-		user.ears.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.glasses)
-		user.glasses.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.belt)
-		user.belt.add_fingerprint(user, ignoregloves = TRUE)
-		for(var/obj/item/item in user.belt.contents)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_ID]"]))
+		var/obj/item/worn_id = user.equipped_items_by_slot["[ITEM_SLOT_ID]"]
+		worn_id.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]))
+		var/obj/item/worn_suit = user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+		worn_suit.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]))
+		var/obj/item/worn_jumpsuit = user.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
+		worn_jumpsuit.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+		var/obj/item/worn_mask = user.equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+		worn_mask.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_NECK]"]))
+		var/obj/item/worn_tie = user.equipped_items_by_slot["[ITEM_SLOT_NECK]"]
+		worn_tie.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/worn_mask = user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		worn_mask.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_FEET]"]))
+		var/obj/item/worn_shoes = user.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
+		worn_shoes.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]))
+		var/obj/item/worn_gloves = user.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
+		worn_gloves.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_EARS]"]))
+		var/obj/item/worn_earpiece = user.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
+		worn_earpiece.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_EYES]"]))
+		var/obj/item/worn_glasses = user.equipped_items_by_slot["[ITEM_SLOT_EYES]"]
+		worn_glasses.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_BELT]"]))
+		var/obj/item/worn_belt = user.equipped_items_by_slot["[ITEM_SLOT_BELT]"]
+		worn_belt.add_fingerprint(user, ignoregloves = TRUE)
+		for(var/obj/item/item as anything in worn_belt.contents)
 			item.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.s_store)
-		user.s_store.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.l_store)
-		user.l_store.add_fingerprint(user, ignoregloves = TRUE)
-	if(user.r_store)
-		user.r_store.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"]))
+		var/obj/item/suit_storage_slot = user.equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"]
+		suit_storage_slot.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"]))
+		var/obj/item/left_pocket = user.equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"]
+		left_pocket.add_fingerprint(user, ignoregloves = TRUE)
+	if(!isnull(user.equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]))
+		var/obj/item/right_pocket = user.equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]
+		right_pocket.add_fingerprint(user, ignoregloves = TRUE)
 	for(var/obj/item/item in user.held_items)
 		item.add_fingerprint(user, ignoregloves = TRUE)
 	return TRUE

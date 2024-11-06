@@ -26,8 +26,8 @@
 		to_chat(user, "<font size='15' color='red'><b>HORSIE HAS RISEN</b></font>")
 		var/obj/item/clothing/magic_mask = new /obj/item/clothing/mask/animal/horsehead/cursed(user.drop_location())
 		var/mob/living/carbon/human/human_user = user
-		if(!user.dropItemToGround(human_user.wear_mask))
-			qdel(human_user.wear_mask)
+		if(!user.dropItemToGround(human_user.equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+			qdel(human_user.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 		user.equip_to_slot_if_possible(magic_mask, ITEM_SLOT_MASK, TRUE, TRUE)
 		qdel(src)
 	else

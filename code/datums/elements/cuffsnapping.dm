@@ -71,10 +71,10 @@
 	if(!istype(target)) //we aren't the kind of mob that can even have cuffs, so we skip.
 		return
 
-	if(!target.handcuffed)
+	if(!target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 		return
 
-	var/obj/item/restraints/handcuffs/cuffs = target.handcuffed
+	var/obj/item/restraints/handcuffs/cuffs = target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]
 
 	if(!istype(cuffs))
 		return
@@ -106,7 +106,7 @@
 	if(snap_time == 0 || do_after(cutter_user, snap_time, target, interaction_key = cutter)) // If 0 just do it. This to bypass the do_after() creating a needless progress bar.
 		cutter_user.do_attack_animation(target, used_item = cutter)
 		cutter_user.visible_message(span_notice("[cutter_user] cuts [target]'s restraints with [cutter]!"))
-		qdel(target.handcuffed)
+		qdel(target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 		playsound(source = get_turf(cutter), soundin = cutter.usesound ? cutter.usesound : cutter.hitsound, vol = cutter.get_clamped_volume(), vary = TRUE)
 
 	return

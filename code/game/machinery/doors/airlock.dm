@@ -825,7 +825,7 @@
 		var/mob/living/carbon/human/H = user
 		if((HAS_TRAIT(H, TRAIT_DUMB)) && Adjacent(user))
 			playsound(src, 'sound/effects/bang.ogg', 25, TRUE)
-			if(!istype(H.head, /obj/item/clothing/head/helmet))
+			if(!istype(H.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item/clothing/head/helmet))
 				H.visible_message(span_danger("[user] headbutts the airlock."), \
 									span_userdanger("You headbutt the airlock!"))
 				H.Paralyze(100)

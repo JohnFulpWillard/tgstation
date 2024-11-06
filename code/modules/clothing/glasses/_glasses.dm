@@ -55,7 +55,7 @@
 		var/mob/living/carbon/human/H = src.loc
 		var/obj/item/organ/eyes/eyes = H.get_organ_slot(ORGAN_SLOT_EYES)
 		if(!H.is_blind())
-			if(H.glasses == src)
+			if(H.equipped_items_by_slot["[ITEM_SLOT_EYES]"] == src)
 				to_chat(H, span_danger("[src] overloads and blinds you!"))
 				H.flash_act(visual = 1)
 				H.adjust_temp_blindness(6 SECONDS)

@@ -163,8 +163,8 @@
 		armor_block = H.run_armor_check(affecting, MELEE, "", "", armour_penetration) // For normal attack damage
 
 		//If they have a hat/helmet and the user is targeting their head.
-		if(istype(H.head, /obj/item/clothing/head) && affecting == BODY_ZONE_HEAD)
-			headarmor = H.head.get_armor_rating(MELEE)
+		if(istype(H.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item/clothing/head) && affecting == BODY_ZONE_HEAD)
+			headarmor = H.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].get_armor_rating(MELEE)
 		//Calculate the knockdown duration for the target.
 		knockdown_effectiveness = (bottle_knockdown_duration - headarmor) + force
 

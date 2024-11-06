@@ -86,7 +86,7 @@
 
 /datum/outfit/job/detective/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
 	..()
-	var/obj/item/cigarette/cig = H.wear_mask
+	var/obj/item/cigarette/cig = H.equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 	if(istype(cig)) //Some species specfic changes can mess this up (plasmamen)
 		cig.light("")
 

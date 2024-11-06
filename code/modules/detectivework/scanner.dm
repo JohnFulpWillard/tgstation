@@ -136,7 +136,7 @@
 	if(ishuman(scanned_atom))
 
 		var/mob/living/carbon/human/scanned_human = scanned_atom
-		if(!scanned_human.gloves)
+		if(!scanned_human.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"])
 			LAZYADD(det_data[DETSCAN_CATEGORY_FINGERS], md5(scanned_human.dna?.unique_identity))
 
 	else if(!ismob(scanned_atom))

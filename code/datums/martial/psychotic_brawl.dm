@@ -72,7 +72,7 @@
 			attacker.apply_damage(rand(5, 10), attacker.get_attack_type(), BODY_ZONE_HEAD)
 			if(iscarbon(defender))
 				var/mob/living/carbon/carbon_defender = defender
-				if(!istype(carbon_defender.head, /obj/item/clothing/head/helmet/) && !istype(carbon_defender.head, /obj/item/clothing/head/utility/hardhat))
+				if(!istype(carbon_defender.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item/clothing/head/helmet/) && !istype(carbon_defender.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item/clothing/head/utility/hardhat))
 					carbon_defender.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5)
 			attacker.Stun(rand(1 SECONDS, 4.5 SECONDS))
 			defender.Stun(rand(0.5 SECONDS, 3 SECONDS))

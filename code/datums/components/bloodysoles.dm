@@ -61,7 +61,7 @@
 	if(!(equipped_slot & ITEM_SLOT_ICLOTHING))
 		return FALSE
 
-	return !isnull(wielder.shoes)
+	return !isnull(wielder.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 
 /**
  * Run to update the icon of the parent
@@ -308,7 +308,7 @@
 
 
 /datum/component/bloodysoles/feet/is_obscured()
-	if(wielder.shoes)
+	if(wielder.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 		return TRUE
 	return wielder.check_obscured_slots(TRUE) & ITEM_SLOT_FEET
 

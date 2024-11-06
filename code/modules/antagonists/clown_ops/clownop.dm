@@ -77,7 +77,7 @@
 	uniform = /obj/item/clothing/under/syndicate
 
 /datum/outfit/clown_operative/post_equip(mob/living/carbon/human/H, visuals_only)
-	var/obj/item/mod/module/armor_booster/booster = locate() in H.back
+	var/obj/item/mod/module/armor_booster/booster = locate() in H.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	booster.active = TRUE
 	H.update_worn_back()
 
@@ -88,6 +88,6 @@
 	uniform = /obj/item/clothing/under/syndicate
 
 /datum/outfit/clown_operative_elite/post_equip(mob/living/carbon/human/H, visuals_only)
-	var/obj/item/mod/module/armor_booster/booster = locate() in H.back
+	var/obj/item/mod/module/armor_booster/booster = locate() in H.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	booster.active = TRUE
 	H.update_worn_back()

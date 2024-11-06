@@ -72,7 +72,7 @@
 			wearer.update_tint()
 
 /datum/component/clothing_dirt/proc/is_protected(mob/living/carbon/wearer)
-	return wearer.head && (wearer.head.flags_cover & PEPPERPROOF)
+	return wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] && (wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].flags_cover & PEPPERPROOF)
 
 /datum/component/clothing_dirt/proc/on_clean(datum/target, clean_types)
 	SIGNAL_HANDLER

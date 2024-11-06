@@ -423,15 +423,19 @@
 
 		. += "[t_He] [t_is] wearing [w_uniform.examine_title(user)][accessory_message]."
 	//head
+	var/obj/item/head = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 	if(head && !(obscured & ITEM_SLOT_HEAD) && !(head.item_flags & EXAMINE_SKIP))
 		. += "[t_He] [t_is] wearing [head.examine_title(user)] on [t_his] head."
 	//mask
-	if(wear_mask && !(obscured & ITEM_SLOT_MASK)  && !(wear_mask.item_flags & EXAMINE_SKIP))
-		. += "[t_He] [t_has] [wear_mask.examine_title(user)] on [t_his] face."
+	var/obj/item/mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+	if(mask && !(obscured & ITEM_SLOT_MASK)  && !(mask.item_flags & EXAMINE_SKIP))
+		. += "[t_He] [t_has] [mask.examine_title(user)] on [t_his] face."
 	//neck
-	if(wear_neck && !(obscured & ITEM_SLOT_NECK)  && !(wear_neck.item_flags & EXAMINE_SKIP))
-		. += "[t_He] [t_is] wearing [wear_neck.examine_title(user)] around [t_his] neck."
+	var/obj/item/tie = equipped_items_by_slot["[ITEM_SLOT_NECK]"]
+	if(tie && !(obscured & ITEM_SLOT_NECK)  && !(tie.item_flags & EXAMINE_SKIP))
+		. += "[t_He] [t_is] wearing [tie.examine_title(user)] around [t_his] neck."
 	//eyes
+	var/obj/item/glasses = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 	if(!(obscured & ITEM_SLOT_EYES) )
 		if(glasses  && !(glasses.item_flags & EXAMINE_SKIP))
 			. += "[t_He] [t_has] [glasses.examine_title(user)] covering [t_his] eyes."
@@ -440,45 +444,53 @@
 		else if(HAS_TRAIT(src, TRAIT_BLOODSHOT_EYES))
 			. += span_warning("<B>[t_His] eyes are bloodshot!</B>")
 	//ears
+	var/obj/item/ears = equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 	if(ears && !(obscured & ITEM_SLOT_EARS) && !(ears.item_flags & EXAMINE_SKIP))
 		. += "[t_He] [t_has] [ears.examine_title(user)] on [t_his] ears."
 	//suit/armor
-	if(wear_suit && !(wear_suit.item_flags & EXAMINE_SKIP))
-		. += "[t_He] [t_is] wearing [wear_suit.examine_title(user)]."
+	var/obj/item/suit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+	if(suit && !(suit.item_flags & EXAMINE_SKIP))
+		. += "[t_He] [t_is] wearing [suit.examine_title(user)]."
 		//suit/armor storage
 		if(s_store && !(obscured & ITEM_SLOT_SUITSTORE) && !(s_store.item_flags & EXAMINE_SKIP))
-			. += "[t_He] [t_is] carrying [s_store.examine_title(user)] on [t_his] [wear_suit.name]."
+			. += "[t_He] [t_is] carrying [s_store.examine_title(user)] on [t_his] [suit.name]."
 	//back
+	var/obj/item/back = equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(back && !(back.item_flags & EXAMINE_SKIP))
 		. += "[t_He] [t_has] [back.examine_title(user)] on [t_his] back."
 	//ID
-	if(wear_id && !(wear_id.item_flags & EXAMINE_SKIP))
-		var/obj/item/card/id/id = wear_id.GetID()
+	var/obj/item/worn_id = equipped_items_by_slot["[ITEM_SLOT_ID]"]
+	if(worn_id && !(worn_id.item_flags & EXAMINE_SKIP))
+		var/obj/item/card/id/id = worn_id.GetID()
 		if(id && get_dist(user, src) <= ID_EXAMINE_DISTANCE)
 			var/id_href = "<a href='?src=[REF(src)];see_id=1;id_ref=[REF(id)];id_name=[id.registered_name];examine_time=[world.time]'>[wear_id.examine_title(user)]</a>"
 			. += "[t_He] [t_is] wearing [id_href]."
 
 		else
-			. += "[t_He] [t_is] wearing [wear_id.examine_title(user)]."
+			. += "[t_He] [t_is] wearing [worn_id.examine_title(user)]."
 	//Hands
 	for(var/obj/item/held_thing in held_items)
 		if(held_thing.item_flags & (ABSTRACT|EXAMINE_SKIP|HAND_ITEM))
 			continue
 		. += "[t_He] [t_is] holding [held_thing.examine_title(user)] in [t_his] [get_held_index_name(get_held_index_of_item(held_thing))]."
 	//gloves
+	var/obj/item/gloves = equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 	if(gloves && !(obscured & ITEM_SLOT_GLOVES) && !(gloves.item_flags & EXAMINE_SKIP))
 		. += "[t_He] [t_has] [gloves.examine_title(user)] on [t_his] hands."
 	else if(GET_ATOM_BLOOD_DNA_LENGTH(src) || blood_in_hands)
 		if(num_hands)
 			. += span_warning("[t_He] [t_has] [num_hands > 1 ? "" : "a "]blood-stained hand[num_hands > 1 ? "s" : ""]!")
 	//handcuffed?
-	if(handcuffed)
-		var/cables_or_cuffs = istype(handcuffed, /obj/item/restraints/handcuffs/cable) ? "restrained with cable" : "handcuffed"
-		. += span_warning("[t_He] [t_is] [icon2html(handcuffed, user)] [cables_or_cuffs]!")
+	var/obj/item/handcuffs = equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]
+	if(handcuffs)
+		var/cables_or_cuffs = istype(handcuffs, /obj/item/restraints/handcuffs/cable) ? "restrained with cable" : "handcuffed"
+		. += span_warning("[t_He] [t_is] [icon2html(handcuffs, user)] [cables_or_cuffs]!")
 	//belt
+	var/obj/item/belt = equipped_items_by_slot["[ITEM_SLOT_BELT]"]
 	if(belt && !(obscured & ITEM_SLOT_BELT) && !(belt.item_flags & EXAMINE_SKIP))
 		. += "[t_He] [t_has] [belt.examine_title(user)] about [t_his] waist."
 	//shoes
+	var/obj/item/shoes = equipped_items_by_slot["[ITEM_SLOT_FEET]"]
 	if(shoes && !(obscured & ITEM_SLOT_FEET)  && !(shoes.item_flags & EXAMINE_SKIP))
 		. += "[t_He] [t_is] wearing [shoes.examine_title(user)] on [t_his] feet."
 
@@ -558,7 +570,9 @@
 
 /mob/living/carbon/human/examine_more(mob/user)
 	. = ..()
-	if((wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE)))
+	var/obj/item/worn_mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+	var/obj/item/worn_hat = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+	if((worn_mask && (worn_mask.flags_inv & HIDEFACE)) || (worn_hat && (worn_hat.flags_inv & HIDEFACE)))
 		return
 	if(HAS_TRAIT(src, TRAIT_UNKNOWN) || HAS_TRAIT(src, TRAIT_INVISIBLE_MAN))
 		return

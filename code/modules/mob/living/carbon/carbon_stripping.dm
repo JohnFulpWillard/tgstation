@@ -32,7 +32,7 @@
 		return FALSE
 
 	var/mob/living/carbon/carbon_source = source
-	return !isnull(carbon_source.handcuffed)
+	return !isnull(carbon_source.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 
 // You shouldn't be able to equip things to handcuff slots.
 /datum/strippable_item/mob_item_slot/handcuffs/try_equip(atom/source, obj/item/equipping, mob/user)
@@ -47,7 +47,7 @@
 		return FALSE
 
 	var/mob/living/carbon/carbon_source = source
-	return !isnull(carbon_source.legcuffed)
+	return !isnull(carbon_source.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
 
 // You shouldn't be able to equip things to legcuff slots.
 /datum/strippable_item/mob_item_slot/legcuffs/try_equip(atom/source, obj/item/equipping, mob/user)

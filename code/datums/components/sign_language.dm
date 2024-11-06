@@ -301,7 +301,7 @@
 		tonal_indicator = null
 
 	// Only emote the tone if we have one and aren't already emoting the handcuffed message
-	if(!carbon_parent.handcuffed && emote_tone)
+	if(!carbon_parent.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] && emote_tone)
 		emote_tone(carbon_parent, emote_tone)
 
 	// remove the ! and ? symbols from message at the end

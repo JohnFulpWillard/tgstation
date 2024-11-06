@@ -965,7 +965,7 @@
 	. = ..()
 	if(ishuman(drinker)) //Barefoot causes the imbiber to quickly regenerate brute trauma if they're not wearing shoes.
 		var/mob/living/carbon/human/unshoed = drinker
-		if(!unshoed.shoes)
+		if(!unshoed.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 			if(unshoed.adjustBruteLoss(-3 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype))
 				return UPDATE_MOB_HEALTH
 

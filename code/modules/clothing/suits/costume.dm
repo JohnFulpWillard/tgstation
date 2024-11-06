@@ -182,14 +182,14 @@
 	user.remove_alt_appearance("standard_borg_disguise")
 	in_use = FALSE
 	var/mob/living/carbon/human/human_user = user
-	if (istype(human_user.head, /obj/item/clothing/head/costume/cardborg))
-		UnregisterSignal(human_user.head, COMSIG_ITEM_DROPPED)
+	if (istype(human_user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item/clothing/head/costume/cardborg))
+		UnregisterSignal(human_user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], COMSIG_ITEM_DROPPED)
 
 /obj/item/clothing/suit/costume/cardborg/proc/disguise(mob/living/carbon/human/human_user, obj/item/clothing/head/costume/cardborg/borghead)
 	if(!istype(human_user))
 		return
 	if(!borghead)
-		borghead = human_user.head
+		borghead = human_user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 	if(!istype(borghead, /obj/item/clothing/head/costume/cardborg)) //why is this done this way? because equipped() is called BEFORE THE ITEM IS IN THE SLOT WHYYYY
 		return
 	RegisterSignal(borghead, COMSIG_ITEM_DROPPED, PROC_REF(helmet_drop)) // Don't need to worry about qdeleting since dropped will be called from there
@@ -290,7 +290,7 @@
 
 /obj/item/clothing/head/hooded/carp_hood/dropped(mob/living/carbon/human/user)
 	..()
-	if (user.head == src)
+	if (user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] == src)
 		user.faction -= "carp"
 
 /obj/item/clothing/suit/hooded/carp_costume/spaceproof

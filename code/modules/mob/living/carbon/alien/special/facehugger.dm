@@ -148,7 +148,7 @@
 	if(!valid_to_attach(hit_mob))
 		return FALSE
 	var/mob/living/carbon/target = hit_mob
-	if(target.wear_mask && istype(target.wear_mask, /obj/item/clothing/mask/facehugger))
+	if(target.equipped_items_by_slot["[ITEM_SLOT_MASK]"] && istype(target.equipped_items_by_slot["[ITEM_SLOT_MASK]"], /obj/item/clothing/mask/facehugger))
 		return FALSE
 	// passed initial checks - time to leap!
 	target.visible_message(span_danger("[src] leaps at [target]'s face!"), \
@@ -156,13 +156,13 @@
 
 	// probiscis-blocker handling
 	if(target.is_mouth_covered(ITEM_SLOT_HEAD))
-		target.visible_message(span_danger("[src] smashes against [target]'s [target.head]!"), \
-							span_userdanger("[src] smashes against your [target.head]!"))
+		target.visible_message(span_danger("[src] smashes against [target]'s [target.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]]!"), \
+							span_userdanger("[src] smashes against your [target.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]]!"))
 		Die()
 		return FALSE
 
-	if(target.wear_mask)
-		var/obj/item/clothing/worn_mask = target.wear_mask
+	if(target.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
+		var/obj/item/clothing/worn_mask = target.equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 		if(target.dropItemToGround(worn_mask))
 			target.visible_message(span_danger("[src] tears [worn_mask] off of [target]'s face!"), \
 								span_userdanger("[src] tears [worn_mask] off of your face!"))
@@ -201,7 +201,7 @@
 
 	if(iscarbon(target))
 		var/mob/living/carbon/C = target
-		if(C.wear_mask != src)
+		if(C.equipped_items_by_slot["[ITEM_SLOT_MASK]"] != src)
 			return
 
 	if(!sterile)

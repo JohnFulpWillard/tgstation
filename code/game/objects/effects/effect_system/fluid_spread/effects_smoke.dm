@@ -117,7 +117,7 @@
 		return FALSE
 	if(lifetime < 1)
 		return FALSE
-	if(smoker.internal != null || smoker.has_smoke_protection())
+	if(smoker.equipped_internal_tank != null || smoker.has_smoke_protection())
 		return FALSE
 	if(smoker.smoke_delay)
 		return FALSE
@@ -386,7 +386,7 @@
 		return FALSE
 	if(!istype(smoker))
 		return FALSE
-	if(smoker.internal != null || smoker.has_smoke_protection())
+	if(smoker.equipped_internal_tank != null || smoker.has_smoke_protection())
 		return FALSE
 
 	var/fraction = (seconds_per_tick SECONDS) / initial(lifetime)

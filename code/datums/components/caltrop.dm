@@ -97,7 +97,7 @@
 		return
 
 	if (!(flags & CALTROP_BYPASS_SHOES))
-		if ((digitigrade_fan.wear_suit?.body_parts_covered | digitigrade_fan.w_uniform?.body_parts_covered | digitigrade_fan.shoes?.body_parts_covered) & FEET)
+		if ((digitigrade_fan.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]?.body_parts_covered | digitigrade_fan.w_uniform?.body_parts_covered | digitigrade_fan.equipped_items_by_slot["[ITEM_SLOT_FEET]"]?.body_parts_covered) & FEET)
 			return
 
 	var/damage = rand(min_damage, max_damage)

@@ -67,7 +67,7 @@
 		for(var/obj/thing in avatar.held_items)
 			qdel(thing)
 
-	var/obj/item/storage/backpack/bag = avatar.back
+	var/obj/item/storage/backpack/bag = avatar.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(istype(bag))
 		QDEL_LIST(bag.contents)
 

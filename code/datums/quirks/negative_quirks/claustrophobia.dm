@@ -42,13 +42,13 @@
 	if(!istype(possible_saint_nick))
 		return FALSE
 
-	if(istype(possible_saint_nick.back, /obj/item/storage/backpack/santabag))
+	if(istype(possible_saint_nick.equipped_items_by_slot["[ITEM_SLOT_BACK]"], /obj/item/storage/backpack/santabag))
 		return TRUE
 
-	if(istype(possible_saint_nick.head, /obj/item/clothing/head/costume/santa) || istype(possible_saint_nick.head,  /obj/item/clothing/head/helmet/space/santahat))
+	if(istype(possible_saint_nick.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item/clothing/head/costume/santa) || istype(possible_saint_nick.equipped_items_by_slot["[ITEM_SLOT_HEAD]"],  /obj/item/clothing/head/helmet/space/santahat))
 		return TRUE
 
-	if(istype(possible_saint_nick.wear_suit, /obj/item/clothing/suit/space/santa))
+	if(istype(possible_saint_nick.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], /obj/item/clothing/suit/space/santa))
 		return TRUE
 
 	return FALSE

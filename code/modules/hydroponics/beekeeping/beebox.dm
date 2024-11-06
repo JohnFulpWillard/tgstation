@@ -5,22 +5,18 @@
 #define BEE_RESOURCE_HONEYCOMB_COST 100 //The amount of bee_resources for a new honeycomb to be produced, percentage cost 1-100
 #define BEE_RESOURCE_NEW_BEE_COST 50 //The amount of bee_resources for a new bee to be produced, percentage cost 1-100
 
-
-
 /mob/proc/bee_friendly()
 	return 0
 
-
-
 /mob/living/carbon/human/bee_friendly()
 	if(dna && dna.species && dna.species.id == SPECIES_PODPERSON) //bees pollinate plants, duh.
-		return 1
-	if (wear_suit && head && isclothing(wear_suit) && isclothing(head))
-		var/obj/item/clothing/CS = wear_suit
-		var/obj/item/clothing/CH = head
-		if (CS.clothing_flags & CH.clothing_flags & THICKMATERIAL)
-			return 1
-	return 0
+		return TRUE
+	var/obj/item/clothing/bee_outfit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+	var/obj/item/clothing/bee_helmet = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+	if (bee_outfit && bee_helmet && isclothing(bee_outfit) && isclothing(bee_helmet))
+		if (bee_outfit.clothing_flags & bee_helmet.clothing_flags & THICKMATERIAL)
+			return TRUE
+	return FALSE
 
 
 /obj/structure/beebox

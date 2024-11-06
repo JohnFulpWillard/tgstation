@@ -123,7 +123,7 @@ Slimecrossing Armor
 /obj/item/clothing/head/peaceflower/proc/at_peace_check(mob/user)
 	if(iscarbon(user))
 		var/mob/living/carbon/carbon_user = user
-		if(src == carbon_user.head)
+		if(src == carbon_user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 			to_chat(user, span_warning("You feel at peace. <b style='color:pink'>Why would you want anything else?</b>"))
 			return TRUE
 	return FALSE

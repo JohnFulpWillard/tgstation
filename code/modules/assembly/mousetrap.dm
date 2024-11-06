@@ -121,17 +121,17 @@
 			return FALSE
 		switch(type)
 			if("feet")
-				if(!victim.shoes)
+				if(!victim.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 					affecting = victim.get_bodypart(pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
 					victim.Paralyze(60)
 				else
-					to_chat(victim, span_notice("Your [victim.shoes] protects you from [src]."))
+					to_chat(victim, span_notice("Your [victim.equipped_items_by_slot["[ITEM_SLOT_FEET]"]] protects you from [src]."))
 			if(BODY_ZONE_PRECISE_L_HAND, BODY_ZONE_PRECISE_R_HAND)
-				if(!victim.gloves)
+				if(!victim.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"])
 					affecting = victim.get_bodypart(type)
 					victim.Stun(60)
 				else
-					to_chat(victim, span_notice("Your [victim.gloves] protects you from [src]."))
+					to_chat(victim, span_notice("Your [victim.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]] protects you from [src]."))
 		if(affecting)
 			if(affecting.receive_damage(1, 0))
 				victim.update_damage_overlays()

@@ -253,7 +253,7 @@
 	var/mob/living/carbon/carbon_user = user
 	if(!istype(carbon_user))
 		carbon_user = loc
-	if(istype(carbon_user) && (carbon_user.external == src || carbon_user.internal == src))
+	if(istype(carbon_user) && (carbon_user.equipped_external_tank == src || carbon_user.equipped_internal_tank == src))
 		.["connected"] = TRUE
 
 /obj/item/tank/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)

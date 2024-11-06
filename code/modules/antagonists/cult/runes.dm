@@ -1229,3 +1229,12 @@ GLOBAL_VAR_INIT(narsie_summon_count, 0)
 			if(I.icon_state != "bloodsparkles")
 				I.override = TRUE
 		sleep(19 SECONDS)
+
+/proc/hudFix(mob/living/carbon/human/target)
+	if(!target || !target.client)
+		return
+	var/obj/item/eyewear = target.equipped_items_by_slot["[ITEM_SLOT_EYES]"]
+	if(!istype(eyewear, /obj/item/clothing/glasses/hud/security))
+		return
+	var/datum/atom_hud/sec_hud = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
+	sec_hud.show_to(target)

@@ -110,7 +110,7 @@
 			grabbed_mob.visible_message(span_danger("[user] gives [grabbed_mob] a swirlie!"), span_userdanger("[user] gives you a swirlie!"), span_hear("You hear a toilet flushing."))
 			if(iscarbon(grabbed_mob))
 				var/mob/living/carbon/carbon_grabbed = grabbed_mob
-				if(!carbon_grabbed.internal)
+				if(!carbon_grabbed.equipped_internal_tank)
 					log_combat(user, carbon_grabbed, "swirlied (oxy)")
 					carbon_grabbed.adjustOxyLoss(5)
 			else

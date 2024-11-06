@@ -612,8 +612,8 @@
 	if(has_moles)
 		// Breath has more than 0 moles of gas.
 		// Route gases through mask filter if breather is wearing one.
-		if(istype(breather.wear_mask) && (breather.wear_mask.clothing_flags & GAS_FILTERING) && breather.wear_mask.has_filter)
-			breath = breather.wear_mask.consume_filter(breath)
+		if(istype(breather.equipped_items_by_slot["[ITEM_SLOT_MASK]"]) && (breather.equipped_items_by_slot["[ITEM_SLOT_MASK]"].clothing_flags & GAS_FILTERING) && breather.equipped_items_by_slot["[ITEM_SLOT_MASK]"].has_filter)
+			breath = breather.equipped_items_by_slot["[ITEM_SLOT_MASK]"].consume_filter(breath)
 	// Breath has 0 moles of gas, and we can breathe space
 	else if(HAS_TRAIT(src, TRAIT_SPACEBREATHING))
 		// The lungs can breathe anyways. What are you? Some bottom-feeding, scum-sucking algae eater?

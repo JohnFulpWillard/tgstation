@@ -25,11 +25,11 @@
 	feature_key = "wings"
 
 /datum/bodypart_overlay/mutant/wings/can_draw_on_bodypart(mob/living/carbon/human/human)
-	if(!human.wear_suit)
+	if(!human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
 		return TRUE
-	if(!(human.wear_suit.flags_inv & HIDEJUMPSUIT))
+	if(!(human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].flags_inv & HIDEJUMPSUIT))
 		return TRUE
-	if(human.wear_suit.species_exception && is_type_in_list(src, human.wear_suit.species_exception))
+	if(human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].species_exception && is_type_in_list(src, human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].species_exception))
 		return TRUE
 	return FALSE
 

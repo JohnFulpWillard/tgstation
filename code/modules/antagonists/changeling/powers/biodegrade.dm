@@ -60,7 +60,7 @@
 		..()
 		return TRUE
 
-	var/obj/item/shoes = user.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
+	var/obj/item/clothing/shoes/shoes = user.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
 	if(shoes.tied == SHOES_KNOTTED && !(shoes.resistance_flags & (INDESTRUCTIBLE|UNACIDABLE|ACID_PROOF)))
 		new /obj/effect/decal/cleanable/greenglow(shoes.drop_location())
 		user.visible_message(
@@ -76,19 +76,19 @@
 	return FALSE
 
 /datum/action/changeling/biodegrade/proc/dissolve_handcuffs(mob/living/carbon/human/user, obj/O)
-	if(O && user.handcuffed == O)
+	if(O && user.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] == O)
 		user.visible_message(span_warning("[O] dissolve[O.gender == PLURAL?"":"s"] into a puddle of sizzling goop."))
 		new /obj/effect/decal/cleanable/greenglow(O.drop_location())
 		qdel(O)
 
 /datum/action/changeling/biodegrade/proc/dissolve_legcuffs(mob/living/carbon/human/user, obj/O)
-	if(O && user.legcuffed == O)
+	if(O && user.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] == O)
 		user.visible_message(span_warning("[O] dissolve[O.gender == PLURAL?"":"s"] into a puddle of sizzling goop."))
 		new /obj/effect/decal/cleanable/greenglow(O.drop_location())
 		qdel(O)
 
 /datum/action/changeling/biodegrade/proc/dissolve_straightjacket(mob/living/carbon/human/user, obj/S)
-	if(S && user.wear_suit == S)
+	if(S && user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"] == S)
 		user.visible_message(span_warning("[S] dissolves into a puddle of sizzling goop."))
 		new /obj/effect/decal/cleanable/greenglow(S.drop_location())
 		qdel(S)

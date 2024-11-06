@@ -78,7 +78,7 @@
 	// Max disgust increases over time as well
 	max_disgust = min(DISGUST_LEVEL_VERYGROSS + 5, initial(max_disgust) + 5 * minutes_active)
 	// And your lungs can't really handle it good
-	if(!the_spacer.internal && seconds_active % 10 == 0)
+	if(!the_spacer.equipped_internal_tank && seconds_active % 10 == 0)
 		the_spacer.losebreath = min(the_spacer.losebreath++, minutes_active, 8)
 
 /atom/movable/screen/alert/status_effect/gravity_sickness

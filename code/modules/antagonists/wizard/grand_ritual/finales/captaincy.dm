@@ -52,7 +52,7 @@
 	former_captain.unequip_everything()
 	if(isplasmaman(former_captain))
 		former_captain.equipOutfit(/datum/outfit/plasmaman)
-		former_captain.internal = former_captain.get_item_for_held_index(2)
+		former_captain.equipped_internal_tank = former_captain.get_item_for_held_index(2)
 	else
 		former_captain.equipOutfit(/datum/outfit/job/assistant)
 

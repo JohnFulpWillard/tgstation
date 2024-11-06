@@ -851,7 +851,7 @@
 	var/mob/living/carbon/carbonius = user
 	//hat
 	var/obj/item/clothing/head/costume/disguise_hat = roll_costume(ITEM_SLOT_HEAD, HIDEMASK)
-	carbonius.dropItemToGround(carbonius.head)
+	carbonius.dropItemToGround(carbonius.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 	carbonius.equip_to_slot_or_del(disguise_hat, ITEM_SLOT_HEAD)
 	if(!ishuman(carbonius))
 		to_chat(user, span_notice("You have a peculiar feeling for a moment, but then it passes."))
@@ -864,7 +864,7 @@
 	humerus.equip_to_slot_or_del(disguise_uniform, ITEM_SLOT_ICLOTHING)
 	// suit
 	var/obj/item/clothing/suit/costume/disguise_suit = roll_costume(ITEM_SLOT_OCLOTHING)
-	humerus.dropItemToGround(humerus.wear_suit)
+	humerus.dropItemToGround(humerus.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
 	humerus.equip_to_slot_or_del(disguise_suit, ITEM_SLOT_OCLOTHING)
 	// id
 	var/obj/item/card/cardboard/card_id = new()

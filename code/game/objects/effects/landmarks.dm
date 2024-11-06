@@ -551,7 +551,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	else
 		spawned_carbon.adjust_drunk_effect(rand(15, 25))
 	spawned_carbon.adjust_disgust(rand(5, 55)) //How hungover are you?
-	if(spawned_carbon.head)
+	if(spawned_carbon.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 		return
 
 /obj/effect/landmark/start/hangover/JoinPlayerHere(mob/joining_mob, buckle)

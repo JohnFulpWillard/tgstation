@@ -27,8 +27,8 @@
 
 	if(ishuman(cast_on))
 		var/mob/living/carbon/human/human_cast_on = cast_on
-		human_cast_on.dropItemToGround(human_cast_on.glasses)
-		var/obj/item/clothing/head/wizard/wizhat = human_cast_on.head
+		human_cast_on.dropItemToGround(human_cast_on.equipped_items_by_slot["[ITEM_SLOT_EYES]"])
+		var/obj/item/clothing/head/wizard/wizhat = human_cast_on.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 		if(istype(wizhat))
 			to_chat(human_cast_on, span_notice("Your [wizhat] transforms into an eyepatch."))
 			qdel(wizhat)

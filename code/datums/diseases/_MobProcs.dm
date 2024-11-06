@@ -162,7 +162,7 @@
 	return TRUE
 
 /mob/living/carbon/can_spread_airborne_diseases()
-	if(internal || external)
+	if(equipped_internal_tank || equipped_external_tank)
 		return FALSE
 
 	return ..()
@@ -189,7 +189,7 @@
 
 /mob/living/carbon/can_be_spread_airborne_disease()
 	// Using an isolated air supply is also effective
-	if((internal || external) && prob(75))
+	if((equipped_internal_tank || equipped_external_tank) && prob(75))
 		return FALSE
 
 	return ..()

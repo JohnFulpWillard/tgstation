@@ -16,7 +16,7 @@
 /obj/item/clothing/mask/muzzle/attack_paw(mob/user, list/modifiers)
 	if(iscarbon(user))
 		var/mob/living/carbon/carbon_user = user
-		if(src == carbon_user.wear_mask)
+		if(src == carbon_user.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 			to_chat(user, span_warning("You need help taking this off!"))
 			return
 	..()

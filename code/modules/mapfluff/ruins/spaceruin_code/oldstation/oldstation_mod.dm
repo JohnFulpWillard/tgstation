@@ -64,13 +64,13 @@
 	var/mob/living/carbon/human/human_occupant = occupant
 	if(!istype(human_occupant))
 		return
-	if(!isnull(human_occupant.back) && !human_occupant.dropItemToGround(human_occupant.back))
+	if(!isnull(human_occupant.equipped_items_by_slot["[ITEM_SLOT_BACK]"]) && !human_occupant.dropItemToGround(human_occupant.equipped_items_by_slot["[ITEM_SLOT_BACK]"]))
 		return
 	if(!human_occupant.equip_to_slot_if_possible(mod_unit, mod_unit.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))
 		return
 	human_occupant.update_action_buttons(TRUE)
 	playsound(src, 'sound/machines/ping.ogg', 30, FALSE)
-	if(!human_occupant.dropItemToGround(human_occupant.wear_suit) || !human_occupant.dropItemToGround(human_occupant.head))
+	if(!human_occupant.dropItemToGround(human_occupant.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]) || !human_occupant.dropItemToGround(human_occupant.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
 		finish_completion()
 		return
 	mod_unit.quick_activation()

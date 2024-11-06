@@ -388,7 +388,7 @@
 		return
 
 	var/mob/living/carbon/exposed_carbon = exposed_mob
-	if(!exposed_carbon.wear_mask)
+	if(!exposed_carbon.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 		exposed_carbon.adjustToxLoss(damage, required_biotype = affected_biotype)
 
 /datum/reagent/toxin/plantbgone/weedkiller

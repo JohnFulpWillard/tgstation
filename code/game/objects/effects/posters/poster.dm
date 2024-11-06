@@ -210,7 +210,7 @@
 /obj/structure/sign/poster/proc/can_embed_trap(mob/living/carbon/human/user)
 	if (!istype(user) || HAS_TRAIT(user, TRAIT_PIERCEIMMUNE))
 		return FALSE
-	return !user.gloves || !(user.gloves.body_parts_covered & HANDS) || HAS_TRAIT(user, TRAIT_FINGERPRINT_PASSTHROUGH) || HAS_TRAIT(user.gloves, TRAIT_FINGERPRINT_PASSTHROUGH)
+	return !user.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"] || !(user.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"].body_parts_covered & HANDS) || HAS_TRAIT(user, TRAIT_FINGERPRINT_PASSTHROUGH) || HAS_TRAIT(user.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"], TRAIT_FINGERPRINT_PASSTHROUGH)
 
 /obj/structure/sign/poster/proc/roll_and_drop(atom/location, mob/user)
 	pixel_x = 0

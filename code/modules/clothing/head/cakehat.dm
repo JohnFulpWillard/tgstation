@@ -29,7 +29,7 @@
 	var/turf/location = loc
 	if(ishuman(location))
 		var/mob/living/carbon/human/wearer = location
-		if(wearer.is_holding(src) || wearer.head == src)
+		if(wearer.is_holding(src) || wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] == src)
 			location = wearer.loc
 
 	if(isturf(location))

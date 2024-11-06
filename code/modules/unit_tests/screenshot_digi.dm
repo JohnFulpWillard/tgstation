@@ -23,7 +23,7 @@
 	// should hide the autogen'd legs
 	var/obj/item/clothing/suit/space/eva/suit = allocate(__IMPLIED_TYPE__)
 	dummy.equip_to_appropriate_slot(suit)
-	TEST_ASSERT_EQUAL(dummy.wear_suit, suit, "Dummy (Ashwalker) should be wearing the EVA suit!")
+	TEST_ASSERT_EQUAL(dummy.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], suit, "Dummy (Ashwalker) should be wearing the EVA suit!")
 	finished_icon = icon(finished_icon)
 	finished_icon.Insert(getFlatIcon(dummy, no_anim = TRUE), dir = SOUTH, frame = 3)
 
@@ -53,14 +53,14 @@
 	// you'd think this is unnecessary but this is here to cover a bug where the suit works the first equip, but not the second
 	dummy.temporarilyRemoveItemFromInventory(suit)
 	dummy.equip_to_appropriate_slot(suit)
-	TEST_ASSERT_EQUAL(dummy.wear_suit, suit, "Dummy (Ashwalker) should be wearing the EVA suit again!")
+	TEST_ASSERT_EQUAL(dummy.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], suit, "Dummy (Ashwalker) should be wearing the EVA suit again!")
 	finished_icon = icon(finished_icon)
 	finished_icon.Insert(getFlatIcon(dummy, no_anim = TRUE), dir = SOUTH, frame = 7)
 
 	// screenshot test of taking the EVA suit off
 	// should show the autogen'd legs once more
 	qdel(suit)
-	TEST_ASSERT_NULL(dummy.wear_suit, "Dummy (Ashwalker) should not be wearing the EVA suit!")
+	TEST_ASSERT_NULL(dummy.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], "Dummy (Ashwalker) should not be wearing the EVA suit!")
 	finished_icon = icon(finished_icon)
 	finished_icon.Insert(getFlatIcon(dummy, no_anim = TRUE), dir = SOUTH, frame = 8)
 

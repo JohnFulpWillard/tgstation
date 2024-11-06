@@ -29,12 +29,13 @@
 		weapon_ability.unequip_held(user)
 
 	// Destroy legcuffs with our IMMENSE LEG STRENGTH.
-	if(istype(user.legcuffed))
+	var/obj/item/legcuffs = user.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]
+	if(!isnull(legcuffs))
 		user.visible_message(
-			span_warning("[user]'s legs suddenly rip [user.legcuffed] apart!"),
+			span_warning("[user]'s legs suddenly rip [legcuffs] apart!"),
 			span_warning("We rip apart our leg restraints!"),
 		)
-		qdel(user.legcuffed)
+		qdel(legcuffs)
 
 	// Regenerate our legs only.
 	var/our_leg_zones = (GLOB.all_body_zones - GLOB.leg_zones)

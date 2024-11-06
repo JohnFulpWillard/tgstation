@@ -23,10 +23,10 @@
 		return FALSE
 
 	var/mob/living/carbon/human/human_target = cast_on
-	if(!human_target.wear_mask)
+	if(!human_target.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 		return TRUE
 
-	return !(human_target.wear_mask.type in GLOB.cursed_animal_masks)
+	return !(human_target.equipped_items_by_slot["[ITEM_SLOT_MASK]"].type in GLOB.cursed_animal_masks)
 
 /datum/action/cooldown/spell/pointed/barnyardcurse/cast(mob/living/carbon/human/cast_on)
 	. = ..()
@@ -47,8 +47,8 @@
 	)
 
 	// Can't drop? Nuke it
-	if(!cast_on.dropItemToGround(cast_on.wear_mask))
-		qdel(cast_on.wear_mask)
+	if(!cast_on.dropItemToGround(cast_on.equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+		qdel(cast_on.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 
 	cast_on.equip_to_slot_if_possible(cursed_mask, ITEM_SLOT_MASK, TRUE, TRUE)
 	cast_on.flash_act()

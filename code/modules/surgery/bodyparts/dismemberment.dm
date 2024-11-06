@@ -200,16 +200,16 @@
 		// This catches situations where limbs are "hot-swapped" such as augmentations and roundstart prosthetics.
 		arm_owner.dropItemToGround(arm_owner.get_item_for_held_index(held_index), 1)
 	. = ..()
-	if(arm_owner.handcuffed)
-		arm_owner.handcuffed.forceMove(drop_location())
-		arm_owner.handcuffed.dropped(arm_owner)
+	if(arm_owner.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
+		arm_owner.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"].forceMove(drop_location())
+		arm_owner.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"].dropped(arm_owner)
 		arm_owner.set_handcuffed(null)
 		arm_owner.update_handcuffed()
 	if(arm_owner.hud_used)
 		var/atom/movable/screen/inventory/hand/associated_hand = arm_owner.hud_used.hand_slots["[held_index]"]
 		associated_hand?.update_appearance()
 	if(arm_owner.num_hands == 0)
-		arm_owner.dropItemToGround(arm_owner.gloves, force = TRUE)
+		arm_owner.dropItemToGround(arm_owner.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"], force = TRUE)
 	arm_owner.update_worn_gloves() //to remove the bloody hands overlay
 
 /obj/item/bodypart/leg/drop_limb(special, dismembered, move_to_floor = TRUE)
@@ -217,18 +217,18 @@
 	. = ..()
 	if(special || !leg_owner)
 		return
-	if(leg_owner.legcuffed)
-		leg_owner.legcuffed.forceMove(drop_location())
-		leg_owner.legcuffed.dropped(leg_owner)
-		leg_owner.legcuffed = null
+	if(leg_owner.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
+		leg_owner.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"].forceMove(drop_location())
+		leg_owner.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"].dropped(leg_owner)
+		leg_owner.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] = null
 		leg_owner.update_worn_legcuffs()
-	if(leg_owner.shoes)
-		leg_owner.dropItemToGround(leg_owner.shoes, force = TRUE)
+	if(leg_owner.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
+		leg_owner.dropItemToGround(leg_owner.equipped_items_by_slot["[ITEM_SLOT_FEET]"], force = TRUE)
 
 /obj/item/bodypart/head/drop_limb(special, dismembered, move_to_floor = TRUE)
 	if(!special)
 		//Drop all worn head items
-		for(var/obj/item/head_item as anything in list(owner.glasses, owner.ears, owner.wear_mask, owner.head))
+		for(var/obj/item/head_item as anything in list(owner.equipped_items_by_slot["[ITEM_SLOT_EYES]"], owner.equipped_items_by_slot["[ITEM_SLOT_EARS]"], owner.equipped_items_by_slot["[ITEM_SLOT_MASK]"], owner.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
 			owner.dropItemToGround(head_item, force = TRUE)
 
 	//Handle dental implants

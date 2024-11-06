@@ -107,7 +107,7 @@
 			var/mob/living/carbon/human/human_sent = person_sent
 			if(person_contents == human_sent.w_uniform)
 				continue //So all they're left with are shoes and uniform.
-			if(person_contents == human_sent.shoes)
+			if(person_contents == human_sent.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 				continue
 		var/unequipped = person_sent.temporarilyRemoveItemFromInventory(person_contents)
 		if (!unequipped)
@@ -243,7 +243,7 @@
 			//So all they're left with are shoes and uniform.
 			if(belonging == human_victim.w_uniform)
 				continue
-			if(belonging == human_victim.shoes)
+			if(belonging == human_victim.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 				continue
 		belonging.forceMove(dropoff_location)
 

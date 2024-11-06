@@ -57,7 +57,7 @@
 	if(!ishuman(my_target))
 		return FALSE
 	var/mob/living/carbon/human/human_target = my_target
-	if(human_target.handcuffed || human_target.stat != CONSCIOUS)
+	if(human_target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] || human_target.stat != CONSCIOUS)
 		return FALSE
 	if(locate(human_target) in controller.blackboard[BB_BASIC_MOB_RETALIATE_LIST])
 		return TRUE
@@ -78,7 +78,7 @@
 
 /datum/ai_planning_subtree/troll_target/SelectBehaviors(datum/ai_controller/basic_controller/bot/controller, seconds_per_tick)
 	var/mob/living/carbon/my_target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
-	if(QDELETED(my_target) || !istype(my_target) || my_target.handcuffed)
+	if(QDELETED(my_target) || !istype(my_target) || my_target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 		controller.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
 		return
 

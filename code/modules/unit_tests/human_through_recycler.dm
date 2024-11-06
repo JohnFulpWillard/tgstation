@@ -29,20 +29,20 @@
 	// This is just what we expect to be deleted.
 	TEST_ASSERT_NULL(assistant.w_uniform, "Assistant still has a jumpsuit (undersuit) on after being put through an emagged recycler!")
 	TEST_ASSERT_NULL(assistant.wear_id, "Assistant still has an ID on after being put through an emagged recycler!")
-	TEST_ASSERT_NULL(assistant.shoes, "Assistant still has shoes on after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_FEET]"], "Assistant still has shoes on after being put through an emagged recycler!")
 	TEST_ASSERT_NULL(assistant.belt, "Assistant still has an item in their belt slot after being put through an emagged recycler!")
-	TEST_ASSERT_NULL(assistant.back, "Assistant still has an item in their back slot (backpack) after being put through an emagged recycler!")
-	TEST_ASSERT_NULL(assistant.ears, "Assistant still has a headset on after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_BACK]"], "Assistant still has an item in their back slot (backpack) after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_EARS]"], "Assistant still has a headset on after being put through an emagged recycler!")
 
 	// This category is stuff that shouldn't exist in the first place, but let's test it anyways in case we decide consistent assistants should have more clothing in the future.
 	// Short point short, if any of the following error and none of these are present in the datum for this outfit, what the fuck?
-	TEST_ASSERT_NULL(assistant.wear_suit, "Assistant still has an oversuit on after being put through an emagged recycler!")
-	TEST_ASSERT_NULL(assistant.gloves, "Assistant still has gloves on after being put through an emagged recycler!")
-	TEST_ASSERT_NULL(assistant.head, "Assistant still has a head covering item on after being put through an emagged recycler!")
-	TEST_ASSERT_NULL(assistant.wear_mask, "Assistant still has a mask on after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], "Assistant still has an oversuit on after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"], "Assistant still has gloves on after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], "Assistant still has a head covering item on after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_MASK]"], "Assistant still has a mask on after being put through an emagged recycler!")
 	TEST_ASSERT_NULL(assistant.l_store, "Assistant still has an item in their left pocket after being put through an emagged recycler!")
 	TEST_ASSERT_NULL(assistant.r_store, "Assistant still has an item in their right pocket after being put through an emagged recycler!")
 	TEST_ASSERT_NULL(assistant.s_store, "Assistant still has an item in their suit storage slot after being put through an emagged recycler!")
-	TEST_ASSERT_NULL(assistant.glasses, "Assistant still has glasses on after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_EYES]"], "Assistant still has glasses on after being put through an emagged recycler!")
 
 

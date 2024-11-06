@@ -21,7 +21,7 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/radio/headset/R = H.ears
+	var/obj/item/radio/headset/R = H.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 	R.set_frequency(FREQ_CENTCOM)
 	R.freqlock = RADIO_FREQENCY_LOCKED
 	if(additional_radio)
@@ -458,7 +458,7 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/radio/radio = squaddie.ears
+	var/obj/item/radio/radio = squaddie.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 	radio.set_frequency(FREQ_CENTCOM)
 	radio.freqlock = RADIO_FREQENCY_LOCKED
 	var/obj/item/card/id/id = squaddie.wear_id
@@ -474,7 +474,7 @@
 
 /datum/outfit/centcom/death_commando/officer/post_equip(mob/living/carbon/human/squaddie, visuals_only = FALSE)
 	. = ..()
-	var/obj/item/mod/control/mod = squaddie.back
+	var/obj/item/mod/control/mod = squaddie.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(!istype(mod))
 		return
 	var/obj/item/clothing/helmet = mod.get_part_from_slot(ITEM_SLOT_HEAD)

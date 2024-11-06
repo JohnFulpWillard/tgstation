@@ -32,7 +32,7 @@ ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_headset_message, R_ADMIN, "Headset Message
 
 	if(ishuman(target))
 		human_recipient = target
-		if(!istype(human_recipient.ears, /obj/item/radio/headset))
+		if(!istype(human_recipient.equipped_items_by_slot["[ITEM_SLOT_EARS]"], /obj/item/radio/headset))
 			to_chat(usr, "The person you are trying to contact is not wearing a headset.", confidential = TRUE)
 			return
 	else if(issilicon(target))

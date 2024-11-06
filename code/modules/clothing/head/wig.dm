@@ -67,8 +67,8 @@
 	if(!ishuman(interacting_with) || interacting_with == user)
 		return NONE
 	var/mob/living/carbon/human/target = interacting_with
-	if(target.head)
-		var/obj/item/clothing/head = target.head
+	if(target.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
+		var/obj/item/clothing/head = target.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 		if((head.flags_inv & HIDEHAIR) && !istype(head, /obj/item/clothing/head/wig))
 			to_chat(user, span_warning("You can't get a good look at [target.p_their()] hair!"))
 			return ITEM_INTERACT_BLOCKING
@@ -79,8 +79,8 @@
 
 	var/selected_hairstyle = null
 	var/selected_hairstyle_color = null
-	if(istype(target.head, /obj/item/clothing/head/wig))
-		var/obj/item/clothing/head/wig/wig = target.head
+	if(istype(target.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item/clothing/head/wig))
+		var/obj/item/clothing/head/wig/wig = target.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 		selected_hairstyle = wig.hairstyle
 		selected_hairstyle_color = wig.color
 	else if((noggin.head_flags & HEAD_HAIR) && target.hairstyle != "Bald")

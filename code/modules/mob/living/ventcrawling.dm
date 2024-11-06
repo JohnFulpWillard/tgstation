@@ -9,7 +9,7 @@
 /mob/living/carbon/human/notify_ventcrawler_on_login()
 	if(!ismonkey(src))
 		return ..()
-	if(!istype(head, /obj/item/clothing/head/helmet/monkey_sentience)) //don't notify them about ventcrawling if they're wearing the sentience helmet, because they can't ventcrawl with it on, and if they take it off they'll no longer be in control of the mob.
+	if(!istype(equipped_items_by_slot["[ITEM_SLOT_HEAD]"], /obj/item/clothing/head/helmet/monkey_sentience)) //don't notify them about ventcrawling if they're wearing the sentience helmet, because they can't ventcrawl with it on, and if they take it off they'll no longer be in control of the mob.
 		return ..()
 
 

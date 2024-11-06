@@ -564,8 +564,8 @@
 					to_chat(user, span_warning("You can't receive charge from the [fitting]!"))
 			return
 
-		if(user.gloves)
-			var/obj/item/clothing/gloves/electrician_gloves = user.gloves
+		if(user.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"])
+			var/obj/item/clothing/gloves/electrician_gloves = user.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 			if(electrician_gloves.max_heat_protection_temperature && electrician_gloves.max_heat_protection_temperature > 360)
 				protected = TRUE
 	else

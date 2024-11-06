@@ -46,7 +46,7 @@
 		return .
 
 	var/mob/living/carbon/carbon_wearer = interacting_with.loc
-	if(carbon_wearer.glasses != interacting_with)
+	if(carbon_wearer.equipped_items_by_slot["[ITEM_SLOT_EYES]"] != interacting_with)
 		return .
 
 	style_meter = carbon_wearer.AddComponent(/datum/component/style, multitooled)

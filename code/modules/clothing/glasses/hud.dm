@@ -224,7 +224,7 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/wearer = user
-	if (wearer.glasses != src)
+	if (wearer.equipped_items_by_slot["[ITEM_SLOT_EYES]"] != src)
 		return
 
 	for(var/trait in clothing_traits)

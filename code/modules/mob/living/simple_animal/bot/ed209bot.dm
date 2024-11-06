@@ -53,7 +53,7 @@
 		targets += nearby_carbon
 	if(targets.len > 0)
 		var/mob/living/carbon/all_targets = pick(targets)
-		if(all_targets.stat != DEAD && !all_targets.handcuffed) //we don't shoot people who are dead, cuffed or lying down.
+		if(all_targets.stat != DEAD && !all_targets.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]) //we don't shoot people who are dead, cuffed or lying down.
 			shoot_at(all_targets)
 	..()
 

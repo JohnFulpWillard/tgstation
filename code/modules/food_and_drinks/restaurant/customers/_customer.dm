@@ -303,7 +303,7 @@
 	var/mob/living/carbon/buffet = venue.restaurant_portal?.turned_on_portal?.resolve()
 	if (!istype(buffet))
 		return FALSE
-	if(QDELETED(buffet.head) && QDELETED(buffet.gloves) && QDELETED(buffet.shoes))
+	if(QDELETED(buffet.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]) && QDELETED(buffet.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]) && QDELETED(buffet.equipped_items_by_slot["[ITEM_SLOT_FEET]"]))
 		return FALSE
 	return TRUE
 

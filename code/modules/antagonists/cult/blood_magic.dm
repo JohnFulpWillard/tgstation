@@ -558,12 +558,12 @@
 	return ..()
 
 /obj/item/melee/blood_magic/shackles/proc/CuffAttack(mob/living/carbon/C, mob/living/user)
-	if(!C.handcuffed)
+	if(!C.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 		playsound(loc, 'sound/items/weapons/cablecuff.ogg', 30, TRUE, -2)
 		C.visible_message(span_danger("[user] begins restraining [C] with dark magic!"), \
 								span_userdanger("[user] begins shaping dark magic shackles around your wrists!"))
 		if(do_after(user, 3 SECONDS, C))
-			if(!C.handcuffed)
+			if(!C.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 				C.set_handcuffed(new /obj/item/restraints/handcuffs/energy/cult/used(C))
 				C.update_handcuffed()
 				C.adjust_silence(10 SECONDS)

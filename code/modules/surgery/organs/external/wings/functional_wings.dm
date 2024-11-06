@@ -65,7 +65,7 @@
 	if(human.stat || human.body_position == LYING_DOWN || isnull(human.client))
 		return FALSE
 	//Jumpsuits have tail holes, so it makes sense they have wing holes too
-	if(!cant_hide && human.wear_suit && ((human.wear_suit.flags_inv & HIDEJUMPSUIT) && (!human.wear_suit.species_exception || !is_type_in_list(src, human.wear_suit.species_exception))))
+	if(!cant_hide && human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"] && ((human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].flags_inv & HIDEJUMPSUIT) && (!human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].species_exception || !is_type_in_list(src, human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].species_exception))))
 		to_chat(human, span_warning("Your suit blocks your wings from extending!"))
 		return FALSE
 	var/turf/location = get_turf(human)

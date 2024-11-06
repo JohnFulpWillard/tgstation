@@ -46,7 +46,7 @@
 
 	// We don't require the nukiebase be loaded to function, but lets go ahead and kick off loading just in case
 	INVOKE_ASYNC(SSmapping, TYPE_PROC_REF(/datum/controller/subsystem/mapping, lazy_load_template), LAZY_TEMPLATE_KEY_NUKIEBASE)
-	var/obj/item/radio/radio = nukie.ears
+	var/obj/item/radio/radio = nukie.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 	radio.set_frequency(FREQ_SYNDICATE)
 	radio.freqlock = RADIO_FREQENCY_LOCKED
 	if(command_radio)
@@ -187,7 +187,7 @@
 	uniform = /obj/item/clothing/under/syndicate
 
 /datum/outfit/nuclear_operative/post_equip(mob/living/carbon/human/H, visuals_only)
-	var/obj/item/mod/module/armor_booster/booster = locate() in H.back
+	var/obj/item/mod/module/armor_booster/booster = locate() in H.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	booster.active = TRUE
 	H.update_worn_back()
 
@@ -200,7 +200,7 @@
 	r_hand = /obj/item/shield/energy
 
 /datum/outfit/nuclear_operative_elite/post_equip(mob/living/carbon/human/H, visuals_only)
-	var/obj/item/mod/module/armor_booster/booster = locate() in H.back
+	var/obj/item/mod/module/armor_booster/booster = locate() in H.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	booster.active = TRUE
 	H.update_worn_back()
 	var/obj/item/shield/energy/shield = locate() in H.held_items

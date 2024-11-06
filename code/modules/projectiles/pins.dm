@@ -357,7 +357,7 @@
 /obj/item/firing_pin/tag/pin_auth(mob/living/user)
 	if(ishuman(user))
 		var/mob/living/carbon/human/M = user
-		if(istype(M.wear_suit, suit_requirement))
+		if(istype(M.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], suit_requirement))
 			return TRUE
 	to_chat(user, span_warning("You need to be wearing [tagcolor] laser tag armor!"))
 	return FALSE

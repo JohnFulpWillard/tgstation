@@ -151,9 +151,10 @@
 	if(wear_suit)
 		if((wear_suit.heat_protection & CHEST) && (wear_suit.max_heat_protection_temperature >= FIRE_SUIT_MAX_TEMP_PROTECT))
 			thermal_protection += (wear_suit.max_heat_protection_temperature * 0.7)
-	if(head)
-		if((head.heat_protection & HEAD) && (head.max_heat_protection_temperature >= FIRE_HELM_MAX_TEMP_PROTECT))
-			thermal_protection += (head.max_heat_protection_temperature * THERMAL_PROTECTION_HEAD)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/head_clothing = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		if((head_clothing.heat_protection & HEAD) && (head_clothing.max_heat_protection_temperature >= FIRE_HELM_MAX_TEMP_PROTECT))
+			thermal_protection += (head_clothing.max_heat_protection_temperature * THERMAL_PROTECTION_HEAD)
 	thermal_protection = round(thermal_protection)
 	return thermal_protection
 
@@ -163,24 +164,30 @@
 /mob/living/carbon/human/proc/get_heat_protection_flags(temperature) //Temperature is the temperature you're being exposed to.
 	var/thermal_protection_flags = 0
 	//Handle normal clothing
-	if(head)
-		if(head.max_heat_protection_temperature && head.max_heat_protection_temperature >= temperature)
-			thermal_protection_flags |= head.heat_protection
-	if(wear_suit)
-		if(wear_suit.max_heat_protection_temperature && wear_suit.max_heat_protection_temperature >= temperature)
-			thermal_protection_flags |= wear_suit.heat_protection
-	if(w_uniform)
-		if(w_uniform.max_heat_protection_temperature && w_uniform.max_heat_protection_temperature >= temperature)
-			thermal_protection_flags |= w_uniform.heat_protection
-	if(shoes)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/head_clothing = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		if(head_clothing.max_heat_protection_temperature && head_clothing.max_heat_protection_temperature >= temperature)
+			thermal_protection_flags |= head_clothing.heat_protection
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]))
+		var/obj/item/suit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+		if(suit.max_heat_protection_temperature && suit.max_heat_protection_temperature >= temperature)
+			thermal_protection_flags |= suit.heat_protection
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]))
+		var/obj/item/uniform = equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
+		if(uniform.max_heat_protection_temperature && uniform.max_heat_protection_temperature >= temperature)
+			thermal_protection_flags |= uniform.heat_protection
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_FEET]"]))
+		var/obj/item/shoes = equipped_items_by_slot["[ITEM_SLOT_FEET]"]
 		if(shoes.max_heat_protection_temperature && shoes.max_heat_protection_temperature >= temperature)
 			thermal_protection_flags |= shoes.heat_protection
-	if(gloves)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]))
+		var/obj/item/gloves = equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 		if(gloves.max_heat_protection_temperature && gloves.max_heat_protection_temperature >= temperature)
 			thermal_protection_flags |= gloves.heat_protection
-	if(wear_mask)
-		if(wear_mask.max_heat_protection_temperature && wear_mask.max_heat_protection_temperature >= temperature)
-			thermal_protection_flags |= wear_mask.heat_protection
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+		var/obj/item/mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+		if(mask.max_heat_protection_temperature && mask.max_heat_protection_temperature >= temperature)
+			thermal_protection_flags |= mask.heat_protection
 
 	return thermal_protection_flags
 
@@ -220,24 +227,30 @@
 	var/thermal_protection_flags = 0
 	//Handle normal clothing
 
-	if(head)
-		if(head.min_cold_protection_temperature && head.min_cold_protection_temperature <= temperature)
-			thermal_protection_flags |= head.cold_protection
-	if(wear_suit)
-		if(wear_suit.min_cold_protection_temperature && wear_suit.min_cold_protection_temperature <= temperature)
-			thermal_protection_flags |= wear_suit.cold_protection
-	if(w_uniform)
-		if(w_uniform.min_cold_protection_temperature && w_uniform.min_cold_protection_temperature <= temperature)
-			thermal_protection_flags |= w_uniform.cold_protection
-	if(shoes)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/hat = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		if(hat.min_cold_protection_temperature && hat.min_cold_protection_temperature <= temperature)
+			thermal_protection_flags |= hat.cold_protection
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]))
+		var/obj/item/suit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+		if(suit.min_cold_protection_temperature && suit.min_cold_protection_temperature <= temperature)
+			thermal_protection_flags |= suit.cold_protection
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]))
+		var/obj/item/jumpsuit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+		if(jumpsuit.min_cold_protection_temperature && jumpsuit.min_cold_protection_temperature <= temperature)
+			thermal_protection_flags |= jumpsuit.cold_protection
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_FEET]"]))
+		var/obj/item/shoes = equipped_items_by_slot["[ITEM_SLOT_FEET]"]
 		if(shoes.min_cold_protection_temperature && shoes.min_cold_protection_temperature <= temperature)
 			thermal_protection_flags |= shoes.cold_protection
-	if(gloves)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]))
+		var/obj/item/gloves = equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 		if(gloves.min_cold_protection_temperature && gloves.min_cold_protection_temperature <= temperature)
 			thermal_protection_flags |= gloves.cold_protection
-	if(wear_mask)
-		if(wear_mask.min_cold_protection_temperature && wear_mask.min_cold_protection_temperature <= temperature)
-			thermal_protection_flags |= wear_mask.cold_protection
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+		var/obj/item/mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+		if(mask.min_cold_protection_temperature && mask.min_cold_protection_temperature <= temperature)
+			thermal_protection_flags |= mask.cold_protection
 
 	return thermal_protection_flags
 

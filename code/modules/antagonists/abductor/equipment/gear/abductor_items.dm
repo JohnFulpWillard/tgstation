@@ -420,13 +420,13 @@ Congratulations! You are now trained for invasive xenobiology research!"}
 	if(!iscarbon(victim))
 		return
 	var/mob/living/carbon/carbon_victim = victim
-	if(!carbon_victim.handcuffed)
+	if(!carbon_victim.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 		if(carbon_victim.canBeHandcuffed())
 			playsound(src, 'sound/items/weapons/cablecuff.ogg', 30, TRUE, -2)
 			carbon_victim.visible_message(span_danger("[user] begins restraining [carbon_victim] with [src]!"), \
 									span_userdanger("[user] begins shaping an energy field around your hands!"))
 			if(do_after(user, time_to_cuff, carbon_victim) && carbon_victim.canBeHandcuffed())
-				if(!carbon_victim.handcuffed)
+				if(!carbon_victim.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 					carbon_victim.set_handcuffed(new /obj/item/restraints/handcuffs/energy/used(carbon_victim))
 					carbon_victim.update_handcuffed()
 					to_chat(user, span_notice("You restrain [carbon_victim]."))

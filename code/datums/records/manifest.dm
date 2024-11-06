@@ -75,7 +75,7 @@ GLOBAL_DATUM_INIT(manifest, /datum/manifest, new)
 		.manifest {border-collapse:collapse;}
 		.manifest td, th {border:1px solid [monochrome?"black":"#DEF; background-color:white; color:black"]; padding:.25em}
 		.manifest th {height: 2em; [monochrome?"border-top-width: 3px":"background-color: #48C; color:white"]}
-		.manifest tr.head th { [monochrome?"border-top-width: 1px":"background-color: #488;"] }
+		.manifest tr.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] th { [monochrome?"border-top-width: 1px":"background-color: #488;"] }
 		.manifest tr.alt td {[monochrome?"border-top-width: 2px":"background-color: #DEF"]}
 	</style></head>
 	<table class="manifest" width='350px'>

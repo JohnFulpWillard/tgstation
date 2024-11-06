@@ -8,7 +8,7 @@
 		to_chat(user, span_warning("This must be used on a carbon mob."), confidential = TRUE)
 		return
 	var/mob/living/carbon/dude = target
-	var/obj/item/clothing/shoes/sick_kicks = dude.shoes
+	var/obj/item/clothing/shoes/sick_kicks = dude.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
 	if (!sick_kicks?.can_be_tied)
 		to_chat(user, span_warning("[dude] does not have knottable shoes!"), confidential = TRUE)
 		return

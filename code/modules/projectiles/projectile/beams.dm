@@ -230,8 +230,8 @@
 	. = ..()
 	if(ishuman(target))
 		var/mob/living/carbon/human/M = target
-		if(istype(M.wear_suit))
-			if(M.wear_suit.type in suit_types)
+		if(istype(M.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]))
+			if(M.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].type in suit_types)
 				M.adjustStaminaLoss(34)
 
 /obj/projectile/beam/lasertag/redtag

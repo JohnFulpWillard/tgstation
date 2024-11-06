@@ -150,7 +150,7 @@
 		return
 	if(iscarbon(hit_atom))
 		var/mob/living/carbon/H = hit_atom
-		if(!H.wear_mask)
+		if(!H.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 			H.equip_to_slot_if_possible(src, ITEM_SLOT_MASK)
 			H.visible_message(span_warning("The plunger slams into [H]'s face!"), span_warning("The plunger suctions to your face!"))
 

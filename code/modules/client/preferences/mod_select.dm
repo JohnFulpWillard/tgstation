@@ -14,9 +14,9 @@
 	if(!ishuman(client.mob))
 		return
 	var/mob/living/carbon/human/client_owner = client.mob
-	if(!istype(client_owner.back, /obj/item/mod/control))
+	if(!istype(client_owner.equipped_items_by_slot["[ITEM_SLOT_BACK]"], /obj/item/mod/control))
 		return
-	var/obj/item/mod/control/mod = client_owner.back
+	var/obj/item/mod/control/mod = client_owner.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(!mod.selected_module)
 		return
 	mod.selected_module.UnregisterSignal(mod.wearer, mod.selected_module.used_signal)

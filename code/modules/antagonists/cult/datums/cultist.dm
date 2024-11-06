@@ -160,7 +160,7 @@
 	else
 		to_chat(mob, span_danger("You have [item] in your [where]."))
 		if(where == "backpack")
-			mob.back.atom_storage?.show_contents(mob)
+			mob.equipped_items_by_slot["[ITEM_SLOT_BACK]"].atom_storage?.show_contents(mob)
 		return TRUE
 
 /datum/antagonist/cult/proc/admin_give_dagger(mob/admin)

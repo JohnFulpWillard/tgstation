@@ -13,7 +13,7 @@
 /datum/outfit/pirate/post_equip(mob/living/carbon/human/equipped)
 	equipped.faction |= FACTION_PIRATE
 
-	var/obj/item/radio/outfit_radio = equipped.ears
+	var/obj/item/radio/outfit_radio = equipped.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 	if(outfit_radio)
 		outfit_radio.set_frequency(FREQ_SYNDICATE)
 		outfit_radio.freqlock = RADIO_FREQENCY_LOCKED

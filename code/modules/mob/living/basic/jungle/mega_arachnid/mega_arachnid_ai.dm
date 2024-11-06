@@ -59,7 +59,7 @@
 		return ..()
 
 	var/mob/living/carbon/human_target = target
-	if(!human_target.legcuffed && human_target.health > minimum_health)
+	if(!human_target.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] && human_target.health > minimum_health)
 		return
 
 	return ..()
@@ -73,6 +73,6 @@
 	if(!ishuman(target))
 		return
 	var/mob/living/carbon/human_target = target
-	if(human_target.legcuffed)
+	if(human_target.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
 		return
 	return ..()

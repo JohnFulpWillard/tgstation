@@ -129,13 +129,13 @@
 		return 1
 	var/mob/living/carbon/human/H = user
 
-	if(istype(H.wear_suit, suit_type) || istype(H.head, helmet_type))
+	if(istype(H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], suit_type) || istype(H.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], helmet_type))
 		var/name_to_use = (isnull(suit_type) ? helmet_name_simple : suit_name_simple)
 		H.visible_message(span_warning("[H] casts off [H.p_their()] [name_to_use]!"), span_warning("We cast off our [name_to_use]."), span_hear("You hear the organic matter ripping and tearing!"))
 		if(!isnull(helmet_type))
-			H.temporarilyRemoveItemFromInventory(H.head, TRUE) //The qdel on dropped() takes care of it
+			H.temporarilyRemoveItemFromInventory(H.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], TRUE) //The qdel on dropped() takes care of it
 		if(!isnull(suit_type))
-			H.temporarilyRemoveItemFromInventory(H.wear_suit, TRUE)
+			H.temporarilyRemoveItemFromInventory(H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], TRUE)
 		H.update_worn_oversuit()
 		H.update_worn_head()
 		H.update_body_parts()
@@ -148,18 +148,18 @@
 		return 1
 
 /datum/action/changeling/suit/sting_action(mob/living/carbon/human/user)
-	if(!user.canUnEquip(user.wear_suit) && !isnull(suit_type))
+	if(!user.canUnEquip(user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]) && !isnull(suit_type))
 		user.balloon_alert(user, "body occupied!")
 		return
-	if(!user.canUnEquip(user.head) && !isnull(helmet_type))
+	if(!user.canUnEquip(user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]) && !isnull(helmet_type))
 		user.balloon_alert(user, "head occupied!")
 		return
 	..()
 	if(!isnull(suit_type))
-		user.dropItemToGround(user.wear_suit)
+		user.dropItemToGround(user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
 		user.equip_to_slot_if_possible(new suit_type(user), ITEM_SLOT_OCLOTHING, 1, 1, 1)
 	if(!isnull(helmet_type))
-		user.dropItemToGround(user.head)
+		user.dropItemToGround(user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 		user.equip_to_slot_if_possible(new helmet_type(user), ITEM_SLOT_HEAD, 1, 1, 1)
 
 	var/datum/antagonist/changeling/changeling = IS_CHANGELING(user)
@@ -637,7 +637,7 @@
 	visible_message(span_boldwarning("As [user] shoves [attacking_item] into [src], [src] begins to mutate."))
 	var/mob/living/carbon/wearer = loc
 	playsound(wearer, 'sound/effects/blob/attackblob.ogg', 60, TRUE)
-	wearer.temporarilyRemoveItemFromInventory(wearer.head, TRUE)
+	wearer.temporarilyRemoveItemFromInventory(wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"], TRUE)
 	wearer.equip_to_slot_if_possible(new /obj/item/clothing/head/helmet/changeling_hivehead/legion(wearer), ITEM_SLOT_HEAD, 1, 1, 1)
 	qdel(attacking_item)
 
@@ -681,8 +681,8 @@
 /datum/action/cooldown/hivehead_spawn_minions/proc/minion_additional_changes(mob/living/basic/minion)
 	var/mob/living/basic/bee/summoned_bee = minion
 	var/mob/living/carbon/wearer = owner
-	if(istype(summoned_bee) && length(wearer.head.reagents.reagent_list))
-		summoned_bee.assign_reagent(pick(wearer.head.reagents.reagent_list))
+	if(istype(summoned_bee) && length(wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].reagents.reagent_list))
+		summoned_bee.assign_reagent(pick(wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].reagents.reagent_list))
 
 /obj/item/clothing/head/helmet/changeling_hivehead/legion
 	name = "legion hive head"

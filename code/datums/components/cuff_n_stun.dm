@@ -70,7 +70,7 @@
 	return COMPONENT_HOSTILE_NO_ATTACK
 
 /datum/component/stun_n_cuff/proc/cuff_target(mob/living/carbon/human_target)
-	if(human_target.handcuffed)
+	if(human_target.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 		var/mob/living/living_parent = parent
 		living_parent.balloon_alert(human_target, "already cuffed!")
 		return

@@ -32,7 +32,7 @@
 /obj/item/electropack/attack_hand(mob/user, list/modifiers)
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
-		if(src == C.back)
+		if(src == C.equipped_items_by_slot["[ITEM_SLOT_BACK]"])
 			to_chat(user, span_warning("You need help taking this off!"))
 			return
 	return ..()

@@ -120,12 +120,12 @@
 	if(ishuman(suspect))
 		var/mob/living/carbon/human/human_suspect = suspect
 		add_fibers(human_suspect)
-		var/obj/item/gloves = human_suspect.gloves
+		var/obj/item/gloves = human_suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 		if(gloves) //Check if the gloves (if any) hide fingerprints
 			if(!(gloves.body_parts_covered & HANDS) || HAS_TRAIT(gloves, TRAIT_FINGERPRINT_PASSTHROUGH) || HAS_TRAIT(human_suspect, TRAIT_FINGERPRINT_PASSTHROUGH))
 				ignoregloves = TRUE
 			if(!ignoregloves)
-				human_suspect.gloves.add_fingerprint(human_suspect, ignoregloves = TRUE) //ignoregloves = TRUE to avoid infinite loop.
+				human_suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"].add_fingerprint(human_suspect, ignoregloves = TRUE) //ignoregloves = TRUE to avoid infinite loop.
 				return
 		var/full_print = md5(human_suspect.dna.unique_identity)
 		LAZYSET(fingerprints, full_print, full_print)
@@ -147,30 +147,30 @@
 /datum/forensics/proc/add_fibers(mob/living/carbon/human/suspect)
 	var/fibertext
 	var/item_multiplier = isitem(parent) ? ITEM_FIBER_MULTIPLIER : NON_ITEM_FIBER_MULTIPLIER
-	if(suspect.wear_suit)
-		fibertext = "Material from \a [suspect.wear_suit]."
+	if(suspect.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
+		fibertext = "Material from \a [suspect.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]]."
 		if(prob(10 * item_multiplier) && !LAZYACCESS(fibers, fibertext))
 			LAZYSET(fibers, fibertext, fibertext)
-		if(!(suspect.wear_suit.body_parts_covered & CHEST))
+		if(!(suspect.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].body_parts_covered & CHEST))
 			if(suspect.w_uniform)
 				fibertext = "Fibers from \a [suspect.w_uniform]."
 				if(prob(12 * item_multiplier) && !LAZYACCESS(fibers, fibertext)) //Wearing a suit means less of the uniform exposed.
 					LAZYSET(fibers, fibertext, fibertext)
-		if(!(suspect.wear_suit.body_parts_covered & HANDS))
-			if(suspect.gloves)
-				fibertext = "Material from a pair of [suspect.gloves.name]."
+		if(!(suspect.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].body_parts_covered & HANDS))
+			if(suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"])
+				fibertext = "Material from a pair of [suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"].name]."
 				if(prob(20 * item_multiplier) && !LAZYACCESS(fibers, fibertext))
 					LAZYSET(fibers, fibertext, fibertext)
 	else if(suspect.w_uniform)
 		fibertext = "Fibers from \a [suspect.w_uniform]."
 		if(prob(15 * item_multiplier) && !LAZYACCESS(fibers, fibertext))
 			LAZYSET(fibers, fibertext, fibertext)
-		if(suspect.gloves)
-			fibertext = "Material from a pair of [suspect.gloves.name]."
+		if(suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"])
+			fibertext = "Material from a pair of [suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"].name]."
 			if(prob(20 * item_multiplier) && !LAZYACCESS(fibers, fibertext))
 				LAZYSET(fibers, fibertext, fibertext)
-	else if(suspect.gloves)
-		fibertext = "Material from a pair of [suspect.gloves.name]."
+	else if(suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"])
+		fibertext = "Material from a pair of [suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"].name]."
 		if(prob(20 * item_multiplier) && !LAZYACCESS(fibers, fibertext))
 			LAZYSET(fibers, fibertext, fibertext)
 	return TRUE
@@ -202,7 +202,7 @@
 	var/has_gloves = ""
 	if(ishuman(suspect))
 		var/mob/living/carbon/human/human_suspect = suspect
-		if(human_suspect.gloves)
+		if(human_suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"])
 			has_gloves = "(gloves)"
 	var/current_time = time_stamp()
 	if(!LAZYACCESS(hiddenprints, suspect.key))

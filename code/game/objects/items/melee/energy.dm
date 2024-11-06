@@ -85,7 +85,7 @@
 	var/in_mouth = ""
 	if(iscarbon(user))
 		var/mob/living/carbon/carbon_user = user
-		if(carbon_user.wear_mask)
+		if(carbon_user.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
 			in_mouth = ", barely missing [carbon_user.p_their()] nose"
 	. = span_warning("[user] swings [user.p_their()] [name][in_mouth]. [user.p_They()] light[user.p_s()] [user.p_their()] [atom.name] in the process.")
 	playsound(loc, hitsound, get_clamped_volume(), TRUE, -1)

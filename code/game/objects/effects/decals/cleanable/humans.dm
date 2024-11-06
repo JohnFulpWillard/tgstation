@@ -405,8 +405,8 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 			splatter_strength--
 		else if(ishuman(iter_atom))
 			var/mob/living/carbon/human/splashed_human = iter_atom
-			if(splashed_human.wear_suit)
-				splashed_human.wear_suit.add_blood_DNA(blood_dna_info)
+			if(splashed_human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
+				splashed_human.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].add_blood_DNA(blood_dna_info)
 				splashed_human.update_worn_oversuit()    //updates mob overlays to show the new blood (no refresh)
 			if(splashed_human.w_uniform)
 				splashed_human.w_uniform.add_blood_DNA(blood_dna_info)

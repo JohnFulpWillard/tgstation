@@ -87,7 +87,7 @@
 		if(matters.client)
 			if(iscarbon(matters))
 				var/mob/living/carbon/carbon_user = matters
-				if(!carbon_user.handcuffed)
+				if(!carbon_user.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 					SwitchState()
 			else
 				SwitchState()

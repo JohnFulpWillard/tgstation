@@ -515,7 +515,7 @@ Striking a noncultist, however, will tear their flesh."}
 	if(IS_CULTIST(user) || !iscarbon(user))
 		return
 	var/mob/living/carbon/carbon_user = user
-	if(user.num_legs < 2 || carbon_user.legcuffed) //if they can't be ensnared, stun for the same time as it takes to breakout of bola
+	if(user.num_legs < 2 || carbon_user.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]) //if they can't be ensnared, stun for the same time as it takes to breakout of bola
 		to_chat(user, span_cult_large("\"I wouldn't advise that.\""))
 		user.dropItemToGround(src, TRUE)
 		user.Paralyze(CULT_BOLA_PICKUP_STUN)

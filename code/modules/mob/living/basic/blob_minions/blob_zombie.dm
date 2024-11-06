@@ -65,7 +65,7 @@
 
 /// Store a body so that we can drop it on death
 /mob/living/basic/blob_minion/zombie/proc/consume_corpse(mob/living/carbon/human/new_corpse)
-	if(new_corpse.wear_suit)
+	if(new_corpse.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
 		maxHealth += new_corpse.get_armor_rating(MELEE)
 		health = maxHealth
 	new_corpse.set_facial_hairstyle("Shaved", update = FALSE)

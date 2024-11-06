@@ -65,7 +65,7 @@
 
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		if(H.glasses == src)
+		if(H.equipped_items_by_slot["[ITEM_SLOT_EYES]"] == src)
 			H.update_sight()
 
 	update_appearance()
@@ -78,7 +78,7 @@
 	if(!ishuman(loc))
 		return
 	var/mob/living/carbon/human/user = loc
-	if(user.glasses != src || !user.client)
+	if(user.equipped_items_by_slot["[ITEM_SLOT_EYES]"] != src || !user.client)
 		return
 	switch(mode)
 		if(MODE_TRAY)

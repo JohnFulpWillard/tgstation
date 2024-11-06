@@ -147,7 +147,7 @@
 /obj/item/clothing/shoes/sneakers/orange/allow_attack_hand_drop(mob/user)
 	if(ishuman(user))
 		var/mob/living/carbon/human/C = user
-		if(C.shoes == src && attached_cuffs)
+		if(C.equipped_items_by_slot["[ITEM_SLOT_FEET]"] == src && attached_cuffs)
 			to_chat(user, span_warning("You need help taking these off!"))
 			return FALSE
 	return ..()
@@ -155,7 +155,7 @@
 /obj/item/clothing/shoes/sneakers/orange/mouse_drop_dragged(atom/over_object, mob/user)
 	if(ishuman(user))
 		var/mob/living/carbon/human/c = user
-		if(c.shoes == src && attached_cuffs)
+		if(c.equipped_items_by_slot["[ITEM_SLOT_FEET]"] == src && attached_cuffs)
 			to_chat(c, span_warning("You need help taking these off!"))
 			return
 	return ..()

@@ -53,14 +53,14 @@
 
 	var/list/orderable = list()
 
-	if (!QDELETED(buffet.head))
-		orderable[buffet.head.type] = 5
+	if (!QDELETED(buffet.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		orderable[buffet.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].type] = 5
 
-	if (!QDELETED(buffet.gloves))
-		orderable[buffet.gloves.type] = 5
+	if (!QDELETED(buffet.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]))
+		orderable[buffet.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"].type] = 5
 
-	if (!QDELETED(buffet.shoes))
-		orderable[buffet.shoes.type] = 1
+	if (!QDELETED(buffet.equipped_items_by_slot["[ITEM_SLOT_FEET]"]))
+		orderable[buffet.equipped_items_by_slot["[ITEM_SLOT_FEET]"].type] = 1
 
 	if(!length(orderable))
 		orderable = list(

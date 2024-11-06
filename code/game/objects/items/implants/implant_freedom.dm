@@ -24,7 +24,7 @@
 	uses--
 
 	carbon_imp_in.uncuff()
-	var/obj/item/clothing/shoes/shoes = carbon_imp_in.shoes
+	var/obj/item/clothing/shoes/shoes = carbon_imp_in.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
 	if(istype(shoes) && shoes.tied == SHOES_KNOTTED)
 		shoes.adjust_laces(SHOES_TIED, carbon_imp_in)
 
@@ -33,10 +33,10 @@
 		qdel(src)
 
 /obj/item/implant/freedom/proc/can_trigger(mob/living/carbon/implanted_in)
-	if(implanted_in.handcuffed || implanted_in.legcuffed)
+	if(implanted_in.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] || implanted_in.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
 		return TRUE
 
-	var/obj/item/clothing/shoes/shoes = implanted_in.shoes
+	var/obj/item/clothing/shoes/shoes = implanted_in.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
 	if(istype(shoes) && shoes.tied == SHOES_KNOTTED)
 		return TRUE
 

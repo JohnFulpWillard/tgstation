@@ -111,7 +111,7 @@
 	set_anchored(FALSE)
 	var/judgement_criteria = judgement_criteria()
 	for (var/mob/living/carbon/C in view(7,src)) //Let's find us a criminal
-		if((C.stat) || (C.handcuffed))
+		if((C.stat) || (C.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]))
 			continue
 
 		if((C.name == oldtarget_name) && (world.time < last_found + 100))

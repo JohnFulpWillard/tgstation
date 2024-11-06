@@ -136,7 +136,7 @@
 /datum/spellbook_entry/item/armor/try_equip_item(mob/living/carbon/human/user, obj/item/to_equip)
 	var/obj/item/mod/control/mod = to_equip
 	var/obj/item/mod/module/storage/storage = locate() in mod.modules
-	var/obj/item/back = user.back
+	var/obj/item/back = user.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 	if(back)
 		if(!user.dropItemToGround(back))
 			return
@@ -144,7 +144,7 @@
 			item.forceMove(storage)
 	if(!user.equip_to_slot_if_possible(mod, mod.slot_flags, qdel_on_fail = FALSE, disable_warning = TRUE))
 		return
-	if(!user.dropItemToGround(user.wear_suit) || !user.dropItemToGround(user.head))
+	if(!user.dropItemToGround(user.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]) || !user.dropItemToGround(user.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
 		return
 	mod.quick_activation()
 

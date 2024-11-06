@@ -1043,11 +1043,11 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 
 	var/mob/living/carbon/carbon_owner = owner
 
-	if(!carbon_owner.can_resist() || !carbon_owner.shoes)
+	if(!carbon_owner.can_resist() || !carbon_owner.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 		return
 
 	carbon_owner.changeNext_move(CLICK_CD_RESIST)
-	carbon_owner.shoes.handle_tying(carbon_owner)
+	carbon_owner.equipped_items_by_slot["[ITEM_SLOT_FEET]"].handle_tying(carbon_owner)
 
 /atom/movable/screen/alert/unpossess_object
 	name = "Unpossess"
