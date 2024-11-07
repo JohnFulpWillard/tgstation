@@ -342,7 +342,7 @@
 			if(message_app)
 				message_app.invisible = TRUE
 		// Or on crew monitors
-		var/obj/item/clothing/under/sensor_clothes = spawned_human.w_uniform
+		var/obj/item/clothing/under/sensor_clothes = spawned_human.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 		if(istype(sensor_clothes))
 			sensor_clothes.sensor_mode = SENSOR_OFF
 			spawned_human.update_suit_sensors()

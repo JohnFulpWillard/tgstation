@@ -13,7 +13,7 @@
 		TEST_ASSERT(dummy.equip_to_slot_if_possible(dummy_items[slot], text2num(slot)), \
 			"[/datum/species/human::name] Dummy failed to equip one of the starting items ([dummy_items[slot]]). Test aborted.")
 
-	dummy.dropItemToGround(dummy.w_uniform)
+	dummy.dropItemToGround(dummy.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
 
 	for(var/slot in dummy_items)
 		var/obj/item/item = dummy_items[slot]
@@ -33,7 +33,7 @@
 		TEST_ASSERT(robo_dummy.equip_to_slot_if_possible(robo_dummy_items[slot], text2num(slot)), \
 			"[/datum/species/android::name] Dummy failed to equip one of the starting items ([robo_dummy_items[slot]]). Test aborted.")
 
-	robo_dummy.dropItemToGround(robo_dummy.w_uniform)
+	robo_dummy.dropItemToGround(robo_dummy.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
 
 	for(var/slot in robo_dummy_items)
 		var/obj/item/item = robo_dummy_items[slot]

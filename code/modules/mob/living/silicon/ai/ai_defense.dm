@@ -102,7 +102,7 @@
 		var/consent_override = FALSE
 		if(ishuman(user))
 			var/mob/living/carbon/human/human_user = user
-			if(human_user.wear_id)
+			if(human_user.equipped_items_by_slot["[ITEM_SLOT_ID]"])
 				var/list/access = human_user.wear_id.GetAccess()
 				if(ACCESS_ROBOTICS in access)
 					consent_override = TRUE

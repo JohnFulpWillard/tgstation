@@ -105,7 +105,7 @@
 	for(var/obj/item/person_contents as anything in person_sent.gather_belongings(FALSE, FALSE))
 		if(ishuman(person_sent))
 			var/mob/living/carbon/human/human_sent = person_sent
-			if(person_contents == human_sent.w_uniform)
+			if(person_contents == human_sent.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
 				continue //So all they're left with are shoes and uniform.
 			if(person_contents == human_sent.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 				continue
@@ -241,7 +241,7 @@
 		if(ishuman(victim))
 			var/mob/living/carbon/human/human_victim = victim
 			//So all they're left with are shoes and uniform.
-			if(belonging == human_victim.w_uniform)
+			if(belonging == human_victim.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
 				continue
 			if(belonging == human_victim.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 				continue

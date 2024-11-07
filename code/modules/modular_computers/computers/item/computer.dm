@@ -292,7 +292,7 @@
 
 	if(ishuman(loc))
 		var/mob/living/carbon/human/human_wearer = loc
-		if(human_wearer.wear_id == src)
+		if(human_wearer.equipped_items_by_slot["[ITEM_SLOT_ID]"] == src)
 			human_wearer.sec_hud_set_ID()
 
 	update_appearance()
@@ -327,7 +327,7 @@
 
 	if(ishuman(loc))
 		var/mob/living/carbon/human/human_wearer = loc
-		if(human_wearer.wear_id == src)
+		if(human_wearer.equipped_items_by_slot["[ITEM_SLOT_ID]"] == src)
 			human_wearer.sec_hud_set_ID()
 
 	update_slot_icon()

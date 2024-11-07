@@ -85,7 +85,7 @@
 
 	if(ishuman(loc))
 		var/mob/living/carbon/human/wearing_human = loc
-		if(wearing_human.wear_id == src)
+		if(wearing_human.equipped_items_by_slot["[ITEM_SLOT_ID]"] == src)
 			wearing_human.sec_hud_set_ID()
 
 	update_label()

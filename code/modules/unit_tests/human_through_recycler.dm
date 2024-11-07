@@ -27,10 +27,10 @@
 	// Consistent Assistants will always have the following: ID, PDA, backpack, a uniform, a headset, and a pair of shoes. If any of these are still present, then the recycler did not properly delete the assistant's clothing.
 	// However, let's check for EVERYTHING just in case, because we don't want to miss anything.
 	// This is just what we expect to be deleted.
-	TEST_ASSERT_NULL(assistant.w_uniform, "Assistant still has a jumpsuit (undersuit) on after being put through an emagged recycler!")
-	TEST_ASSERT_NULL(assistant.wear_id, "Assistant still has an ID on after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"], "Assistant still has a jumpsuit (undersuit) on after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_ID]"], "Assistant still has an ID on after being put through an emagged recycler!")
 	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_FEET]"], "Assistant still has shoes on after being put through an emagged recycler!")
-	TEST_ASSERT_NULL(assistant.belt, "Assistant still has an item in their belt slot after being put through an emagged recycler!")
+	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_BELT]"], "Assistant still has an item in their belt slot after being put through an emagged recycler!")
 	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_BACK]"], "Assistant still has an item in their back slot (backpack) after being put through an emagged recycler!")
 	TEST_ASSERT_NULL(assistant.equipped_items_by_slot["[ITEM_SLOT_EARS]"], "Assistant still has a headset on after being put through an emagged recycler!")
 

@@ -35,7 +35,7 @@
 
 	if(istype(wear_mask, /obj/item/clothing/mask/chameleon))
 		var/obj/item/clothing/mask/chameleon/V = wear_mask
-		if(V.voice_change && wear_id)
+		if(V.voice_change && equipped_items_by_slot["[ITEM_SLOT_ID]"])
 			var/obj/item/card/id/idcard = wear_id.GetID()
 			if(istype(idcard))
 				return idcard.registered_name

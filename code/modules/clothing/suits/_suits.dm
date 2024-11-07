@@ -28,9 +28,9 @@
 		. += mutable_appearance('icons/effects/blood.dmi', "[blood_overlay_type]blood")
 
 	var/mob/living/carbon/human/wearer = loc
-	if(!ishuman(wearer) || !wearer.w_uniform)
+	if(!ishuman(wearer) || !wearer.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
 		return
-	var/obj/item/clothing/under/undershirt = wearer.w_uniform
+	var/obj/item/clothing/under/undershirt = wearer.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	if(!istype(undershirt) || !LAZYLEN(undershirt.attached_accessories))
 		return
 

@@ -133,7 +133,7 @@
 
 /datum/outfit/spacebartender/post_equip(mob/living/carbon/human/bartender, visuals_only = FALSE)
 	. = ..()
-	var/obj/item/card/id/id_card = bartender.wear_id
+	var/obj/item/card/id/id_card = bartender.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	if(bartender.age < AGE_MINOR)
 		id_card.registered_age = AGE_MINOR
 		to_chat(bartender, span_notice("You're not technically old enough to access or serve alcohol, but your ID has been discreetly modified to display your age as [AGE_MINOR]. Try to keep that a secret!"))

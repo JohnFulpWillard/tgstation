@@ -120,7 +120,7 @@ ADMIN_VERB(cmd_admin_grantfullaccess, R_DEBUG, "Grant Full Access", "Grant full 
 		return
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		var/obj/item/worn = H.wear_id
+		var/obj/item/worn = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 		var/obj/item/card/id/id = null
 
 		if(worn)

@@ -105,8 +105,8 @@
 	var/turf/here = get_turf(src)
 	var/turf/there = get_turf(H)
 	if(here && there && (there.z == here.z || (is_station_level(here.z) && is_station_level(there.z)))) // Device and target should be on the same level or different levels of the same station
-		if (istype(H.w_uniform, /obj/item/clothing/under))
-			var/obj/item/clothing/under/U = H.w_uniform
+		if (istype(H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"], /obj/item/clothing/under))
+			var/obj/item/clothing/under/U = H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 			if(U.has_sensor && (U.sensor_mode >= SENSOR_COORDS || ignore_suit_sensor_level)) // Suit sensors must be on maximum or a contractor pinpointer
 				return TRUE
 	return FALSE
@@ -133,7 +133,7 @@
 			continue
 
 		var/crewmember_name = "Unknown"
-		if(H.wear_id)
+		if(H.equipped_items_by_slot["[ITEM_SLOT_ID]"])
 			var/obj/item/card/id/I = H.wear_id.GetID()
 			if(I?.registered_name)
 				crewmember_name = I.registered_name

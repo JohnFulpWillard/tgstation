@@ -94,7 +94,7 @@
 /datum/outfit/job/cook/post_equip(mob/living/carbon/human/user, visuals_only = FALSE)
 	. = ..()
 	// Update PDA to match possible new trim.
-	var/obj/item/card/id/worn_id = user.wear_id
+	var/obj/item/card/id/worn_id = user.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	var/obj/item/modular_computer/pda/pda = user.equipped_items_by_slot["[pda_slot]"]
 	if(!istype(worn_id) || !istype(pda))
 		return

@@ -311,7 +311,7 @@
 	var/mob/living/carbon/human/human_mob = mymob
 	if(istype(human_mob))
 		blocked_slots |= human_mob.dna?.species?.no_equip_flags
-		if(isnull(human_mob.w_uniform) && !HAS_TRAIT(human_mob, TRAIT_NO_JUMPSUIT))
+		if(isnull(human_mob.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]) && !HAS_TRAIT(human_mob, TRAIT_NO_JUMPSUIT))
 			var/obj/item/bodypart/chest = human_mob.get_bodypart(BODY_ZONE_CHEST)
 			if(isnull(chest) || IS_ORGANIC_LIMB(chest))
 				blocked_slots |= ITEM_SLOT_ID|ITEM_SLOT_BELT
@@ -365,9 +365,10 @@
 			var/obj/item/inventory_clothing = H.equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 			inventory_clothing.screen_loc = ui_glasses
 			screenmob.client.screen += inventory_clothing
-		if(H.w_uniform)
-			H.w_uniform.screen_loc = ui_iclothing
-			screenmob.client.screen += H.w_uniform
+		if(H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
+			var/obj/item/inventory_clothing = H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
+			inventory_clothing.screen_loc = ui_iclothing
+			screenmob.client.screen += inventory_clothing
 		if(H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
 			var/obj/item/inventory_clothing = H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
 			inventory_clothing.screen_loc = ui_oclothing
@@ -393,8 +394,8 @@
 			screenmob.client.screen -= H.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 		if(H.equipped_items_by_slot["[ITEM_SLOT_EYES]"])
 			screenmob.client.screen -= H.equipped_items_by_slot["[ITEM_SLOT_EYES]"]
-		if(H.w_uniform)
-			screenmob.client.screen -= H.w_uniform
+		if(H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
+			screenmob.client.screen -= H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 		if(H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
 			screenmob.client.screen -= H.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
 		if(H.equipped_items_by_slot["[ITEM_SLOT_MASK]"])
@@ -419,9 +420,10 @@
 			if(H.s_store)
 				H.s_store.screen_loc = ui_sstore1
 				screenmob.client.screen += H.s_store
-			if(H.wear_id)
-				H.wear_id.screen_loc = ui_id
-				screenmob.client.screen += H.wear_id
+			if(!isnull(H.equipped_items_by_slot["[ITEM_SLOT_ID]"]))
+				var/obj/item/inventory_item = equipped_items_by_slot["[ITEM_SLOT_ID]"]
+				inventory_item.screen_loc = ui_id
+				screenmob.client.screen += H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 			if(H.belt)
 				H.belt.screen_loc = ui_belt
 				screenmob.client.screen += H.belt
@@ -437,8 +439,8 @@
 		else
 			if(H.s_store)
 				screenmob.client.screen -= H.s_store
-			if(H.wear_id)
-				screenmob.client.screen -= H.wear_id
+			if(H.equipped_items_by_slot["[ITEM_SLOT_ID]"])
+				screenmob.client.screen -= H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 			if(H.belt)
 				screenmob.client.screen -= H.belt
 			if(H.equipped_items_by_slot["[ITEM_SLOT_BACK]"])

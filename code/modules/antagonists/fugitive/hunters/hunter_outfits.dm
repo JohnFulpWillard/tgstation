@@ -17,7 +17,7 @@
 /datum/outfit/spacepol/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
 	if(visuals_only)
 		return
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.icon_state = "card_black" //Less flamey, more modest, still unique enough to convey that they're fugitive hunters.
 	W.update_label()
@@ -76,15 +76,15 @@
 	if(visuals_only)
 		return
 
-	if(istype(equip_to.wear_id, /obj/item/card/id))
-		var/obj/item/card/id/equipped_card = equip_to.wear_id
+	if(istype(equip_to.equipped_items_by_slot["[ITEM_SLOT_ID]"], /obj/item/card/id))
+		var/obj/item/card/id/equipped_card = equip_to.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 		equipped_card.assignment = "Russian Bounty Hunter"
 		equipped_card.registered_name = equip_to.real_name
 		equipped_card.update_label()
 		equipped_card.update_icon()
 
-	if(istype(equip_to.w_uniform, /obj/item/clothing/under))
-		var/obj/item/clothing/under/uniform = equip_to.w_uniform
+	if(istype(equip_to.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"], /obj/item/clothing/under))
+		var/obj/item/clothing/under/uniform = equip_to.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 		uniform.sensor_mode = NO_SENSORS
 		uniform.has_sensor = NO_SENSORS
 
@@ -121,7 +121,7 @@
 /datum/outfit/bountyarmor/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
 	if(visuals_only)
 		return
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -146,7 +146,7 @@
 /datum/outfit/bountyhook/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
 	if(visuals_only)
 		return
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -256,7 +256,7 @@
 /datum/outfit/mi13_hunter/post_equip(mob/living/carbon/human/agent, visuals_only = FALSE)
 	if(visuals_only)
 		return
-	var/obj/item/card/id/wearing = agent.wear_id
+	var/obj/item/card/id/wearing = agent.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	wearing.registered_name = agent.real_name
 	wearing.update_label()
 

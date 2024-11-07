@@ -203,10 +203,10 @@
 		EQUIP_OUTFIT_ITEM(back, ITEM_SLOT_BACK)
 	if(id)
 		EQUIP_OUTFIT_ITEM(id, ITEM_SLOT_ID)
-	if(!visuals_only && id_trim && user.wear_id)
-		var/obj/item/card/id/id_card = user.wear_id
+	if(!visuals_only && id_trim && user.equipped_items_by_slot["[ITEM_SLOT_ID]"])
+		var/obj/item/card/id/id_card = user.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 		if(!istype(id_card)) //If an ID wasn't found in their ID slot, it's probably something holding their ID like a wallet or PDA
-			id_card = locate() in user.wear_id
+			id_card = locate() in user.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 
 		if(istype(id_card)) //Make sure that we actually found an ID to modify, otherwise this runtimes and cancels equipping the outfit
 			id_card.registered_age = user.age
@@ -228,7 +228,7 @@
 		user.socks = initial(socks.name)
 
 	if(accessory)
-		var/obj/item/clothing/under/U = user.w_uniform
+		var/obj/item/clothing/under/U = user.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 		if(U)
 			U.attach_accessory(SSwardrobe.provide_type(accessory, user))
 		else

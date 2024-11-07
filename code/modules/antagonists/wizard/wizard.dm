@@ -354,18 +354,24 @@ GLOBAL_LIST_EMPTY(wizard_spellbook_purchases_by_key)
 	var/mob/living/carbon/human/H = owner.current
 	if(!istype(master_mob) || !istype(H))
 		return
-	if(master_mob.equipped_items_by_slot["[ITEM_SLOT_EARS]"])
-		H.equip_to_slot_or_del(new master_mob.equipped_items_by_slot["[ITEM_SLOT_EARS]"].type, ITEM_SLOT_EARS)
-	if(master_mob.w_uniform)
-		H.equip_to_slot_or_del(new master_mob.w_uniform.type, ITEM_SLOT_ICLOTHING)
-	if(master_mob.equipped_items_by_slot["[ITEM_SLOT_FEET]"])
-		H.equip_to_slot_or_del(new master_mob.equipped_items_by_slot["[ITEM_SLOT_FEET]"].type, ITEM_SLOT_FEET)
-	if(master_mob.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
-		H.equip_to_slot_or_del(new master_mob.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].type, ITEM_SLOT_OCLOTHING)
-	if(master_mob.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
-		H.equip_to_slot_or_del(new master_mob.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].type, ITEM_SLOT_HEAD)
-	if(master_mob.equipped_items_by_slot["[ITEM_SLOT_BACK]"])
-		H.equip_to_slot_or_del(new master_mob.equipped_items_by_slot["[ITEM_SLOT_BACK]"].type, ITEM_SLOT_BACK)
+	if(!isnull(master_mob.equipped_items_by_slot["[ITEM_SLOT_EARS]"]))
+		var/obj/item/item_to_equip = master_mob.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
+		H.equip_to_slot_or_del(new item_to_equip.type, ITEM_SLOT_EARS)
+	if(!isnull(master_mob.equip_to.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]))
+		var/obj/item/item_to_equip = master_mob.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
+		H.equip_to_slot_or_del(new item_to_equip.type, ITEM_SLOT_ICLOTHING)
+	if(!isnull(master_mob.equipped_items_by_slot["[ITEM_SLOT_FEET]"]))
+		var/obj/item/item_to_equip = master_mob.equipped_items_by_slot["[ITEM_SLOT_FEET]"]
+		H.equip_to_slot_or_del(new item_to_equip.type, ITEM_SLOT_FEET)
+	if(!isnull(master_mob.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]))
+		var/obj/item/item_to_equip = master_mob.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+		H.equip_to_slot_or_del(new item_to_equip.type, ITEM_SLOT_OCLOTHING)
+	if(!isnull(master_mob.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/item_to_equip = master_mob.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		H.equip_to_slot_or_del(new item_to_equip.type, ITEM_SLOT_HEAD)
+	if(!isnull(master_mob.equipped_items_by_slot["[ITEM_SLOT_BACK]"]))
+		var/obj/item/item_to_equip = master_mob.equipped_items_by_slot["[ITEM_SLOT_BACK]"]
+		H.equip_to_slot_or_del(new item_to_equip.type, ITEM_SLOT_BACK)
 
 	//Operation: Fuck off and scare people
 	var/datum/action/cooldown/spell/jaunt/ethereal_jaunt/jaunt = new(owner)

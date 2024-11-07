@@ -13,7 +13,7 @@
 	if(id)
 		. = id.assignment
 	else
-		var/obj/item/modular_computer/pda = wear_id
+		var/obj/item/modular_computer/pda = equipped_items_by_slot["[ITEM_SLOT_ID]"]
 		if(istype(pda))
 			. = pda.saved_job
 		else
@@ -29,7 +29,7 @@
 		return if_no_id
 	if(id)
 		return id.registered_name
-	var/obj/item/modular_computer/pda = wear_id
+	var/obj/item/modular_computer/pda = equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	if(istype(pda))
 		return pda.saved_identification
 	return if_no_id
@@ -90,9 +90,9 @@
 	return
 
 /mob/living/carbon/human/get_id_name(if_no_id = "Unknown")
-	var/obj/item/storage/wallet/wallet = wear_id
-	var/obj/item/modular_computer/pda = wear_id
-	var/obj/item/card/id/id = wear_id
+	var/obj/item/storage/wallet/wallet = equipped_items_by_slot["[ITEM_SLOT_ID]"]
+	var/obj/item/modular_computer/pda = equipped_items_by_slot["[ITEM_SLOT_ID]"]
+	var/obj/item/card/id/id = equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	if(HAS_TRAIT(src, TRAIT_UNKNOWN))
 		. = if_no_id //You get NOTHING, no id name, good day sir
 		var/list/identity = list(null, null, null)

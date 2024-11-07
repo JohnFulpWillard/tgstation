@@ -109,7 +109,7 @@ GLOBAL_LIST_EMPTY(security_officer_distribution)
 			accessory = /obj/item/clothing/accessory/armband/science
 
 	if(accessory)
-		var/obj/item/clothing/under/worn_under = spawning.w_uniform
+		var/obj/item/clothing/under/worn_under = spawning.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 		worn_under.attach_accessory(new accessory)
 
 	if(ears)

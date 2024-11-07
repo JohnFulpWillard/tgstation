@@ -39,7 +39,7 @@
 		return TRUE
 	else if(ishuman(accessor))
 		var/mob/living/carbon/human/human_accessor = accessor
-		if(check_access(human_accessor.wear_id))
+		if(check_access(human_accessor.equipped_items_by_slot["[ITEM_SLOT_ID]"]))
 			return TRUE
 	//if they have a hacky abstract animal ID with the required access, let them in i guess...
 	else if(isanimal(accessor))

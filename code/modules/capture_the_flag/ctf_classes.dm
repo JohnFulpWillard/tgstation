@@ -34,7 +34,7 @@
 	var/list/no_drops = list()
 
 	if(has_card)
-		var/obj/item/card/id/idcard = human_to_equip.wear_id
+		var/obj/item/card/id/idcard = human_to_equip.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 		no_drops += idcard
 		idcard.registered_name = human_to_equip.real_name
 		idcard.update_label()

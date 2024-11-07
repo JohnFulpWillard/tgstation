@@ -28,7 +28,7 @@
 		R.keyslot2 = new additional_radio()
 		R.recalculateChannels()
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	if(W)
 		W.registered_name = H.real_name
 		W.update_label()
@@ -172,10 +172,10 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/modular_computer/pda/heads/pda = H.r_store
+	var/obj/item/modular_computer/pda/heads/pda = H.equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]
 	pda.imprint_id(H.real_name, "CentCom Official")
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -312,7 +312,7 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -461,7 +461,7 @@
 	var/obj/item/radio/radio = squaddie.equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 	radio.set_frequency(FREQ_CENTCOM)
 	radio.freqlock = RADIO_FREQENCY_LOCKED
-	var/obj/item/card/id/id = squaddie.wear_id
+	var/obj/item/card/id/id = squaddie.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	id.registered_name = squaddie.real_name
 	id.update_label()
 	id.update_icon()

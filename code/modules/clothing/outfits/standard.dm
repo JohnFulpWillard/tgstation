@@ -19,7 +19,7 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -164,7 +164,7 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -207,7 +207,7 @@
 	l_hand = /obj/item/storage/briefcase/secure
 
 /datum/outfit/assassin/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
-	var/obj/item/clothing/under/U = H.w_uniform
+	var/obj/item/clothing/under/U = H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	U.attach_accessory(new /obj/item/clothing/accessory/waistcoat(H))
 
 	if(visuals_only)
@@ -224,10 +224,10 @@
 	sec_briefcase.contents += new /obj/item/ammo_box/a357
 	sec_briefcase.contents += new /obj/item/grenade/c4/x4
 
-	var/obj/item/modular_computer/pda/heads/pda = H.belt
+	var/obj/item/modular_computer/pda/heads/pda = H.equipped_items_by_slot["[ITEM_SLOT_BELT]"]
 	pda.imprint_id(H.real_name, "Reaper")
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -254,7 +254,7 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -366,7 +366,7 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 
 	W.registered_name = H.real_name
 	W.update_label()
@@ -391,7 +391,7 @@
 	if(visuals_only)
 		return
 
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -438,7 +438,7 @@
 	internals_slot = ITEM_SLOT_SUITSTORE
 
 /datum/outfit/debug/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()
@@ -470,7 +470,7 @@
 	internals_slot = ITEM_SLOT_SUITSTORE
 
 /datum/outfit/admin/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
-	var/obj/item/card/id/W = H.wear_id
+	var/obj/item/card/id/W = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	W.registered_name = H.real_name
 	W.update_label()
 	W.update_icon()

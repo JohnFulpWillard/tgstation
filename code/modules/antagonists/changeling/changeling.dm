@@ -563,7 +563,21 @@
 	// Grab the target's sechut icon.
 	new_profile.id_icon = target.wear_id?.get_sechud_job_icon_state()
 
-	var/list/slots = list("head", "wear_mask", "wear_neck", "back", "wear_suit", "w_uniform", "shoes", "belt", "gloves", "glasses", "ears", "wear_id", "s_store")
+	var/list/slots = list(
+		"head",
+		"wear_mask",
+		"wear_neck",
+		"back",
+		"wear_suit",
+		"w_uniform",
+		"shoes",
+		"belt",
+		"gloves",
+		"glasses",
+		"ears",
+		"wear_id",
+		"s_store",
+	)
 	for(var/slot in slots)
 		if(!(slot in target.vars))
 			continue
@@ -832,6 +846,7 @@
 
 		if(istype(user.vars[slot], slot2type[slot]) && slot == "wear_id") // Always remove old flesh IDs - so they get properly updated.
 			qdel(user.vars[slot])
+
 
 		var/obj/item/new_flesh_item
 		var/equip = FALSE

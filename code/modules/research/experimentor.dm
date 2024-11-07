@@ -860,7 +860,7 @@
 	var/mob/living/carbon/human/humerus = carbonius
 	// uniform
 	var/obj/item/clothing/under/costume/disguise_uniform = roll_costume(ITEM_SLOT_ICLOTHING)
-	humerus.dropItemToGround(humerus.w_uniform)
+	humerus.dropItemToGround(humerus.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
 	humerus.equip_to_slot_or_del(disguise_uniform, ITEM_SLOT_ICLOTHING)
 	// suit
 	var/obj/item/clothing/suit/costume/disguise_suit = roll_costume(ITEM_SLOT_OCLOTHING)
@@ -868,7 +868,7 @@
 	humerus.equip_to_slot_or_del(disguise_suit, ITEM_SLOT_OCLOTHING)
 	// id
 	var/obj/item/card/cardboard/card_id = new()
-	humerus.dropItemToGround(humerus.wear_id)
+	humerus.dropItemToGround(humerus.equipped_items_by_slot["[ITEM_SLOT_ID]"])
 	humerus.equip_to_slot_or_del(card_id, ITEM_SLOT_ID)
 
 	// edit the card to a random job & name

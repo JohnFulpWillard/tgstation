@@ -80,7 +80,7 @@
 		var/obj/item/clothing/accessory/anti_sec_pin/pin = new(loc)
 		pin.attach(souvenir)
 
-	if(isnull(humie.w_uniform))
+	if(isnull(humie.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]))
 		//FUCKING SLAVES, GET YOUR CLOTHES BACK ON!
 		humie.equip_to_slot_or_del(new /obj/item/clothing/under/costume/jabroni(humie), ITEM_SLOT_ICLOTHING, indirect_action = TRUE)
 	return ..()

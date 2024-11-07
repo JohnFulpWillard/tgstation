@@ -136,7 +136,7 @@ Nothing else in the console has ID requirements.
 					logname = "[idcard.registered_name]"
 			if(ishuman(user))
 				var/mob/living/carbon/human/H = user
-				var/obj/item/I = H.wear_id
+				var/obj/item/I = H.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 				if(istype(I))
 					var/obj/item/card/id/ID = I.GetID()
 					if(istype(ID))

@@ -32,7 +32,7 @@
 
 /// Actually try to pin it on
 /datum/component/pinnable_accessory/proc/try_to_pin(obj/item/clothing/accessory/badge, mob/living/carbon/human/distinguished, mob/user)
-	var/obj/item/clothing/under/distinguished_uniform = distinguished.w_uniform
+	var/obj/item/clothing/under/distinguished_uniform = distinguished.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	if(!istype(distinguished_uniform))
 		distinguished.balloon_alert(user, "no uniform to pin on!")
 		return
@@ -74,7 +74,7 @@
 	if(!pinner.is_holding(parent) || !pinner.Adjacent(pinning_on))
 		return FALSE
 	var/obj/item/clothing/accessory/badge = parent
-	var/obj/item/clothing/under/pinning_on_uniform = pinning_on.w_uniform
+	var/obj/item/clothing/under/pinning_on_uniform = pinning_on.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	if(!istype(pinning_on_uniform) || !badge.can_attach_accessory(pinning_on_uniform, pinner))
 		return FALSE
 	return TRUE

@@ -12,7 +12,7 @@
 
 	// Alright, now let's test that someone with access can open a door that requires access when only req_access is set.
 	subject.equipOutfit(/datum/outfit/job/assistant/consistent) // set up the outfit here to ensure the last check is pure.
-	var/obj/item/card/id/advanced/keycard = subject.wear_id
+	var/obj/item/card/id/advanced/keycard = subject.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 
 	// Test two accesses at once just to make sure the script hasn't changed on us.
 	keycard.access = list(ACCESS_ENGINEERING, ACCESS_MAINT_TUNNELS)

@@ -217,7 +217,7 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 			continue
 
 		// Check they have a uniform
-		var/obj/item/clothing/under/uniform = tracked_human.w_uniform
+		var/obj/item/clothing/under/uniform = tracked_human.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 		if (!istype(uniform))
 			stack_trace("Human without a suit sensors compatible uniform is in suit_sensors_list: [tracked_human] ([tracked_human.type]) ([uniform?.type])")
 			continue

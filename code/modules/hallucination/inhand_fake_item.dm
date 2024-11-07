@@ -16,12 +16,12 @@
 
 	// These slots are human only, + they have to have a uniform
 	var/mob/living/carbon/human/human_hallucinator = hallucinator
-	if(istype(human_hallucinator) && human_hallucinator.w_uniform)
-		if((valid_slots & ITEM_SLOT_BELT) && !human_hallucinator.belt)
+	if(istype(human_hallucinator) && human_hallucinator.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
+		if((valid_slots & ITEM_SLOT_BELT) && !human_hallucinator.equipped_items_by_slot["[ITEM_SLOT_BELT]"])
 			slots_free[ui_belt] = ITEM_SLOT_BELT
-		if((valid_slots & ITEM_SLOT_LPOCKET) && !human_hallucinator.l_store)
+		if((valid_slots & ITEM_SLOT_LPOCKET) && !human_hallucinator.equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"])
 			slots_free[ui_storage1] = ITEM_SLOT_LPOCKET
-		if((valid_slots & ITEM_SLOT_RPOCKET) && !human_hallucinator.r_store)
+		if((valid_slots & ITEM_SLOT_RPOCKET) && !human_hallucinator.equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"])
 			slots_free[ui_storage2] = ITEM_SLOT_RPOCKET
 
 	if(!length(slots_free))

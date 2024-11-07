@@ -269,9 +269,9 @@
 		return .
 	if(!istype(humanoid))
 		return RADAR_NOT_TRACKABLE
-	if(!istype(humanoid.w_uniform, /obj/item/clothing/under))
+	if(!istype(humanoid.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"], /obj/item/clothing/under))
 		return RADAR_NOT_TRACKABLE
-	var/obj/item/clothing/under/uniform = humanoid.w_uniform
+	var/obj/item/clothing/under/uniform = humanoid.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	if(!uniform.has_sensor || uniform.sensor_mode < SENSOR_COORDS) // Suit sensors must be on maximum
 		return RADAR_NOT_TRACKABLE
 	return .

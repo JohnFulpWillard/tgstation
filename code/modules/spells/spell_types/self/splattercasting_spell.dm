@@ -35,7 +35,7 @@
 
 	if(ishuman(cast_on))
 		var/mob/living/carbon/human/human_cast_on = cast_on
-		human_cast_on.dropItemToGround(human_cast_on.w_uniform)
+		human_cast_on.dropItemToGround(human_cast_on.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
 		human_cast_on.dropItemToGround(human_cast_on.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
 		human_cast_on.dropItemToGround(human_cast_on.equipped_items_by_slot["[ITEM_SLOT_HEAD]"])
 		human_cast_on.equip_to_slot_or_del(new /obj/item/clothing/suit/wizrobe/red(human_cast_on), ITEM_SLOT_OCLOTHING)

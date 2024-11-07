@@ -25,7 +25,7 @@
 /datum/atom_hud/data/human/medical/basic/proc/check_sensors(mob/living/carbon/human/H)
 	if(!istype(H))
 		return FALSE
-	var/obj/item/clothing/under/U = H.w_uniform
+	var/obj/item/clothing/under/U = H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	if(!istype(U))
 		return FALSE
 	if(U.has_sensor < HAS_SENSORS)
@@ -230,7 +230,7 @@ Medical HUD! Basic mode needs suit sensors on.
 				holder.icon_state = "hudhealthy"
 				if(ishuman(src))
 					var/mob/living/carbon/human/crew = src
-					var/obj/item/clothing/under/uniform = crew.w_uniform
+					var/obj/item/clothing/under/uniform = crew.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 					if(uniform && uniform.has_sensor == BROKEN_SENSORS)
 						holder.icon_state = "hudnosensor"
 

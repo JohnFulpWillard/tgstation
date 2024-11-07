@@ -55,7 +55,7 @@
 
 	avatar.equipOutfit(to_wear, visuals_only = TRUE)
 
-	var/obj/item/clothing/under/jumpsuit = avatar.w_uniform
+	var/obj/item/clothing/under/jumpsuit = avatar.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	if(istype(jumpsuit))
 		jumpsuit.set_armor(/datum/armor/clothing_under)
 
@@ -77,7 +77,7 @@
 			new /obj/item/flashlight,
 		)
 
-	var/obj/item/card/id/outfit_id = avatar.wear_id
+	var/obj/item/card/id/outfit_id = avatar.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	if(outfit_id)
 		outfit_id.registered_account = new()
 		outfit_id.registered_account.replaceable = FALSE

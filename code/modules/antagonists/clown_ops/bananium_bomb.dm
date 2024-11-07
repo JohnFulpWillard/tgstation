@@ -41,7 +41,7 @@
 		return
 
 	clowned_on.Stun(1 SECONDS)
-	if(!clowned_on.w_uniform || clowned_on.dropItemToGround(clowned_on.w_uniform))
+	if(!clowned_on.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"] || clowned_on.dropItemToGround(clowned_on.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]))
 		var/obj/item/clothing/clown_shirt = new /obj/item/clothing/under/rank/civilian/clown(clowned_on)
 		ADD_TRAIT(clown_shirt, TRAIT_NODROP, CLOWN_NUKE_TRAIT)
 		clowned_on.equip_to_slot_or_del(clown_shirt, ITEM_SLOT_ICLOTHING)

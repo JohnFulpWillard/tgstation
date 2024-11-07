@@ -397,7 +397,7 @@
 	if(!equipped_job)
 		equipped_job = SSjob.get_job(equipped.job)
 
-	var/obj/item/card/id/card = equipped.wear_id
+	var/obj/item/card/id/card = equipped.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 
 	if(istype(card))
 		ADD_TRAIT(card, TRAIT_JOB_FIRST_ID_CARD, ROUNDSTART_TRAIT)

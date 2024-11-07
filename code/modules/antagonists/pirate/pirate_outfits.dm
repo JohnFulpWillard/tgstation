@@ -18,13 +18,13 @@
 		outfit_radio.set_frequency(FREQ_SYNDICATE)
 		outfit_radio.freqlock = RADIO_FREQENCY_LOCKED
 
-	var/obj/item/card/id/outfit_id = equipped.wear_id
+	var/obj/item/card/id/outfit_id = equipped.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 	if(outfit_id)
 		outfit_id.registered_name = equipped.real_name
 		outfit_id.update_label()
 		outfit_id.update_icon()
 
-	var/obj/item/clothing/under/pirate_uniform = equipped.w_uniform
+	var/obj/item/clothing/under/pirate_uniform = equipped.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	if(pirate_uniform)
 		pirate_uniform.has_sensor = NO_SENSORS
 		pirate_uniform.sensor_mode = SENSOR_OFF

@@ -392,7 +392,7 @@
 		if(tackle_target.get_mob_height() <= HUMAN_HEIGHT_SHORTEST) //WHO ARE YOU CALLING SHORT?
 			defense_mod -= 2
 
-		if(isnull(tackle_target.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]) && isnull(tackle_target.w_uniform)) // who honestly puts all of their effort into tackling a naked guy?
+		if(isnull(tackle_target.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]) && isnull(tackle_target.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])) // who honestly puts all of their effort into tackling a naked guy?
 			defense_mod += 2
 		if(tackle_target.mob_negates_gravity())
 			defense_mod += 1

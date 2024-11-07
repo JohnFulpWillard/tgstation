@@ -63,7 +63,7 @@
 
 	//dont want anyone noticing there's two now
 	var/mob/living/carbon/human/clone_human = owner.current
-	var/obj/item/clothing/under/sensor_clothes = clone_human.w_uniform
+	var/obj/item/clothing/under/sensor_clothes = clone_human.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
 	if(sensor_clothes)
 		sensor_clothes.sensor_mode = SENSOR_OFF
 		clone_human.update_suit_sensors()

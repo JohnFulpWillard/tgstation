@@ -152,8 +152,8 @@
 		if(prob(10 * item_multiplier) && !LAZYACCESS(fibers, fibertext))
 			LAZYSET(fibers, fibertext, fibertext)
 		if(!(suspect.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].body_parts_covered & CHEST))
-			if(suspect.w_uniform)
-				fibertext = "Fibers from \a [suspect.w_uniform]."
+			if(suspect.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
+				fibertext = "Fibers from \a [suspect.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]]."
 				if(prob(12 * item_multiplier) && !LAZYACCESS(fibers, fibertext)) //Wearing a suit means less of the uniform exposed.
 					LAZYSET(fibers, fibertext, fibertext)
 		if(!(suspect.equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"].body_parts_covered & HANDS))
@@ -161,8 +161,8 @@
 				fibertext = "Material from a pair of [suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"].name]."
 				if(prob(20 * item_multiplier) && !LAZYACCESS(fibers, fibertext))
 					LAZYSET(fibers, fibertext, fibertext)
-	else if(suspect.w_uniform)
-		fibertext = "Fibers from \a [suspect.w_uniform]."
+	else if(suspect.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
+		fibertext = "Fibers from \a [suspect.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]]."
 		if(prob(15 * item_multiplier) && !LAZYACCESS(fibers, fibertext))
 			LAZYSET(fibers, fibertext, fibertext)
 		if(suspect.equipped_items_by_slot["[ITEM_SLOT_GLOVES]"])

@@ -530,8 +530,8 @@ ADMIN_VERB(secrets, R_NONE, "Secrets", "Abuse harder than you ever have before w
 					if(animetype == "Yes")
 						var/seifuku = pick(typesof(/obj/item/clothing/under/costume/schoolgirl))
 						var/obj/item/clothing/under/costume/schoolgirl/I = new seifuku
-						var/olduniform = H.w_uniform
-						H.temporarilyRemoveItemFromInventory(H.w_uniform, TRUE, FALSE)
+						var/olduniform = H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
+						H.temporarilyRemoveItemFromInventory(H.equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"], TRUE, FALSE)
 						H.equip_to_slot_or_del(I, ITEM_SLOT_ICLOTHING)
 						qdel(olduniform)
 						if(droptype == "Yes")

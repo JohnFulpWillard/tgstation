@@ -242,7 +242,7 @@
 					logname = "[idcard.registered_name]"
 			if(ishuman(user))
 				var/mob/living/carbon/human/human_user = user
-				var/obj/item/worn = human_user.wear_id
+				var/obj/item/worn = human_user.equipped_items_by_slot["[ITEM_SLOT_ID]"]
 				if(istype(worn))
 					var/obj/item/card/id/id_card_of_human_user = worn.GetID()
 					if(istype(id_card_of_human_user))
