@@ -29,9 +29,11 @@
 	if(cast_on.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
 		cast_on.visible_message(span_danger("[cast_on.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]] on [cast_on] shatter!"))
 		QDEL_NULL(cast_on.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
+		cast_on.set_handcuffed(null)
 	if(cast_on.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
 		cast_on.visible_message(span_danger("[cast_on.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]] on [cast_on] shatters!"))
 		QDEL_NULL(cast_on.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
+		cast_on.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] = null
 
 	cast_on.apply_status_effect(/datum/status_effect/heretic_lastresort)
 	new /obj/effect/temp_visual/knockblast(get_turf(cast_on))

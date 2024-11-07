@@ -9,11 +9,14 @@
 		. += eyes.flash_protect
 	else
 		return INFINITY //Can't get flashed without eyes
-	if(isclothing(head)) //Adds head protection
+	if(isclothing(equipped_items_by_slot["[ITEM_SLOT_HEAD]"])) //Adds head protection
+		var/obj/item/clothing/head = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 		. += head.flash_protect
-	if(isclothing(glasses)) //Glasses
+	if(isclothing(equipped_items_by_slot["[ITEM_SLOT_EYES]"])) //Glasses
+		var/obj/item/clothing/glasses = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 		. += glasses.flash_protect
-	if(isclothing(wear_mask)) //Mask
+	if(isclothing(equipped_items_by_slot["[ITEM_SLOT_MASK]"])) //Mask
+		var/obj/item/clothing/wear_mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 		. += wear_mask.flash_protect
 
 /mob/living/carbon/get_ear_protection()
@@ -27,20 +30,30 @@
 		. += E.bang_protect
 
 /mob/living/carbon/is_mouth_covered(check_flags = ALL)
-	if((check_flags & ITEM_SLOT_HEAD) && head && (head.flags_cover & HEADCOVERSMOUTH))
-		return head
-	if((check_flags & ITEM_SLOT_MASK) && wear_mask && (wear_mask.flags_cover & MASKCOVERSMOUTH))
-		return wear_mask
+	if((check_flags & ITEM_SLOT_HEAD) && !isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/clothing/head = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		if(head.flags_cover & HEADCOVERSMOUTH)
+			return head
+	if((check_flags & ITEM_SLOT_MASK) && !isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+		var/obj/item/clothing/wear_mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+		if(wear_mask.flags_cover & MASKCOVERSMOUTH)
+			return wear_mask
 
 	return null
 
 /mob/living/carbon/is_eyes_covered(check_flags = ALL)
-	if((check_flags & ITEM_SLOT_HEAD) && head && (head.flags_cover & HEADCOVERSEYES))
-		return head
-	if((check_flags & ITEM_SLOT_MASK) && wear_mask && (wear_mask.flags_cover & MASKCOVERSEYES))
-		return wear_mask
-	if((check_flags & ITEM_SLOT_EYES) && glasses && (glasses.flags_cover & GLASSESCOVERSEYES))
-		return glasses
+	if((check_flags & ITEM_SLOT_HEAD) && !isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/clothing/head = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		if(head.flags_cover & HEADCOVERSEYES)
+			return head
+	if((check_flags & ITEM_SLOT_MASK) && !isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+		var/obj/item/clothing/wear_mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+		if(wear_mask.flags_cover & MASKCOVERSEYES)
+			return wear_mask
+	if((check_flags & ITEM_SLOT_EYES) && !isnull(equipped_items_by_slot["[ITEM_SLOT_EYES]"]))
+		var/obj/item/clothing/glasses = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
+		if(glasses.flags_cover & GLASSESCOVERSEYES)
+			return glasses
 
 	return null
 
@@ -48,10 +61,14 @@
 	var/obj/item/organ/eyes/eyes = get_organ_by_type(/obj/item/organ/eyes)
 	if(eyes && eyes.pepperspray_protect)
 		return eyes
-	if((check_flags & ITEM_SLOT_HEAD) && head && (head.flags_cover & PEPPERPROOF))
-		return head
-	if((check_flags & ITEM_SLOT_MASK) && wear_mask && (wear_mask.flags_cover & PEPPERPROOF))
-		return wear_mask
+	if((check_flags & ITEM_SLOT_HEAD) && !isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/clothing/head = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		if(head.flags_cover & PEPPERPROOF)
+			return head
+	if((check_flags & ITEM_SLOT_MASK) && !isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+		var/obj/item/clothing/wear_mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+		if(wear_mask.flags_cover & PEPPERPROOF)
+			return wear_mask
 
 	return null
 
@@ -323,7 +340,7 @@
 			add_mood_event("tailpulled", /datum/mood_event/tailpulled)
 
 	else if ((helper.zone_selected == BODY_ZONE_PRECISE_GROIN) && (istype(head, /obj/item/clothing/head/costume/kitty) || istype(head, /obj/item/clothing/head/collectable/kitty)))
-		var/obj/item/clothing/head/faketail = head
+		var/obj/item/clothing/head/faketail = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 		helper.visible_message(span_danger("[helper] pulls on [src]'s tail... and it rips off!"), \
 					null, span_hear("You hear a ripping sound."), DEFAULT_MESSAGE_RANGE, list(helper, src))
 		to_chat(helper, span_danger("You pull on [src]'s tail... and it rips off!"))
@@ -509,12 +526,12 @@
 	damage_amount *= 0.5 //0.5 multiplier for balance reason, we don't want clothes to be too easily destroyed
 	if(!def_zone || def_zone == BODY_ZONE_HEAD)
 		var/obj/item/clothing/hit_clothes
-		if(wear_mask)
-			hit_clothes = wear_mask
-		if(wear_neck)
-			hit_clothes = wear_neck
-		if(head)
-			hit_clothes = head
+		if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+			hit_clothes = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		else if(!isnull(equipped_items_by_slot["[ITEM_SLOT_NECK]"]))
+			hit_clothes = equipped_items_by_slot["[ITEM_SLOT_NECK]"]
+		else if(!isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+			hit_clothes = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 		if(hit_clothes)
 			hit_clothes.take_damage(damage_amount, damage_type, damage_flag, 0)
 

@@ -10,9 +10,6 @@
 	creator_icon = "dextrous"
 	hud_type = /datum/hud/dextrous/guardian
 	held_items = list(null, null)
-	equipped_items_by_slot = list(
-		"[ITEM_SLOT_DEX_STORAGE]",
-	)
 	/// An internal pocket we can put stuff in
 	var/obj/item/internal_storage
 
@@ -22,6 +19,11 @@
 	AddElement(/datum/element/dextrous, hud_type = hud_type)
 	AddComponent(/datum/component/personal_crafting)
 	AddComponent(/datum/component/basic_inhands)
+
+/mob/living/basic/drone/generate_equippable_item_slots()
+	equipped_items_by_slot = list(
+		"[ITEM_SLOT_DEX_STORAGE]",
+	)
 
 /mob/living/basic/guardian/dextrous/death(gibbed)
 	dropItemToGround(internal_storage)

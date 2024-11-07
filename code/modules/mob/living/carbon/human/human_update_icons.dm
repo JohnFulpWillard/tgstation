@@ -48,8 +48,8 @@ There are several things that need to be remembered:
 /* --------------------------------------- */
 //For legacy support.
 /mob/living/carbon/human/regenerate_icons()
-
-	if(!..())
+	. = ..()
+	if(!.)
 		update_worn_undersuit()
 		update_worn_id()
 		update_worn_glasses()
@@ -84,8 +84,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_ICLOTHING) + 1]
 		inv.update_icon()
 
-	if(istype(w_uniform, /obj/item/clothing/under))
-		var/obj/item/clothing/under/uniform = w_uniform
+	if(istype((equipped_items_by_slot["[ITEM_SLOT_ID]"]), /obj/item/clothing/under))
+		var/obj/item/clothing/under/uniform = equipped_items_by_slot["[ITEM_SLOT_ID]"]
 		update_hud_uniform(uniform)
 
 		if(update_obscured)
@@ -145,8 +145,8 @@ There are several things that need to be remembered:
 
 	var/mutable_appearance/id_overlay = overlays_standing[ID_LAYER]
 
-	if(wear_id)
-		var/obj/item/worn_item = wear_id
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_ID]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_ID]"]
 		update_hud_id(worn_item)
 
 		if(update_obscured)
@@ -154,7 +154,7 @@ There are several things that need to be remembered:
 
 		var/icon_file = 'icons/mob/clothing/id.dmi'
 
-		id_overlay = wear_id.build_worn_icon(default_layer = ID_LAYER, default_icon_file = icon_file)
+		id_overlay = worn_item.build_worn_icon(default_layer = ID_LAYER, default_icon_file = icon_file)
 
 		if(!id_overlay)
 			return
@@ -174,7 +174,7 @@ There are several things that need to be remembered:
 		inv.update_icon()
 
 	//Bloody hands begin
-	if(isnull(gloves))
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]))
 		if(blood_in_hands && num_hands > 0)
 			// When byond gives us filters that respect dirs we can just use an alpha mask for this but until then, two icons weeeee
 			var/mutable_appearance/hands_combined = mutable_appearance(layer = -GLOVES_LAYER, appearance_flags = KEEP_TOGETHER)
@@ -187,8 +187,8 @@ There are several things that need to be remembered:
 		return
 	// Bloody hands end
 
-	if(gloves)
-		var/obj/item/worn_item = gloves
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]
 		update_hud_gloves(worn_item)
 
 		if(update_obscured)
@@ -199,7 +199,7 @@ There are several things that need to be remembered:
 
 		var/icon_file = 'icons/mob/clothing/hands.dmi'
 
-		var/mutable_appearance/gloves_overlay = gloves.build_worn_icon(default_layer = GLOVES_LAYER, default_icon_file = icon_file)
+		var/mutable_appearance/gloves_overlay = worn_item.build_worn_icon(default_layer = GLOVES_LAYER, default_icon_file = icon_file)
 
 		var/feature_y_offset = 0
 		//needs to be typed, hand_bodyparts can have nulls
@@ -238,8 +238,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_EYES) + 1]
 		inv.update_icon()
 
-	if(glasses)
-		var/obj/item/worn_item = glasses
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_EYES]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 		update_hud_glasses(worn_item)
 
 		if(update_obscured)
@@ -250,7 +250,7 @@ There are several things that need to be remembered:
 
 		var/icon_file = 'icons/mob/clothing/eyes.dmi'
 
-		var/mutable_appearance/glasses_overlay = glasses.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = icon_file)
+		var/mutable_appearance/glasses_overlay = worn_item.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = icon_file)
 		my_head.worn_glasses_offset?.apply_offset(glasses_overlay)
 		overlays_standing[GLASSES_LAYER] = glasses_overlay
 	apply_overlay(GLASSES_LAYER)
@@ -267,8 +267,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_EARS) + 1]
 		inv.update_icon()
 
-	if(ears)
-		var/obj/item/worn_item = ears
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_EARS]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_EARS]"]
 		update_hud_ears(worn_item)
 
 		if(update_obscured)
@@ -279,7 +279,7 @@ There are several things that need to be remembered:
 
 		var/icon_file = 'icons/mob/clothing/ears.dmi'
 
-		var/mutable_appearance/ears_overlay = ears.build_worn_icon(default_layer = EARS_LAYER, default_icon_file = icon_file)
+		var/mutable_appearance/ears_overlay = worn_item.build_worn_icon(default_layer = EARS_LAYER, default_icon_file = icon_file)
 		my_head.worn_ears_offset?.apply_offset(ears_overlay)
 		overlays_standing[EARS_LAYER] = ears_overlay
 	apply_overlay(EARS_LAYER)
@@ -291,9 +291,9 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_NECK) + 1]
 		inv.update_icon()
 
-	if(wear_neck)
-		var/obj/item/worn_item = wear_neck
-		update_hud_neck(wear_neck)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_NECK]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_NECK]"]
+		update_hud_neck(worn_item)
 
 		if(update_obscured)
 			update_obscured_slots(worn_item.flags_inv)
@@ -320,8 +320,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_FEET) + 1]
 		inv.update_icon()
 
-	if(shoes)
-		var/obj/item/worn_item = shoes
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_FEET]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_FEET]"]
 		update_hud_shoes(worn_item)
 
 		if(update_obscured)
@@ -332,7 +332,7 @@ There are several things that need to be remembered:
 
 		var/icon_file = DEFAULT_SHOES_FILE
 
-		var/mutable_appearance/shoes_overlay = shoes.build_worn_icon(default_layer = SHOES_LAYER, default_icon_file = icon_file)
+		var/mutable_appearance/shoes_overlay = worn_item.build_worn_icon(default_layer = SHOES_LAYER, default_icon_file = icon_file)
 		if(!shoes_overlay)
 			return
 
@@ -358,8 +358,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_SUITSTORE) + 1]
 		inv.update_icon()
 
-	if(s_store)
-		var/obj/item/worn_item = s_store
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"]
 		update_hud_s_store(worn_item)
 
 		if(update_obscured)
@@ -380,8 +380,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_HEAD) + 1]
 		inv.update_icon()
 
-	if(head)
-		var/obj/item/worn_item = head
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 		update_hud_head(worn_item)
 
 		if(update_obscured)
@@ -392,7 +392,7 @@ There are several things that need to be remembered:
 
 		var/icon_file = 'icons/mob/clothing/head/default.dmi'
 
-		var/mutable_appearance/head_overlay = head.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = icon_file)
+		var/mutable_appearance/head_overlay = worn_item.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = icon_file)
 		var/obj/item/bodypart/head/my_head = get_bodypart(BODY_ZONE_HEAD)
 		my_head?.worn_head_offset?.apply_offset(head_overlay)
 		overlays_standing[HEAD_LAYER] = head_overlay
@@ -407,8 +407,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_BELT) + 1]
 		inv.update_icon()
 
-	if(belt)
-		var/obj/item/worn_item = belt
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_BELT]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_BELT]"]
 		update_hud_belt(worn_item)
 
 		if(update_obscured)
@@ -433,8 +433,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_OCLOTHING) + 1]
 		inv.update_icon()
 
-	if(wear_suit)
-		var/obj/item/worn_item = wear_suit
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
 		update_hud_wear_suit(worn_item)
 
 		if(update_obscured)
@@ -442,7 +442,7 @@ There are several things that need to be remembered:
 
 		var/icon_file = DEFAULT_SUIT_FILE
 
-		var/mutable_appearance/suit_overlay = wear_suit.build_worn_icon(default_layer = SUIT_LAYER, default_icon_file = icon_file)
+		var/mutable_appearance/suit_overlay = worn_item.build_worn_icon(default_layer = SUIT_LAYER, default_icon_file = icon_file)
 		var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
 		my_chest?.worn_suit_offset?.apply_offset(suit_overlay)
 		overlays_standing[SUIT_LAYER] = suit_overlay
@@ -451,25 +451,28 @@ There are several things that need to be remembered:
 	check_body_shape(BODYSHAPE_DIGITIGRADE, ITEM_SLOT_OCLOTHING)
 
 /mob/living/carbon/human/update_pockets()
-	if(client && hud_used)
-		var/atom/movable/screen/inventory/inv
+	if(!client || !hud_used)
+		return
+	var/atom/movable/screen/inventory/inv
 
-		inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_LPOCKET) + 1]
-		inv.update_icon()
-		inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_RPOCKET) + 1]
-		inv.update_icon()
+	inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_LPOCKET) + 1]
+	inv.update_icon()
+	inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_RPOCKET) + 1]
+	inv.update_icon()
 
-		if(l_store)
-			l_store.screen_loc = ui_storage1
-			if(hud_used.hud_shown)
-				client.screen += l_store
-			update_observer_view(l_store)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"]))
+		var/obj/item/left_pocket = equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"]
+		left_pocket.screen_loc = ui_storage1
+		if(hud_used.hud_shown)
+			client.screen += left_pocket
+		update_observer_view(left_pocket)
 
-		if(r_store)
-			r_store.screen_loc = ui_storage2
-			if(hud_used.hud_shown)
-				client.screen += r_store
-			update_observer_view(r_store)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]))
+		var/obj/item/right_pocket = equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]
+		right_pocket.screen_loc = ui_storage2
+		if(hud_used.hud_shown)
+			client.screen += right_pocket
+		update_observer_view(right_pocket)
 
 /mob/living/carbon/human/update_worn_mask(update_obscured = TRUE)
 	remove_overlay(FACEMASK_LAYER)
@@ -482,8 +485,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_MASK) + 1]
 		inv.update_icon()
 
-	if(wear_mask)
-		var/obj/item/worn_item = wear_mask
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 		update_hud_wear_mask(worn_item)
 
 		if(update_obscured)
@@ -494,7 +497,7 @@ There are several things that need to be remembered:
 
 		var/icon_file = 'icons/mob/clothing/mask.dmi'
 
-		var/mutable_appearance/mask_overlay = wear_mask.build_worn_icon(default_layer = FACEMASK_LAYER, default_icon_file = icon_file)
+		var/mutable_appearance/mask_overlay = worn_item.build_worn_icon(default_layer = FACEMASK_LAYER, default_icon_file = icon_file)
 		my_head.worn_mask_offset?.apply_offset(mask_overlay)
 		overlays_standing[FACEMASK_LAYER] = mask_overlay
 
@@ -508,8 +511,8 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_BACK) + 1]
 		inv.update_icon()
 
-	if(back)
-		var/obj/item/worn_item = back
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_BACK]"]))
+		var/obj/item/worn_item = equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 		var/mutable_appearance/back_overlay
 		update_hud_back(worn_item)
 
@@ -518,7 +521,7 @@ There are several things that need to be remembered:
 
 		var/icon_file = 'icons/mob/clothing/back.dmi'
 
-		back_overlay = back.build_worn_icon(default_layer = BACK_LAYER, default_icon_file = icon_file)
+		back_overlay = worn_item.build_worn_icon(default_layer = BACK_LAYER, default_icon_file = icon_file)
 
 		if(!back_overlay)
 			return
@@ -686,7 +689,7 @@ There are several things that need to be remembered:
 	update_observer_view(worn_item,TRUE)
 
 /mob/living/carbon/human/proc/update_hud_belt(obj/item/worn_item)
-	belt.screen_loc = ui_belt
+	worn_item.screen_loc = ui_belt
 	if(client && hud_used?.hud_shown)
 		client.screen += worn_item
 	update_observer_view(worn_item,TRUE)

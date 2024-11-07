@@ -148,9 +148,10 @@
 
 /mob/living/carbon/human/proc/get_thermal_protection()
 	var/thermal_protection = 0 //Simple check to estimate how protected we are against multiple temperatures
-	if(wear_suit)
-		if((wear_suit.heat_protection & CHEST) && (wear_suit.max_heat_protection_temperature >= FIRE_SUIT_MAX_TEMP_PROTECT))
-			thermal_protection += (wear_suit.max_heat_protection_temperature * 0.7)
+	var/obj/item/suit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+	if(suit)
+		if((suit.heat_protection & CHEST) && (suit.max_heat_protection_temperature >= FIRE_SUIT_MAX_TEMP_PROTECT))
+			thermal_protection += (suit.max_heat_protection_temperature * 0.7)
 	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
 		var/obj/item/head_clothing = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 		if((head_clothing.heat_protection & HEAD) && (head_clothing.max_heat_protection_temperature >= FIRE_HELM_MAX_TEMP_PROTECT))
@@ -290,12 +291,15 @@
 	return min(1, round(thermal_protection, 0.001))
 
 /mob/living/carbon/human/has_smoke_protection()
+	var/obj/item/clothing/wear_mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 	if(isclothing(wear_mask))
 		if(wear_mask.clothing_flags & BLOCK_GAS_SMOKE_EFFECT)
 			return TRUE
+	var/obj/item/clothing/glasses = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 	if(isclothing(glasses))
 		if(glasses.clothing_flags & BLOCK_GAS_SMOKE_EFFECT)
 			return TRUE
+	var/obj/item/clothing/head = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 	if(isclothing(head))
 		var/obj/item/clothing/CH = head
 		if(CH.clothing_flags & BLOCK_GAS_SMOKE_EFFECT)

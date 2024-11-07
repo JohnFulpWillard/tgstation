@@ -247,7 +247,7 @@
 /mob/living/carbon/update_held_items()
 	. = ..()
 	remove_overlay(HANDS_LAYER)
-	if (handcuffed)
+	if (!isnull(equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]))
 		drop_all_held_items()
 		return
 
@@ -337,7 +337,8 @@
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_MASK) + 1]
 		inv.update_appearance()
 
-	if(wear_mask)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_MASK]"]))
+		var/obj/item/wear_mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
 		if(update_obscured)
 			update_obscured_slots(wear_mask.flags_inv)
 		if(!(check_obscured_slots() & ITEM_SLOT_MASK))
@@ -353,7 +354,8 @@
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_NECK) + 1]
 		inv.update_appearance()
 
-	if(wear_neck)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_NECK]"]))
+		var/obj/item/wear_neck = equipped_items_by_slot["[ITEM_SLOT_NECK]"]
 		if(update_obscured)
 			update_obscured_slots(wear_neck.flags_inv)
 		if(!(check_obscured_slots() & ITEM_SLOT_NECK))
@@ -369,7 +371,8 @@
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_BACK) + 1]
 		inv.update_appearance()
 
-	if(back)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_BACK]"]))
+		var/obj/item/back = equipped_items_by_slot["[ITEM_SLOT_BACK]"]
 		if(update_obscured)
 			update_obscured_slots(back.flags_inv)
 		overlays_standing[BACK_LAYER] = back.build_worn_icon(default_layer = BACK_LAYER, default_icon_file = 'icons/mob/clothing/back.dmi')
@@ -380,12 +383,14 @@
 /mob/living/carbon/update_worn_legcuffs(update_obscured = TRUE)
 	remove_overlay(LEGCUFF_LAYER)
 	clear_alert("legcuffed")
-	if(legcuffed)
+
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]))
+		var/obj/item/legcuffs = equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]
 		if(update_obscured)
-			update_obscured_slots(legcuffed.flags_inv)
+			update_obscured_slots(legcuffs.flags_inv)
 		overlays_standing[LEGCUFF_LAYER] = mutable_appearance('icons/mob/simple/mob.dmi', "legcuff1", -LEGCUFF_LAYER)
 		apply_overlay(LEGCUFF_LAYER)
-		throw_alert("legcuffed", /atom/movable/screen/alert/restrained/legcuffed, new_master = src.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
+		throw_alert("legcuffed", /atom/movable/screen/alert/restrained/legcuffed, new_master = legcuffs)
 
 /mob/living/carbon/update_worn_head(update_obscured = TRUE)
 	remove_overlay(HEAD_LAYER)
@@ -397,7 +402,8 @@
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_HEAD) + 1]
 		inv.update_appearance()
 
-	if(head)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
+		var/obj/item/head = equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
 		if(update_obscured)
 			update_obscured_slots(head.flags_inv)
 		if(!(check_obscured_slots() & ITEM_SLOT_HEAD))
@@ -409,11 +415,13 @@
 
 /mob/living/carbon/update_worn_handcuffs(update_obscured = TRUE)
 	remove_overlay(HANDCUFF_LAYER)
-	if(handcuffed)
+
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]))
+		var/obj/item/handcuffs = equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]
 		if(update_obscured)
-			update_obscured_slots(handcuffed.flags_inv)
+			update_obscured_slots(handcuffs.flags_inv)
 		var/mutable_appearance/handcuff_overlay = mutable_appearance('icons/mob/simple/mob.dmi', "handcuff1", -HANDCUFF_LAYER)
-		if(handcuffed.blocks_emissive != EMISSIVE_BLOCK_NONE)
+		if(handcuffs.blocks_emissive != EMISSIVE_BLOCK_NONE)
 			handcuff_overlay.overlays += emissive_blocker(handcuff_overlay.icon, handcuff_overlay.icon_state, src, alpha = handcuff_overlay.alpha)
 
 		overlays_standing[HANDCUFF_LAYER] = handcuff_overlay
@@ -424,11 +432,12 @@
 
 //update whether handcuffs appears on our hud.
 /mob/living/carbon/proc/update_hud_handcuffed()
-	if(hud_used)
-		for(var/hand in hud_used.hand_slots)
-			var/atom/movable/screen/inventory/hand/H = hud_used.hand_slots[hand]
-			if(H)
-				H.update_appearance()
+	if(!hud_used)
+		return
+	for(var/hand in hud_used.hand_slots)
+		var/atom/movable/screen/inventory/hand/H = hud_used.hand_slots[hand]
+		if(H)
+			H.update_appearance()
 
 //update whether our head item appears on our hud.
 /mob/living/carbon/proc/update_hud_head(obj/item/I)

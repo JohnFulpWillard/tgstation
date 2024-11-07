@@ -69,7 +69,7 @@
 /// Signal proc for [COMSIG_ATOM_CONTENTS_WEIGHT_CLASS_CHANGED] to check if an item is suddenly too heavy for our pockets
 /mob/living/carbon/human/proc/check_pocket_weght(datum/source, obj/item/changed, old_w_class, new_w_class)
 	SIGNAL_HANDLER
-	if(changed != r_store && changed != l_store)
+	if(changed != equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"] && changed != equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"])
 		return
 	if(new_w_class <= POCKET_WEIGHT_CLASS)
 		return

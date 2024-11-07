@@ -488,7 +488,7 @@
 	if(iscarbon(victim) && (victim.body_position == STANDING_UP || hit_prone))
 		var/mob/living/carbon/carbon_victim = victim
 		def_zone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-		if(!carbon_victim.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] && carbon_victim.num_legs >= 2) //beartrap can't cuff your leg if there's already a beartrap or legcuffs, or you don't have two legs.
+		if(isnull(carbon_victim.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]) && carbon_victim.num_legs >= 2) //beartrap can't cuff your leg if there's already a beartrap or legcuffs, or you don't have two legs.
 			INVOKE_ASYNC(carbon_victim, TYPE_PROC_REF(/mob/living/carbon, equip_to_slot), src, ITEM_SLOT_LEGCUFFED)
 			SSblackbox.record_feedback("tally", "handcuffs", 1, type)
 
@@ -575,7 +575,7 @@
  * * snared_mob - the carbon that we will try to ensnare
  */
 /obj/item/restraints/legcuffs/bola/proc/ensnare(mob/living/carbon/snared_mob)
-	if(snared_mob.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] || snared_mob.num_legs < 2)
+	if(!isnull(snared_mob.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]) || snared_mob.num_legs < 2)
 		return
 	visible_message(span_danger("\The [src] ensnares [snared_mob]!"), span_userdanger("\The [src] ensnares you!"))
 	snared_mob.equip_to_slot(src, ITEM_SLOT_LEGCUFFED)

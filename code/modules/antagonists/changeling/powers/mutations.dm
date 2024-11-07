@@ -681,8 +681,9 @@
 /datum/action/cooldown/hivehead_spawn_minions/proc/minion_additional_changes(mob/living/basic/minion)
 	var/mob/living/basic/bee/summoned_bee = minion
 	var/mob/living/carbon/wearer = owner
-	if(istype(summoned_bee) && length(wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].reagents.reagent_list))
-		summoned_bee.assign_reagent(pick(wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].reagents.reagent_list))
+	var/obj/item/hat = wearer.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+	if(istype(summoned_bee) && length(hat.reagents.reagent_list))
+		summoned_bee.assign_reagent(pick(hat.reagents.reagent_list))
 
 /obj/item/clothing/head/helmet/changeling_hivehead/legion
 	name = "legion hive head"

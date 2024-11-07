@@ -336,9 +336,10 @@
 	sac_target.set_handcuffed(new /obj/item/restraints/handcuffs/energy/cult(sac_target))
 	sac_target.update_handcuffed()
 
-	if(sac_target.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
-		sac_target.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"].forceMove(sac_target.drop_location())
-		sac_target.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"].dropped(sac_target)
+	var/obj/item/legcuffs = sac_target.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]
+	if(!isnull(legcuffs))
+		legcuffs.forceMove(sac_target.drop_location())
+		legcuffs.dropped(sac_target)
 		sac_target.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] = null
 		sac_target.update_worn_legcuffs()
 

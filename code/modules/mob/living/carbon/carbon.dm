@@ -29,6 +29,20 @@
 	QDEL_NULL(breathing_loop)
 	GLOB.carbon_list -= src
 
+/mob/living/carbon/generate_equippable_item_slots()
+	equipped_items_by_slot = list(
+		"[ITEM_SLOT_GLOVES]",
+		"[ITEM_SLOT_EYES]",
+		"[ITEM_SLOT_EARS]",
+		"[ITEM_SLOT_MASK]",
+		"[ITEM_SLOT_HEAD]",
+		"[ITEM_SLOT_FEET]",
+		"[ITEM_SLOT_BACK]",
+		"[ITEM_SLOT_NECK]",
+		"[ITEM_SLOT_HANDCUFFED]",
+		"[ITEM_SLOT_LEGCUFFED]",
+	)
+
 /mob/living/carbon/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	. = ..()
 	if(. & ITEM_INTERACT_ANY_BLOCKER)
@@ -334,61 +348,63 @@
 	cuffs.item_flags &= ~BEING_REMOVED
 
 /mob/living/carbon/proc/uncuff()
-	if (handcuffed)
-		var/obj/item/W = handcuffed
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]))
+		var/obj/item/handcuffs = equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]
 		set_handcuffed(null)
 		if (buckled?.buckle_requires_restraints)
 			buckled.unbuckle_mob(src)
 		update_handcuffed()
 		if (client)
-			client.screen -= W
-		if (W)
-			W.forceMove(drop_location())
-			W.dropped(src)
-			if (W)
-				W.layer = initial(W.layer)
-				SET_PLANE_EXPLICIT(W, initial(W.plane), src)
+			client.screen -= handcuffs
+		if (handcuffs)
+			handcuffs.forceMove(drop_location())
+			handcuffs.dropped(src)
+			if (handcuffs)
+				handcuffs.layer = initial(handcuffs.layer)
+				SET_PLANE_EXPLICIT(handcuffs, initial(handcuffs.plane), src)
 		changeNext_move(0)
-	if (legcuffed)
-		var/obj/item/W = legcuffed
-		legcuffed = null
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]))
+		var/obj/item/legcuffs = equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]
+		equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] = null
 		update_worn_legcuffs()
 		if (client)
-			client.screen -= W
-		if (W)
-			W.forceMove(drop_location())
-			W.dropped(src)
-			if (W)
-				W.layer = initial(W.layer)
-				SET_PLANE_EXPLICIT(W, initial(W.plane), src)
+			client.screen -= legcuffs
+		if (legcuffs)
+			legcuffs.forceMove(drop_location())
+			legcuffs.dropped(src)
+			if (legcuffs)
+				legcuffs.layer = initial(legcuffs.layer)
+				SET_PLANE_EXPLICIT(legcuffs, initial(legcuffs.plane), src)
 		changeNext_move(0)
 	update_equipment_speed_mods() // In case cuffs ever change speed
 
 /mob/living/carbon/proc/clear_cuffs(obj/item/I, cuff_break)
 	if(!I.loc || buckled)
 		return FALSE
-	if(I != handcuffed && I != legcuffed)
+	if(I != equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] && I != equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
 		return FALSE
 	visible_message(span_danger("[src] manages to [cuff_break ? "break" : "remove"] [I]!"))
 	to_chat(src, span_notice("You successfully [cuff_break ? "break" : "remove"] [I]."))
 
 	if(cuff_break)
-		. = !((I == handcuffed) || (I == legcuffed))
+		. = !((I == equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]) || (I == equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]))
 		qdel(I)
 		return TRUE
 
 	else
-		if(I == handcuffed)
-			handcuffed.forceMove(drop_location())
+		if(I == equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
+			var/obj/item/handcuffs = equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]
+			handcuffs.forceMove(drop_location())
 			set_handcuffed(null)
 			I.dropped(src)
 			if(buckled?.buckle_requires_restraints)
 				buckled.unbuckle_mob(src)
 			update_handcuffed()
 			return TRUE
-		if(I == legcuffed)
-			legcuffed.forceMove(drop_location())
-			legcuffed = null
+		if(I == equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
+			var/obj/item/legcuffs = equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]
+			legcuffs.forceMove(drop_location())
+			equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] = null
 			I.dropped(src)
 			update_worn_legcuffs()
 			return TRUE
@@ -612,7 +628,8 @@
 		if(A.update_remote_sight(src)) //returns 1 if we override all other sight updates.
 			return
 
-	if(glasses)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_EYES]"]))
+		var/obj/item/clothing/glasses/glasses = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
 		new_sight |= glasses.vision_flags
 		if(glasses.invis_override)
 			set_invis_see(glasses.invis_override)
@@ -870,7 +887,7 @@
 
 //called when we get cuffed/uncuffed
 /mob/living/carbon/proc/update_handcuffed()
-	if(handcuffed)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]))
 		drop_all_held_items()
 		stop_pulling()
 		throw_alert(ALERT_HANDCUFFED, /atom/movable/screen/alert/restrained/handcuffed, new_master = src.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"])
@@ -1356,10 +1373,10 @@
 
 /// Modifies the handcuffed value if a different value is passed, returning FALSE otherwise. The variable should only be changed through this proc.
 /mob/living/carbon/proc/set_handcuffed(new_value)
-	if(handcuffed == new_value)
+	if(equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] == new_value)
 		return FALSE
-	. = handcuffed
-	handcuffed = new_value
+	. = equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]
+	equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] = new_value
 	if(.)
 		if(!handcuffed)
 			REMOVE_TRAIT(src, TRAIT_RESTRAINED, HANDCUFFED_TRAIT)

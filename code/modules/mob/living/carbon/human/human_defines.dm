@@ -16,36 +16,6 @@
 	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	max_grab = GRAB_KILL
 
-	equipped_items_by_slot = list(
-		"[ITEM_SLOT_GLOVES]",
-		"[ITEM_SLOT_EYES]",
-		"[ITEM_SLOT_EARS]",
-		"[ITEM_SLOT_MASK]",
-		"[ITEM_SLOT_HEAD]",
-		"[ITEM_SLOT_FEET]",
-		"[ITEM_SLOT_BACK]",
-		"[ITEM_SLOT_NECK]",
-		"[ITEM_SLOT_HANDCUFFED]",
-		"[ITEM_SLOT_LEGCUFFED]",
-		//Human-specific slots
-		"[ITEM_SLOT_OCLOTHING]",
-		"[ITEM_SLOT_ICLOTHING]",
-		"[ITEM_SLOT_BELT]",
-		"[ITEM_SLOT_ID]",
-		"[ITEM_SLOT_SUITSTORE]",
-		"[ITEM_SLOT_LPOCKET]",
-		"[ITEM_SLOT_RPOCKET]",
-	)
-
-	//Equipment slots
-	var/obj/item/clothing/wear_suit = null
-	var/obj/item/clothing/w_uniform = null
-	var/obj/item/belt = null
-	var/obj/item/wear_id = null
-	var/obj/item/r_store = null
-	var/obj/item/l_store = null
-	var/obj/item/s_store = null
-
 	//Hair colour and style
 	var/hair_color = COLOR_BLACK
 	var/hairstyle = "Bald"

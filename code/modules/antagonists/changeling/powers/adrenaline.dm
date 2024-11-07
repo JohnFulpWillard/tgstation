@@ -36,6 +36,7 @@
 			span_warning("We rip apart our leg restraints!"),
 		)
 		qdel(legcuffs)
+		user.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] = null
 
 	// Regenerate our legs only.
 	var/our_leg_zones = (GLOB.all_body_zones - GLOB.leg_zones)

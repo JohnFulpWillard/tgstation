@@ -16,6 +16,10 @@
 	update_fov()
 	gravity_setup()
 	ADD_TRAIT(src, TRAIT_UNIQUE_IMMERSE, INNATE_TRAIT)
+	generate_equippable_item_slots()
+
+/mob/living/proc/generate_equippable_item_slots()
+	equipped_items_by_slot = list()
 
 /mob/living/prepare_huds()
 	..()

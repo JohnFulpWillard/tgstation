@@ -65,9 +65,10 @@
 		cuff_icon = "aliencuff_[caste]"
 		dmi_file = 'icons/mob/nonhuman-player/alienqueen.dmi'
 
-	if(handcuffed)
+	if(!isnull(equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]))
+		var/obj/item/handcuffs = equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]
 		var/mutable_appearance/handcuff_overlay = mutable_appearance(dmi_file, cuff_icon, -HANDCUFF_LAYER)
-		if(handcuffed.blocks_emissive != EMISSIVE_BLOCK_NONE)
+		if(handcuffs.blocks_emissive != EMISSIVE_BLOCK_NONE)
 			handcuff_overlay += emissive_blocker(handcuff_overlay.icon, handcuff_overlay.icon_state, src, alpha = handcuff_overlay.alpha)
 
 		overlays_standing[HANDCUFF_LAYER] = handcuff_overlay

@@ -210,4 +210,5 @@
 	var/area/ambience_tracked_area
 
 	///List of all equipment on the mob by slot, this can be referenced when needed with equipped_items_by_slot[slot].
-	var/list/equipped_items_by_slot = list()
+	var/list/equipped_items_by_slot
+

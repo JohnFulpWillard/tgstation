@@ -69,6 +69,28 @@
 
 	return ..()
 
+/mob/living/carbon/human/generate_equippable_item_slots()
+	equipped_items_by_slot = list(
+		"[ITEM_SLOT_GLOVES]",
+		"[ITEM_SLOT_EYES]",
+		"[ITEM_SLOT_EARS]",
+		"[ITEM_SLOT_MASK]",
+		"[ITEM_SLOT_HEAD]",
+		"[ITEM_SLOT_FEET]",
+		"[ITEM_SLOT_BACK]",
+		"[ITEM_SLOT_NECK]",
+		"[ITEM_SLOT_HANDCUFFED]",
+		"[ITEM_SLOT_LEGCUFFED]",
+		//Human-specific slots
+		"[ITEM_SLOT_OCLOTHING]",
+		"[ITEM_SLOT_ICLOTHING]",
+		"[ITEM_SLOT_BELT]",
+		"[ITEM_SLOT_ID]",
+		"[ITEM_SLOT_SUITSTORE]",
+		"[ITEM_SLOT_LPOCKET]",
+		"[ITEM_SLOT_RPOCKET]",
+	)
+
 /mob/living/carbon/human/prepare_data_huds()
 	//Update med hud images...
 	..()
@@ -219,10 +241,11 @@
 					to_chat(human_user, span_danger("Patient has signs of suffocation, emergency treatment may be required!"))
 				if(getToxLoss() > 20)
 					to_chat(human_user, span_danger("Gathered data is inconsistent with the analysis, possible cause: poisoning."))
-			if(!human_user.wear_id) //You require access from here on out.
+			var/obj/item/worn_id = equipped_items_by_slot["[ITEM_SLOT_ID]"]
+			if(isnull(worn_id)) //You require access from here on out.
 				to_chat(human_user, span_warning("ERROR: Invalid access"))
 				return
-			var/list/access = human_user.wear_id.GetAccess()
+			var/list/access = worn_id.GetAccess()
 			if(!(ACCESS_MEDICAL in access))
 				to_chat(human_user, span_warning("ERROR: Invalid access"))
 				return
@@ -264,8 +287,9 @@
 				if(istype(user_glasses) && (user_glasses.obj_flags & EMAGGED))
 					allowed_access = "@%&ERROR_%$*"
 				else //Implant and standard glasses check access
-					if(human_user.wear_id)
-						var/list/access = human_user.wear_id.GetAccess()
+					var/obj/item/worn_id = equipped_items_by_slot["[ITEM_SLOT_ID]"]
+					if(worn_id)
+						var/list/access = worn_id.GetAccess()
 						if(ACCESS_SECURITY in access)
 							allowed_access = human_user.get_authentification_name()
 
@@ -416,19 +440,19 @@
 	//Lasertag bullshit
 	if(lasercolor)
 		if(lasercolor == "b")//Lasertag turrets target the opposing team, how great is that? -Sieve
-			if(istype(wear_suit, /obj/item/clothing/suit/redtag))
+			if(istype(equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], /obj/item/clothing/suit/redtag))
 				threatcount += 4
 			if(is_holding_item_of_type(/obj/item/gun/energy/laser/redtag))
 				threatcount += 4
-			if(istype(belt, /obj/item/gun/energy/laser/redtag))
+			if(istype(equipped_items_by_slot["[ITEM_SLOT_BELT]"], /obj/item/gun/energy/laser/redtag))
 				threatcount += 2
 
 		if(lasercolor == "r")
-			if(istype(wear_suit, /obj/item/clothing/suit/bluetag))
+			if(istype(equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"], /obj/item/clothing/suit/bluetag))
 				threatcount += 4
 			if(is_holding_item_of_type(/obj/item/gun/energy/laser/bluetag))
 				threatcount += 4
-			if(istype(belt, /obj/item/gun/energy/laser/bluetag))
+			if(istype(equipped_items_by_slot["[ITEM_SLOT_BELT]"], /obj/item/gun/energy/laser/bluetag))
 				threatcount += 2
 
 		return threatcount
@@ -627,10 +651,12 @@
 	. = ..()
 
 	// Wash equipped stuff that cannot be covered
-	if(wear_suit?.wash(clean_types))
+	var/obj/item/suit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+	if(suit?.wash(clean_types))
 		update_worn_oversuit()
 		. = TRUE
 
+	var/obj/item/belt = equipped_items_by_slot["[ITEM_SLOT_BELT]"]
 	if(belt?.wash(clean_types))
 		update_worn_belt()
 		. = TRUE
@@ -638,7 +664,8 @@
 	// Check and wash stuff that can be covered
 	var/obscured = check_obscured_slots()
 
-	if(!(obscured & ITEM_SLOT_ICLOTHING) && w_uniform?.wash(clean_types))
+	var/obj/item/jumpsuit = equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]
+	if(!(obscured & ITEM_SLOT_ICLOTHING) && jumpsuit?.wash(clean_types))
 		update_worn_undersuit()
 		. = TRUE
 
@@ -681,10 +708,11 @@
 	cut_overlay(MA)
 
 /mob/living/carbon/human/resist_restraints()
-	if(wear_suit?.breakouttime)
+	var/obj/item/suit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+	if(suit?.breakouttime)
 		changeNext_move(CLICK_CD_BREAKOUT)
 		last_special = world.time + CLICK_CD_BREAKOUT
-		cuff_resist(wear_suit)
+		cuff_resist(suit)
 	else
 		..()
 
@@ -694,7 +722,7 @@
 		return
 	if(!I.loc || buckled)
 		return FALSE
-	if(I == wear_suit)
+	if(I == equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
 		visible_message(span_danger("[src] manages to [cuff_break ? "break" : "remove"] [I]!"))
 		to_chat(src, span_notice("You successfully [cuff_break ? "break" : "remove"] [I]."))
 		return TRUE

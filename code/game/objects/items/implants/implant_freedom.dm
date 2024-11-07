@@ -33,7 +33,7 @@
 		qdel(src)
 
 /obj/item/implant/freedom/proc/can_trigger(mob/living/carbon/implanted_in)
-	if(implanted_in.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"] || implanted_in.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
+	if(!isnull(implanted_in.equipped_items_by_slot["[ITEM_SLOT_HANDCUFFED]"]) || !isnull(implanted_in.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]))
 		return TRUE
 
 	var/obj/item/clothing/shoes/shoes = implanted_in.equipped_items_by_slot["[ITEM_SLOT_FEET]"]

@@ -31,74 +31,78 @@
 //This is an UNSAFE proc. Use mob_can_equip() before calling this one! Or rather use equip_to_slot_if_possible() or advanced_equip_to_slot_if_possible()
 // Initial is used to indicate whether or not this is the initial equipment (job datums etc) or just a player doing it
 /mob/living/carbon/human/equip_to_slot(obj/item/equipping, slot, initial = FALSE, redraw_mob = FALSE, indirect_action = FALSE)
-	if(!..()) //a check failed or the item has already found its slot
+	. = ..()
+	if(!.) //a check failed or the item has already found its slot
 		return
 
 	var/not_handled = FALSE //Added in case we make this type path deeper one day
 	switch(slot)
 		if(ITEM_SLOT_BELT)
-			if(belt)
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_BELT]"]))
 				return
-			belt = equipping
+			equipped_items_by_slot["[ITEM_SLOT_BELT]"] = equipping
 			update_worn_belt()
 		if(ITEM_SLOT_ID)
-			if(wear_id)
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_ID]"]))
 				return
-			wear_id = equipping
+			equipped_items_by_slot["[ITEM_SLOT_ID]"] = equipping
 			sec_hud_set_ID()
 			update_worn_id()
 		if(ITEM_SLOT_EARS)
-			if(ears)
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_EARS]"]))
 				return
-			ears = equipping
+			equipped_items_by_slot["[ITEM_SLOT_EARS]"] = equipping
 			update_worn_ears()
 		if(ITEM_SLOT_EYES)
-			if(glasses)
+			var/obj/item/clothing/glasses = equipped_items_by_slot["[ITEM_SLOT_EYES]"]
+			if(!isnull(glasses))
 				return
-			glasses = equipping
+			equipped_items_by_slot["[ITEM_SLOT_EYES]"] = equipping
 			if(glasses.vision_flags || glasses.invis_override || glasses.invis_view || !isnull(glasses.lighting_cutoff))
 				update_sight()
 			update_worn_glasses()
 		if(ITEM_SLOT_GLOVES)
-			if(gloves)
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_GLOVES]"]))
 				return
-			gloves = equipping
+			equipped_items_by_slot["[ITEM_SLOT_GLOVES]"] = equipping
 			update_worn_gloves()
 		if(ITEM_SLOT_FEET)
-			if(shoes)
+			if(equipped_items_by_slot["[ITEM_SLOT_FEET]"])
 				return
-			shoes = equipping
+			equipped_items_by_slot["[ITEM_SLOT_FEET]"] = equipping
 			update_worn_shoes()
 		if(ITEM_SLOT_OCLOTHING)
-			if(wear_suit)
+			var/obj/item/clothing/worn_suit = equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"]
+			if(worn_suit)
 				return
 
-			wear_suit = equipping
+			equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"] = equipping
 
-			if(wear_suit.breakouttime) //when equipping a straightjacket
+			if(worn_suit.breakouttime) //when equipping a straightjacket
 				ADD_TRAIT(src, TRAIT_RESTRAINED, SUIT_TRAIT)
 				stop_pulling() //can't pull if restrained
 				update_mob_action_buttons() //certain action buttons will no longer be usable.
 			update_worn_oversuit()
 		if(ITEM_SLOT_ICLOTHING)
-			if(w_uniform)
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"]))
 				return
-			w_uniform = equipping
+			equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"] = equipping
 			update_suit_sensors()
 			update_worn_undersuit()
 		if(ITEM_SLOT_LPOCKET)
-			l_store = equipping
+			equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"] = equipping
 			update_pockets()
 		if(ITEM_SLOT_RPOCKET)
-			r_store = equipping
+			equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"] = equipping
 			update_pockets()
 		if(ITEM_SLOT_SUITSTORE)
-			if(s_store)
+			if(!isnull(equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"]))
 				return
-			s_store = equipping
+			equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"] = equipping
 			update_suit_storage()
 		if(ITEM_SLOT_BELTPACK)
-			if(!belt || !belt.atom_storage?.attempt_insert(equipping, src, override = TRUE, force = indirect_action ? STORAGE_SOFT_LOCKED : STORAGE_NOT_LOCKED))
+			var/obj/item/clothing/worn_belt = equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"]
+			if(!worn_belt || !worn_belt.atom_storage?.attempt_insert(equipping, src, override = TRUE, force = indirect_action ? STORAGE_SOFT_LOCKED : STORAGE_NOT_LOCKED))
 				not_handled = TRUE
 		else
 			to_chat(src, span_danger("You are trying to equip this item to an unsupported inventory slot. Report this to a coder!"))
@@ -115,75 +119,79 @@
 	return not_handled //For future deeper overrides
 
 /mob/living/carbon/human/get_equipped_speed_mod_items()
-	return ..() - list(l_store, r_store, s_store)
+	return ..() - list(
+		equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"],
+		equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"],
+		equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"],
+	)
 
 /mob/living/carbon/human/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE)
 	. = ..() //See mob.dm for an explanation on this and some rage about people copypasting instead of calling ..() like they should.
 	if(!. || !I)
 		return
 	var/not_handled = FALSE //if we actually unequipped an item, this is because we dont want to run this proc twice, once for carbons and once for humans
-	if(I == wear_suit)
-		if(s_store && invdrop)
-			dropItemToGround(s_store, TRUE) //It makes no sense for your suit storage to stay on you if you drop your suit.
-		if(wear_suit.breakouttime) //when unequipping a straightjacket
+	if(I == equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"])
+		if(equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"] && invdrop)
+			dropItemToGround(equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"], TRUE) //It makes no sense for your suit storage to stay on you if you drop your suit.
+		if(I.breakouttime) //when unequipping a straightjacket
 			REMOVE_TRAIT(src, TRAIT_RESTRAINED, SUIT_TRAIT)
 			drop_all_held_items() //suit is restraining
 			update_mob_action_buttons() //certain action buttons may be usable again.
-		wear_suit = null
+		equipped_items_by_slot["[ITEM_SLOT_OCLOTHING]"] = null
 		if(!QDELETED(src)) //no need to update we're getting deleted anyway
 			update_worn_oversuit()
-	else if(I == w_uniform)
-		w_uniform = null
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"])
+		equipped_items_by_slot["[ITEM_SLOT_ICLOTHING]"] = null
 		update_suit_sensors()
 		if(!QDELETED(src))
 			update_worn_undersuit()
 		if(invdrop)
-			if(r_store && !can_equip(r_store, ITEM_SLOT_RPOCKET, TRUE, ignore_equipped = TRUE))
-				dropItemToGround(r_store, TRUE) //Again, makes sense for pockets to drop.
-			if(l_store && !can_equip(l_store, ITEM_SLOT_LPOCKET, TRUE, ignore_equipped = TRUE))
-				dropItemToGround(l_store, TRUE)
-			if(wear_id && !can_equip(wear_id, ITEM_SLOT_ID, TRUE, ignore_equipped = TRUE))
-				dropItemToGround(wear_id)
-			if(belt && !can_equip(belt, ITEM_SLOT_BELT, TRUE, ignore_equipped = TRUE))
-				dropItemToGround(belt)
-	else if(I == gloves)
-		gloves = null
+			if(equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"] && !can_equip(equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"], ITEM_SLOT_RPOCKET, TRUE, ignore_equipped = TRUE))
+				dropItemToGround(equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"], TRUE) //Again, makes sense for pockets to drop.
+			if(equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"] && !can_equip(equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"], ITEM_SLOT_LPOCKET, TRUE, ignore_equipped = TRUE))
+				dropItemToGround(equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"], TRUE)
+			if(equipped_items_by_slot["[ITEM_SLOT_ID]"] && !can_equip(equipped_items_by_slot["[ITEM_SLOT_ID]"], ITEM_SLOT_ID, TRUE, ignore_equipped = TRUE))
+				dropItemToGround(equipped_items_by_slot["[ITEM_SLOT_ID]"])
+			if(equipped_items_by_slot["[ITEM_SLOT_BELT]"] && !can_equip(equipped_items_by_slot["[ITEM_SLOT_BELT]"], ITEM_SLOT_BELT, TRUE, ignore_equipped = TRUE))
+				dropItemToGround(equipped_items_by_slot["[ITEM_SLOT_BELT]"])
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_GLOVES]"])
+		equipped_items_by_slot["[ITEM_SLOT_GLOVES]"] = null
 		if(!QDELETED(src))
 			update_worn_gloves()
-	else if(I == glasses)
-		glasses = null
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_EYES]"])
 		var/obj/item/clothing/glasses/old_glasses = I
+		equipped_items_by_slot["[ITEM_SLOT_EYES]"] = null
 		if(old_glasses.vision_flags || old_glasses.invis_override || old_glasses.invis_view || !isnull(old_glasses.lighting_cutoff))
 			update_sight()
 		if(!QDELETED(src))
 			update_worn_glasses()
-	else if(I == ears)
-		ears = null
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_EARS]"])
+		equipped_items_by_slot["[ITEM_SLOT_EARS]"] = null
 		if(!QDELETED(src))
 			update_worn_ears()
-	else if(I == shoes)
-		shoes = null
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_FEET]"])
+		equipped_items_by_slot["[ITEM_SLOT_FEET]"] = null
 		if(!QDELETED(src))
 			update_worn_shoes()
-	else if(I == belt)
-		belt = null
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_BELT]"])
+		equipped_items_by_slot["[ITEM_SLOT_BELT]"] = null
 		if(!QDELETED(src))
 			update_worn_belt()
-	else if(I == wear_id)
-		wear_id = null
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_ID]"])
+		equipped_items_by_slot["[ITEM_SLOT_ID]"] = null
 		sec_hud_set_ID()
 		if(!QDELETED(src))
 			update_worn_id()
-	else if(I == r_store)
-		r_store = null
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"])
+		equipped_items_by_slot["[ITEM_SLOT_RPOCKET]"] = null
 		if(!QDELETED(src))
 			update_pockets()
-	else if(I == l_store)
-		l_store = null
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"])
+		equipped_items_by_slot["[ITEM_SLOT_LPOCKET]"] = null
 		if(!QDELETED(src))
 			update_pockets()
-	else if(I == s_store)
-		s_store = null
+	else if(I == equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"])
+		equipped_items_by_slot["[ITEM_SLOT_SUITSTORE]"] = null
 		if(!QDELETED(src))
 			update_suit_storage()
 	else
@@ -202,28 +210,29 @@
 
 /mob/living/carbon/human/toggle_internals(obj/item/tank, is_external = FALSE)
 	// Just close the tank if it's the one the mob already has open.
-	var/obj/item/existing_tank = is_external ? external : internal
+	var/obj/item/existing_tank = is_external ? equipped_external_tank : equipped_internal_tank
 	if(tank == existing_tank)
 		return toggle_close_internals(is_external)
 	// Use breathing tube regardless of mask.
 	if(can_breathe_tube())
 		return toggle_open_internals(tank, is_external)
 	// Use mask in absence of tube.
-	if(isclothing(wear_mask) && ((wear_mask.visor_flags & MASKINTERNALS) || (wear_mask.clothing_flags & MASKINTERNALS)))
+	var/obj/item/clothing/worn_mask = equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+	if(isclothing(worn_mask) && ((worn_mask.visor_flags & MASKINTERNALS) || (worn_mask.clothing_flags & MASKINTERNALS)))
 		// Adjust dishevelled breathing mask back onto face unless it is exempt.
-		if ((wear_mask.up) && !(wear_mask.clothing_flags & INTERNALS_ADJUST_EXEMPT))
-			wear_mask.adjust_visor(src)
+		if ((worn_mask.up) && !(worn_mask.clothing_flags & INTERNALS_ADJUST_EXEMPT))
+			worn_mask.adjust_visor(src)
 		return toggle_open_internals(tank, is_external)
 	// Use helmet in absence of tube or valid mask.
 	if(can_breathe_helmet())
 		return toggle_open_internals(tank, is_external)
 	// Notify user of missing valid breathing apparatus.
-	if (wear_mask)
+	if (worn_mask)
 		// Invalid mask
-		to_chat(src, span_warning("[wear_mask] can't use [tank]!"))
-	else if (head)
+		to_chat(src, span_warning("[worn_mask] can't use [tank]!"))
+	else if (!isnull(equipped_items_by_slot["[ITEM_SLOT_HEAD]"]))
 		// Invalid headgear
-		to_chat(src, span_warning("[head] isn't airtight! You need a mask!"))
+		to_chat(src, span_warning("[equipped_items_by_slot["[ITEM_SLOT_HEAD]"]] isn't airtight! You need a mask!"))
 	else
 		// Not wearing any breathing apparatus.
 		to_chat(src, span_warning("You need a mask!"))

@@ -66,10 +66,6 @@
 	var/obj/item/internal_storage
 	/// Headwear slot
 	var/obj/item/head
-	equipped_items_by_slot = list(
-		"[ITEM_SLOT_HEAD]",
-		"[ITEM_SLOT_DEX_STORAGE]",
-	)
 	/// Default [/mob/living/basic/drone/var/internal_storage] item
 	var/obj/item/default_storage = /obj/item/storage/drone_tools
 	/// Default [/mob/living/basic/drone/var/head] item
@@ -221,6 +217,12 @@
 	RegisterSignal(listener, COMSIG_ALARM_LISTENER_CLEARED, PROC_REF(alarm_cleared))
 	listener.RegisterSignal(src, COMSIG_LIVING_DEATH, TYPE_PROC_REF(/datum/alarm_listener, prevent_alarm_changes))
 	listener.RegisterSignal(src, COMSIG_LIVING_REVIVE, TYPE_PROC_REF(/datum/alarm_listener, allow_alarm_changes))
+
+/mob/living/basic/drone/generate_equippable_item_slots()
+	equipped_items_by_slot = list(
+		"[ITEM_SLOT_HEAD]",
+		"[ITEM_SLOT_DEX_STORAGE]",
+	)
 
 /mob/living/basic/drone/med_hud_set_health()
 	var/image/holder = hud_list[DIAG_HUD]

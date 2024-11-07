@@ -217,9 +217,10 @@
 	. = ..()
 	if(special || !leg_owner)
 		return
-	if(leg_owner.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"])
-		leg_owner.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"].forceMove(drop_location())
-		leg_owner.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"].dropped(leg_owner)
+	var/obj/item/legcuffs = sac_target.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"]
+	if(!isnull(legcuffs))
+		legcuffs.forceMove(drop_location())
+		legcuffs.dropped(leg_owner)
 		leg_owner.equipped_items_by_slot["[ITEM_SLOT_LEGCUFFED]"] = null
 		leg_owner.update_worn_legcuffs()
 	if(leg_owner.equipped_items_by_slot["[ITEM_SLOT_FEET]"])

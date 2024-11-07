@@ -108,8 +108,17 @@
 
 /obj/item/flashlight/proc/eye_examine(mob/living/carbon/human/M, mob/living/user)
 	. = list()
-	if((M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] && M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].flags_cover & HEADCOVERSEYES) || (M.equipped_items_by_slot["[ITEM_SLOT_MASK]"] && M.equipped_items_by_slot["[ITEM_SLOT_MASK]"].flags_cover & MASKCOVERSEYES) || (M.equipped_items_by_slot["[ITEM_SLOT_EYES]"] && M.equipped_items_by_slot["[ITEM_SLOT_EYES]"].flags_cover & GLASSESCOVERSEYES))
-		to_chat(user, span_warning("You're going to need to remove that [(M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] && M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].flags_cover & HEADCOVERSEYES) ? "helmet" : (M.equipped_items_by_slot["[ITEM_SLOT_MASK]"] && M.equipped_items_by_slot["[ITEM_SLOT_MASK]"].flags_cover & MASKCOVERSEYES) ? "mask": "glasses"] first!"))
+	var/obj/item/eye_blocking_helmet = M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+	if(eye_blocking_helmet && (eye_blocking_helmet.flags_cover & HEADCOVERSEYES))
+		to_chat(user, span_warning("You're going to need to remove that helmet first!"))
+		return
+	var/obj/item/eye_blocking_mask = M.equipped_items_by_slot["[ITEM_SLOT_MASK]"]
+	if(eye_blocking_mask && (eye_blocking_mask.flags_cover & MASKCOVERSEYES))
+		to_chat(user, span_warning("You're going to need to remove that mask first!"))
+		return
+	var/obj/item/eye_blocking_glasses = M.equipped_items_by_slot["[ITEM_SLOT_EYES]"]
+	if(eye_blocking_glasses && (eye_blocking_glasses.flags_cover & GLASSESCOVERSEYES))
+		to_chat(user, span_warning("You're going to need to remove those glasses first!"))
 		return
 
 	var/obj/item/organ/eyes/E = M.get_organ_slot(ORGAN_SLOT_EYES)
@@ -148,7 +157,8 @@
 /obj/item/flashlight/proc/mouth_examine(mob/living/carbon/human/M, mob/living/user)
 	. = list()
 	if(M.is_mouth_covered())
-		to_chat(user, span_warning("You're going to need to remove that [(M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"] && M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"].flags_cover & HEADCOVERSMOUTH) ? "helmet" : "mask"] first!"))
+		var/obj/item/helmet_or_mask = M.equipped_items_by_slot["[ITEM_SLOT_HEAD]"]
+		to_chat(user, span_warning("You're going to need to remove that [(helmet_or_mask && (helmet_or_mask.flags_cover & HEADCOVERSMOUTH)) ? "helmet" : "mask"] first!"))
 		return
 
 	var/list/mouth_organs = list()

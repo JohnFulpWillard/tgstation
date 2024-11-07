@@ -23,19 +23,6 @@
 	/// How disgusted we were LAST time we processed disgust. Helps prevent unneeded work
 	var/old_disgust = 0
 
-	equipped_items_by_slot = list(
-		"[ITEM_SLOT_GLOVES]",
-		"[ITEM_SLOT_EYES]",
-		"[ITEM_SLOT_EARS]",
-		"[ITEM_SLOT_MASK]",
-		"[ITEM_SLOT_HEAD]",
-		"[ITEM_SLOT_FEET]",
-		"[ITEM_SLOT_BACK]",
-		"[ITEM_SLOT_NECK]",
-		"[ITEM_SLOT_HANDCUFFED]",
-		"[ITEM_SLOT_LEGCUFFED]",
-	)
-
 	/// Equipped air tank. Never set this manually.
 	var/obj/item/tank/equipped_internal_tank = null
 	/// "External" air tank. Never set this manually. Not required to stay directly equipped on the mob (i.e. could be a machine or MOD suit module).
