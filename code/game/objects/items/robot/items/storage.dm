@@ -250,12 +250,15 @@
 
 ///Apparatus to allow Engineering/Sabo borgs to manipulate any material sheets.
 /obj/item/borg/apparatus/sheet_manipulator
-	name = "material manipulation apparatus"
-	desc = "An apparatus for carrying, deploying, and manipulating sheets of material. The device can also carry custom floor tiles and shuttle frame rods."
+	name = "material & cell manipulation apparatus"
+	desc = "An apparatus for carrying, deploying, and manipulating material goods such as sheets, tiles, sticks, and cells."
 	icon_state = "borg_stack_apparatus"
-	storable = list(/obj/item/stack/sheet,
-					/obj/item/stack/tile,
-					/obj/item/stack/rods/shuttle)
+	storable = list(
+		/obj/item/stack/sheet,
+		/obj/item/stack/tile,
+		/obj/item/stack/rods/shuttle,
+		/obj/item/stock_parts/power_store/cell,
+	)
 
 /obj/item/borg/apparatus/sheet_manipulator/Initialize(mapload)
 	update_appearance()
