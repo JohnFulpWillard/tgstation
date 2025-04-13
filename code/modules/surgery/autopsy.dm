@@ -1,7 +1,8 @@
 /datum/surgery/autopsy
 	name = "Autopsy"
-	surgery_flags = SURGERY_IGNORE_CLOTHES | SURGERY_REQUIRE_RESTING | SURGERY_REQUIRE_LIMB | SURGERY_MORBID_CURIOSITY
+	surgery_flags = SURGERY_IGNORE_CLOTHES | SURGERY_REQUIRE_RESTING | SURGERY_MORBID_CURIOSITY
 	possible_locs = list(BODY_ZONE_CHEST)
+	target_mobtypes = list(/mob/living)
 	steps = list(
 		/datum/surgery_step/incise,
 		/datum/surgery_step/retract_skin,
@@ -12,6 +13,7 @@
 /datum/surgery/autopsy/mechanic
 	name = "System Failure Analysis"
 	requires_bodypart_type = BODYTYPE_ROBOTIC
+	target_mobtypes = list(/mob/living/carbon/human)
 	steps = list(
 		/datum/surgery_step/mechanic_open,
 		/datum/surgery_step/open_hatch,

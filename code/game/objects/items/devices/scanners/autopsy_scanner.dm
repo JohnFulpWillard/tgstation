@@ -44,12 +44,15 @@
 
 	add_fingerprint(user)
 
-/obj/item/autopsy_scanner/proc/scan_cadaver(mob/living/carbon/human/user, mob/living/carbon/scanned)
+/obj/item/autopsy_scanner/proc/scan_cadaver(mob/living/carbon/human/user, mob/living/scanned)
 	if(scanned.stat != DEAD)
 		return
 
 	var/list/autopsy_information = list()
-	autopsy_information += "[scanned.name] - Species: [scanned.dna.species.name]"
+	var/mob/living/carbon/carbon_scanned = iscarbon(scanned) ? scanned : FALSE
+	autopsy_information += "--Autopsy Report of [scanned.name]--"
+	if(carbon_scanned)
+		autopsy_information += "Species - [carbon_scanned.dna.species.name]"
 	autopsy_information += "Time of Death - [scanned.station_timestamp_timeofdeath]"
 	autopsy_information += "Time of Autopsy - [station_time_timestamp()]"
 	autopsy_information += "Autopsy Coroner - [user.name]"
@@ -57,27 +60,32 @@
 	autopsy_information += "Toxin damage: [CEILING(scanned.getToxLoss(), 1)]"
 	autopsy_information += "Oxygen damage: [CEILING(scanned.getOxyLoss(), 1)]"
 
-	autopsy_information += "<center>Bodypart Data</center><br>"
-	for(var/obj/item/bodypart/bodyparts as anything in scanned.bodyparts)
-		autopsy_information += "<b>[bodyparts.name]</b><br>"
-		autopsy_information += "BRUTE: [bodyparts.brute_dam] | BURN: [bodyparts.burn_dam]<br>"
-		if(!bodyparts.wounds)
-			continue
-		autopsy_information += "Wounds found:<br>"
-		for(var/datum/wound/wounds as anything in bodyparts.wounds)
-			if(wounds.wound_source)
-				autopsy_information += "<b>[wounds.name]</b> - Caused by <i>[wounds.wound_source]</i><br>"
+	if(carbon_scanned)
+		autopsy_information += "<center>Bodypart Data</center><br>"
+		for(var/obj/item/bodypart/bodyparts as anything in carbon_scanned.bodyparts)
+			autopsy_information += "<b>[bodyparts.name]</b><br>"
+			autopsy_information += "BRUTE: [bodyparts.brute_dam] | BURN: [bodyparts.burn_dam]<br>"
+			if(!bodyparts.wounds)
+				continue
+			autopsy_information += "Wounds found:<br>"
+			for(var/datum/wound/wounds as anything in bodyparts.wounds)
+				if(wounds.wound_source)
+					autopsy_information += "<b>[wounds.name]</b> - Caused by <i>[wounds.wound_source]</i><br>"
 
-	autopsy_information += "<center>Organ Data</center>"
-	for(var/obj/item/organ/organs as anything in scanned.organs)
-		autopsy_information += "[organs.name]: <b>[CEILING(organs.damage, 1)] damage</b><br>"
+		autopsy_information += "<center>Organ Data</center>"
+		for(var/obj/item/organ/organs as anything in carbon_scanned.organs)
+			autopsy_information += "[organs.name]: <b>[CEILING(organs.damage, 1)] damage</b><br>"
+	else
+		autopsy_information += "Brute Damage: [CEILING(scanned.getBruteLoss(), 1)]"
+		autopsy_information += "Burn Damage: [CEILING(scanned.getFireLoss(), 1)]"
 
-	autopsy_information += "<center>Chemical Data</center>"
-	for(var/datum/reagent/scanned_reagents as anything in scanned.reagents.reagent_list)
-		if(scanned_reagents.chemical_flags & REAGENT_INVISIBLE)
-			continue
-		autopsy_information += "<b>[round(scanned_reagents.volume, 0.1)] unit\s of [scanned_reagents.name]</b><br>"
-		autopsy_information += "Chemical Information: <i>[scanned_reagents.description]</i><br>"
+	if(LAZYLEN(scanned.reagents))
+		autopsy_information += "<center>Chemical Data</center>"
+		for(var/datum/reagent/scanned_reagents as anything in scanned.reagents.reagent_list)
+			if(scanned_reagents.chemical_flags & REAGENT_INVISIBLE)
+				continue
+			autopsy_information += "<b>[round(scanned_reagents.volume, 0.1)] unit\s of [scanned_reagents.name]</b><br>"
+			autopsy_information += "Chemical Information: <i>[scanned_reagents.description]</i><br>"
 
 	autopsy_information += "<center>Blood Data</center>"
 	if(HAS_TRAIT(scanned, TRAIT_HUSK))
@@ -92,12 +100,15 @@
 		var/blood_id = scanned.get_blood_id()
 		if(blood_id)
 			var/blood_percent = round((scanned.blood_volume / BLOOD_VOLUME_NORMAL) * 100)
-			var/blood_type = scanned.dna.blood_type
-			if(blood_id != /datum/reagent/blood)
-				var/datum/reagent/reagents = GLOB.chemical_reagents_list[blood_id]
-				blood_type = reagents?.name || blood_id
-			autopsy_information += "Blood Type: [blood_type]<br>"
+			if(carbon_scanned)
+				var/blood_type = carbon_scanned.dna.blood_type
+				if(blood_id != /datum/reagent/blood)
+					var/datum/reagent/reagents = GLOB.chemical_reagents_list[blood_id]
+					blood_type = reagents?.name || blood_id
+				autopsy_information += "Blood Type: [blood_type]<br>"
 			autopsy_information += "Blood Volume: [scanned.blood_volume] cl ([blood_percent]%) <br>"
+		else
+			autopsy_information += "Patient found to not have any traces of blood.<br>"
 
 	for(var/datum/disease/diseases as anything in scanned.diseases)
 		autopsy_information += "Name: [diseases.name] | Type: [diseases.spread_text]<br>"

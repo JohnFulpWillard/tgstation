@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Input,
   LabeledList,
   NoticeBox,
   RestrictedInput,
@@ -42,6 +43,7 @@ export const MedicalRecordView = (props) => {
     major_disabilities,
     minor_disabilities,
     physical_status,
+    cause_of_death,
     mental_status,
     name,
     quirk_notes,
@@ -160,6 +162,18 @@ export const MedicalRecordView = (props) => {
                 {physical_status}
               </Box>
             </LabeledList.Item>
+            {physical_status === "Deceased" && (
+              <LabeledList.Item label="Cause of Death">
+                <Box>
+                  <Input fluid placeholder="Input Cause of Death..." value={cause_of_death} onChange={(e, value) =>
+                    act('set_cause_of_death', {
+                      crew_ref: crew_ref,
+                      cause: value,
+                    })
+                  } />
+                </Box>
+              </LabeledList.Item>
+            )}
             <LabeledList.Item
               buttons={mental_statuses.map((button, index) => {
                 const isSelected = button === mental_status;
