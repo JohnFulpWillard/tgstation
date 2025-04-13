@@ -39,3 +39,6 @@
 #define CAMERANET_NETWORK_UGO45_RESEARCH "uo45r"
 #define CAMERANET_NETWORK_FSCI "fsci"
 #define CAMERA_NETWORK_BUNKER "bunker1"
+
+///The limit to how large a camera's picture can be.
+#define CAMERA_PICTURE_SIZE_HARD_LIMIT 21

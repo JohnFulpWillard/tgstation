@@ -10,9 +10,90 @@
 			step_y = AM.step_y
 	. = ..()
 
+/proc/take_photo(
+	obj/item/camera/camera_item,
+	atom/target,
+	mob/user,
+	size_x = 1,
+	size_y = 1,
+	datum/callback/post_image_callback,
+	see_ghosts,
+	monochrome,
+)
+	var/turf/target_turf = get_turf(target)
+	if(!isturf(target_turf))
+		return FALSE
+	size_x = clamp(size_x, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
+	size_y = clamp(size_y, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
+	var/list/desc = list("This is a photo of an area of [size_x+1] meters by [size_y+1] meters.")
+	var/list/mobs_spotted = list()
+	var/list/dead_spotted = list()
+	var/ai_user = isAI(user)
+	var/list/seen
+	var/list/viewlist = user?.client ? getviewsize(user.client.view) : getviewsize(world.view)
+	var/viewr = max(viewlist[1], viewlist[2]) + max(size_x, size_y)
+	var/viewc = user?.client ? user.client.eye : target
+	seen = get_hear(viewr, viewc)
+	var/list/turfs = list()
+	var/list/mobs = list()
+	var/blueprints = FALSE
+	var/clone_area = SSmapping.request_turf_block_reservation(size_x * 2 + 1, size_y * 2 + 1, 1)
+	///list of human names taken on picture
+	var/list/names = list()
+
+	var/width = size_x * 2 + 1
+	var/height = size_y * 2 + 1
+	for(var/turf/placeholder as anything in CORNER_BLOCK_OFFSET(target_turf, width, height, -size_x, -size_y))
+		while(istype(placeholder, /turf/open/openspace)) //Multi-z photography
+			placeholder = GET_TURF_BELOW(placeholder)
+			if(!placeholder)
+				break
+
+		if(placeholder && ((ai_user && GLOB.cameranet.checkTurfVis(placeholder)) || (placeholder in seen)))
+			turfs += placeholder
+			for(var/mob/M in placeholder)
+				mobs += M
+			if(locate(/obj/item/blueprints) in placeholder)
+				blueprints = TRUE
+
+	// do this before picture is taken so we can reveal revenants for the photo
+	if(post_image_callback)
+		post_image_callback.Invoke(mobs)
+
+	if(camera_item)
+		for(var/mob/mob as anything in mobs)
+			mobs_spotted += mob
+			if(mob.stat == DEAD)
+				dead_spotted += mob
+			desc += mob.get_photo_description(camera_item)
+
+	var/psize_x = (size_x * 2 + 1) * ICON_SIZE_X
+	var/psize_y = (size_y * 2 + 1) * ICON_SIZE_Y
+	var/icon/get_icon = camera_get_icon(turfs, target_turf, psize_x, psize_y, clone_area, size_x, size_y, (size_x * 2 + 1), (size_y * 2 + 1), see_ghosts, monochrome)
+	qdel(clone_area)
+	get_icon.Blend("#000", ICON_UNDERLAY)
+	for(var/mob/living/carbon/human/person in mobs)
+		if(person.is_face_visible())
+			names += "[person.name]"
+
+	var/datum/picture/picture = new("picture", desc.Join("<br>"), mobs_spotted, dead_spotted, names, get_icon, null, psize_x, psize_y, blueprints, can_see_ghosts = see_ghosts)
+	return picture
+
 #define PHYSICAL_POSITION(atom) ((atom.y * ICON_SIZE_Y) + (atom.pixel_y))
 
-/obj/item/camera/proc/camera_get_icon(list/turfs, turf/center, psize_x = 96, psize_y = 96, datum/turf_reservation/clone_area, size_x, size_y, total_x, total_y)
+/proc/camera_get_icon(
+	list/turfs,
+	turf/center,
+	psize_x = 96,
+	psize_y = 96,
+	datum/turf_reservation/clone_area,
+	size_x,
+	size_y,
+	total_x,
+	total_y,
+	see_ghosts,
+	monochrome,
+)
 	var/list/atoms = list()
 	var/list/lighting = list()
 	var/skip_normal = FALSE
@@ -147,6 +228,10 @@
 	else
 		QDEL_LIST(lighting)
 
+	if(monochrome)
+		res.GrayScale()
+
 	return res
 
 #undef PHYSICAL_POSITION
+

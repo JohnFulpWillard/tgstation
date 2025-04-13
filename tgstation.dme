@@ -2559,6 +2559,7 @@
 #include "code\game\objects\items\devices\radio\intercom.dm"
 #include "code\game\objects\items\devices\radio\radio.dm"
 #include "code\game\objects\items\devices\scanners\autopsy_scanner.dm"
+#include "code\game\objects\items\devices\scanners\death_watch.dm"
 #include "code\game\objects\items\devices\scanners\gas_analyzer.dm"
 #include "code\game\objects\items\devices\scanners\health_analyzer.dm"
 #include "code\game\objects\items\devices\scanners\plant_analyzer.dm"

@@ -1040,6 +1040,7 @@
 	can_flip = FALSE
 	var/mob/living/carbon/patient = null
 	var/obj/machinery/computer/operating/computer = null
+	var/obj/item/storage/briefcase/hidden_briefcase
 
 /obj/structure/table/optable/Initialize(mapload, obj/structure/table_frame/frame_used, obj/item/stack/stack_used)
 	. = ..()
@@ -1048,6 +1049,10 @@
 		if(computer)
 			computer.table = src
 			break
+	hidden_briefcase = locate(/obj/item/storage/briefcase) in loc
+	if(hidden_briefcase)
+		hidden_briefcase.forceMove(src)
+		update_appearance(UPDATE_OVERLAYS)
 
 	RegisterSignal(loc, COMSIG_ATOM_ENTERED, PROC_REF(mark_patient))
 	RegisterSignal(loc, COMSIG_ATOM_EXITED, PROC_REF(unmark_patient))
@@ -1056,12 +1061,57 @@
 	if(computer && computer.table == src)
 		computer.table = null
 	patient = null
+	if(hidden_briefcase)
+		QDEL_NULL(hidden_briefcase)
 	UnregisterSignal(loc, COMSIG_ATOM_ENTERED)
 	UnregisterSignal(loc, COMSIG_ATOM_EXITED)
 	return ..()
 
+/obj/structure/table/optable/update_overlays()
+	. = ..()
+	if(hidden_briefcase)
+		. += mutable_appearance(icon, "briefcase_underlay", layer = src.layer-0.01)
+
+/obj/structure/table/optable/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(istype(tool, /obj/item/storage/briefcase) && !hidden_briefcase)
+		tool.forceMove(src)
+		hidden_briefcase = tool
+		update_appearance(UPDATE_OVERLAYS)
+		return ITEM_INTERACT_SUCCESS
+	return NONE
+
+/obj/structure/table/optable/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
+	. = ..()
+	if(. == CONTEXTUAL_SCREENTIP_SET)
+		return
+	if(isnull(held_item))
+		if(hidden_briefcase)
+			context[SCREENTIP_CONTEXT_RMB] = "Take Briefcase"
+			. = CONTEXTUAL_SCREENTIP_SET
+
+	if(istype(held_item, /obj/item/storage/briefcase))
+		context[SCREENTIP_CONTEXT_LMB] = "Put Briefcase"
+		. = CONTEXTUAL_SCREENTIP_SET
+
+	return . || NONE
+
+/obj/structure/table/optable/examine(mob/user)
+	. = ..()
+	if(hidden_briefcase)
+		. += span_notice("There is a [hidden_briefcase] underneath, you can take it out with RMB.")
+
 /obj/structure/table/optable/make_climbable()
 	AddElement(/datum/element/elevation, pixel_shift = 12)
+
+/obj/structure/table/optable/attack_hand_secondary(mob/user, list/modifiers)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	if(hidden_briefcase)
+		user.put_in_hands(hidden_briefcase)
+		hidden_briefcase = null
+		update_appearance(UPDATE_OVERLAYS)
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/table/optable/tablepush(mob/living/user, mob/living/pushed_mob)
 	pushed_mob.forceMove(loc)

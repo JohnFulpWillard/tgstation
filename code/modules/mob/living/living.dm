@@ -45,6 +45,8 @@
 	QDEL_LAZYLIST(diseases)
 	QDEL_LIST(surgeries)
 	QDEL_LIST(quirks)
+	if(!isnull(death_photo))
+		QDEL_NULL(death_photo)
 	return ..()
 
 /mob/living/onZImpact(turf/impacted_turf, levels, impact_flags = NONE)

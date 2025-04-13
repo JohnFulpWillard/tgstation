@@ -239,3 +239,6 @@
 	/// First element is the current martial art - any other elements are "saved" for if they unlearn the first one
 	/// Reference handling is done by the martial arts themselves
 	var/list/datum/martial_art/martial_arts
+
+	///The last image the person saw before their death.
+	var/datum/picture/death_photo

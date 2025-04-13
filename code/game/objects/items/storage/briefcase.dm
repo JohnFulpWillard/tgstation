@@ -73,6 +73,9 @@
 	new /obj/item/ammo_box/magazine/sniper_rounds(src)
 	new /obj/item/ammo_box/magazine/sniper_rounds/disruptor(src)
 
+/obj/item/storage/briefcase/coroner/PopulateContents()
+	new /obj/item/death_watch(src)
+
 /**
  * Secure briefcase
  * Uses the lockable storage component to give it a lock.

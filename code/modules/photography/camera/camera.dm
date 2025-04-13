@@ -1,6 +1,3 @@
-
-#define CAMERA_PICTURE_SIZE_HARD_LIMIT 21
-
 /obj/item/camera
 	name = "camera"
 	icon = 'icons/obj/art/camera.dmi'
@@ -20,6 +17,8 @@
 	slot_flags = ITEM_SLOT_NECK
 	custom_materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT*0.5, /datum/material/glass = SMALL_MATERIAL_AMOUNT*1.5)
 	custom_price = PAYCHECK_CREW * 2
+	///Boolean on whether or not the camera will print in monochrome.
+	var/print_monochrome = FALSE
 	var/flash_enabled = TRUE
 	var/state_on = "camera"
 	var/state_off = "camera_off"
@@ -57,6 +56,7 @@
 	. = ..()
 	. += span_notice("It has [pictures_left] photos left.")
 	. += span_notice("Alt-click to change its focusing, allowing you to set how big of an area it will capture.")
+	. += span_notice("You can use a [EXAMINE_HINT("screwdriver")] to flip between printing in monochrome or color.")
 
 	if(!disk)
 		. += span_notice("It has a slot for a holographic disk.")
@@ -106,6 +106,12 @@
 			to_chat(user, span_warning("There's already a disk inside [src]."))
 		return TRUE //no afterattack
 	..()
+
+/obj/item/camera/screwdriver_act(mob/living/user, obj/item/tool)
+	tool.play_tool_sound(src)
+	print_monochrome = !print_monochrome
+	user.balloon_alert(user, "[print_monochrome ? "now" : "no longer"] printing monochrome")
+	return ITEM_INTERACT_SUCCESS
 
 //user can be atom or mob
 /obj/item/camera/proc/can_target(atom/target, mob/user)
@@ -182,64 +188,11 @@
 		set_light_on(TRUE)
 		addtimer(CALLBACK(src, PROC_REF(flash_end)), FLASH_LIGHT_DURATION, TIMER_OVERRIDE|TIMER_UNIQUE)
 	blending = TRUE
-	var/turf/target_turf = get_turf(target)
-	if(!isturf(target_turf))
-		blending = FALSE
-		return FALSE
-	size_x = clamp(size_x, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
-	size_y = clamp(size_y, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
-	var/list/desc = list("This is a photo of an area of [size_x+1] meters by [size_y+1] meters.")
-	var/list/mobs_spotted = list()
-	var/list/dead_spotted = list()
-	var/ai_user = isAI(user)
-	var/list/seen
-	var/list/viewlist = user?.client ? getviewsize(user.client.view) : getviewsize(world.view)
-	var/viewr = max(viewlist[1], viewlist[2]) + max(size_x, size_y)
-	var/viewc = user?.client ? user.client.eye : target
-	seen = get_hear(viewr, viewc)
-	var/list/turfs = list()
-	var/list/mobs = list()
-	var/blueprints = FALSE
-	var/clone_area = SSmapping.request_turf_block_reservation(size_x * 2 + 1, size_y * 2 + 1, 1)
-	///list of human names taken on picture
-	var/list/names = list()
 
-	var/width = size_x * 2 + 1
-	var/height = size_y * 2 + 1
-	for(var/turf/placeholder as anything in CORNER_BLOCK_OFFSET(target_turf, width, height, -size_x, -size_y))
-		while(istype(placeholder, /turf/open/openspace)) //Multi-z photography
-			placeholder = GET_TURF_BELOW(placeholder)
-			if(!placeholder)
-				break
-
-		if(placeholder && ((ai_user && GLOB.cameranet.checkTurfVis(placeholder)) || (placeholder in seen)))
-			turfs += placeholder
-			for(var/mob/M in placeholder)
-				mobs += M
-			if(locate(/obj/item/blueprints) in placeholder)
-				blueprints = TRUE
-
-	// do this before picture is taken so we can reveal revenants for the photo
-	steal_souls(mobs)
-
-	for(var/mob/mob as anything in mobs)
-		mobs_spotted += mob
-		if(mob.stat == DEAD)
-			dead_spotted += mob
-		desc += mob.get_photo_description(src)
-
-	var/psize_x = (size_x * 2 + 1) * ICON_SIZE_X
-	var/psize_y = (size_y * 2 + 1) * ICON_SIZE_Y
-	var/icon/get_icon = camera_get_icon(turfs, target_turf, psize_x, psize_y, clone_area, size_x, size_y, (size_x * 2 + 1), (size_y * 2 + 1))
-	qdel(clone_area)
-	get_icon.Blend("#000", ICON_UNDERLAY)
-	for(var/mob/living/carbon/human/person in mobs)
-		if(person.is_face_visible())
-			names += "[person.name]"
-
-	var/datum/picture/picture = new("picture", desc.Join("<br>"), mobs_spotted, dead_spotted, names, get_icon, null, psize_x, psize_y, blueprints, can_see_ghosts = see_ghosts)
-	after_picture(user, picture)
-	SEND_SIGNAL(src, COMSIG_CAMERA_IMAGE_CAPTURED, target, user, picture)
+	var/datum/picture/picture = take_photo(src, target, user, size_x, size_y, post_image_callback = CALLBACK(src, PROC_REF(steal_souls)), see_ghosts = see_ghosts, monochrome = print_monochrome)
+	if(picture)
+		after_picture(user, picture)
+		SEND_SIGNAL(src, COMSIG_CAMERA_IMAGE_CAPTURED, target, user, picture)
 	blending = FALSE
 	return picture
 
@@ -347,5 +300,3 @@
 	if(!camera.can_target(target))
 		return
 	INVOKE_ASYNC(camera, TYPE_PROC_REF(/obj/item/camera, captureimage), target, null, camera.picture_size_x  - 1, camera.picture_size_y - 1)
-
-#undef CAMERA_PICTURE_SIZE_HARD_LIMIT

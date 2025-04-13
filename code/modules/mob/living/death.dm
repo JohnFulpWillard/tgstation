@@ -197,5 +197,18 @@
 		client.move_delay = initial(client.move_delay)
 
 	persistent_client?.time_of_death = timeofdeath
+	if(!gibbed)
+		INVOKE_ASYNC(src, PROC_REF(take_death_photo))
 
 	return TRUE
+
+///Takes a photo of your dead body, for future referencing.
+/mob/living/proc/take_death_photo()
+	death_photo = take_photo(
+		target = src,
+		user = src,
+		size_x = 3,
+		size_y = 3,
+		see_ghosts = TRUE,
+		monochrome = TRUE,
+	)

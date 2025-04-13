@@ -19023,6 +19023,7 @@
 	},
 /obj/effect/mapping_helpers/requests_console/information,
 /obj/effect/mapping_helpers/requests_console/assistance,
+/obj/item/storage/briefcase/coroner,
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
 "gPw" = (
