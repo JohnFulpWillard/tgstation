@@ -75,6 +75,7 @@
 
 /obj/item/storage/briefcase/coroner/PopulateContents()
 	new /obj/item/death_watch(src)
+	new /obj/item/autopsy_scanner(src)
 
 /**
  * Secure briefcase

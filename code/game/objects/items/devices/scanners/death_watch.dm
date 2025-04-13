@@ -35,5 +35,5 @@
 	QDEL_NULL(dead_person.death_photo)
 	if(user)
 		dead_person.balloon_alert(user, "photo printed")
-		user.playsound_local(src, 'sound/machines/radar-ping.ogg', 30)
+		user.playsound_local(src, 'sound/items/bell.ogg', 30)
 		user.put_in_hands(death_photo)
