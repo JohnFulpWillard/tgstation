@@ -1,6 +1,7 @@
 /obj/effect/appearance_clone
 
-/obj/effect/appearance_clone/New(loc, atom/A) //Intentionally not Initialize(), to make sure the clone assumes the intended appearance in time for the camera getFlatIcon.
+//Intentionally not Initialize(), to make sure the clone assumes the intended appearance in time for the camera getFlatIcon.
+/obj/effect/appearance_clone/New(loc, atom/A)
 	if(istype(A))
 		appearance = A.appearance
 		dir = A.dir
@@ -8,7 +9,7 @@
 			var/atom/movable/AM = A
 			step_x = AM.step_x
 			step_y = AM.step_y
-	. = ..()
+	return ..()
 
 /proc/take_photo(
 	obj/item/camera/camera_item,

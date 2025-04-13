@@ -16,24 +16,27 @@
 	w_class = WEIGHT_CLASS_SMALL
 	custom_materials = list(/datum/material/gold = SHEET_MATERIAL_AMOUNT)
 
-/obj/item/death_watch/attack(mob/living/target_mob, mob/living/user, params)
-	. = ..()
-	if(target_mob.stat != DEAD)
-		target_mob.balloon_alert(user, "target not dead!")
-		return
-	if(isnull(target_mob.death_photo))
-		target_mob.balloon_alert(user, "records gone!")
-		return
-	if(!HAS_TRAIT(target_mob, TRAIT_DISSECTED))
-		target_mob.balloon_alert(user, "target must be dissected!")
-		return
-	print_death_photo(target_mob, user)
+/obj/item/death_watch/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!isliving(interacting_with))
+		return NONE
+	var/mob/living/living_target = interacting_with
+	if(living_target.stat != DEAD)
+		living_target.balloon_alert(user, "target not dead!")
+		return ITEM_INTERACT_BLOCKING
+	if(isnull(living_target.death_photo))
+		living_target.balloon_alert(user, "records too far gone!")
+		return ITEM_INTERACT_BLOCKING
+	if(!HAS_TRAIT(living_target, TRAIT_DISSECTED))
+		living_target.balloon_alert(user, "target must be dissected!")
+		return ITEM_INTERACT_BLOCKING
+	print_death_photo(living_target, user)
+	return ITEM_INTERACT_SUCCESS
 
 ///Prints the dead person's death photo and puts it in the user's hand, if there is one.
 /obj/item/death_watch/proc/print_death_photo(mob/living/dead_person, mob/living/user)
 	var/obj/item/photo/death_photo = new(drop_location(), dead_person.death_photo, TRUE, FALSE, FALSE)
-	QDEL_NULL(dead_person.death_photo)
 	if(user)
 		dead_person.balloon_alert(user, "photo printed")
 		user.playsound_local(src, 'sound/items/bell.ogg', 30)
 		user.put_in_hands(death_photo)
+	QDEL_NULL(dead_person.death_photo)

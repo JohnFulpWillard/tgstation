@@ -12,9 +12,10 @@
 
 	if(!gibbed && !QDELING(src)) //double check they didn't start getting deleted in ..()
 		attach_rot()
+		if(mind || ismonkey(src))
+			INVOKE_ASYNC(src, PROC_REF(take_death_photo))
 
-	for(var/T in get_traumas())
-		var/datum/brain_trauma/BT = T
+	for(var/datum/brain_trauma/BT as anything in get_traumas())
 		BT.on_death()
 
 /mob/living/carbon/gib(drop_bitflags=NONE)

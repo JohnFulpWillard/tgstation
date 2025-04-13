@@ -197,8 +197,6 @@
 		client.move_delay = initial(client.move_delay)
 
 	persistent_client?.time_of_death = timeofdeath
-	if(!gibbed)
-		INVOKE_ASYNC(src, PROC_REF(take_death_photo))
 
 	return TRUE
 

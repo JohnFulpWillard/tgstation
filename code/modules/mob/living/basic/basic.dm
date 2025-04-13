@@ -164,6 +164,8 @@
 	else
 		health = 0
 		look_dead()
+		if(!gibbed)
+			INVOKE_ASYNC(src, PROC_REF(take_death_photo))
 
 /mob/living/basic/gib()
 	if(butcher_results || guaranteed_butcher_results)
