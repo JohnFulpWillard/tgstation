@@ -307,6 +307,20 @@
 	if(isnull(created_overlay))
 		return
 
+	created_overlay.color = COLOR_ORANGE
+	overlays |= created_overlay
+
+/datum/status_effect/fire_handler/fire_stacks/cold_fire
+
+/datum/status_effect/fire_handler/fire_stacks/cold_fire/add_fire_overlay(mob/living/source, list/overlays)
+	if(stacks <= 0 || !on_fire)
+		return
+
+	var/mutable_appearance/created_overlay = owner.get_fire_overlay(stacks, on_fire)
+	if(isnull(created_overlay))
+		return
+
+	created_overlay.color = COLOR_BLUE
 	overlays |= created_overlay
 
 /datum/status_effect/fire_handler/wet_stacks
