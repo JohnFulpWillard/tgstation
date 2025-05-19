@@ -117,35 +117,24 @@
 	///Contains images of all radial icons
 	var/static/list/radial_cache = list()
 
+GLOBAL_LIST_INIT(cult_equipment_paths, list(
+	/obj/item/clothing/suit/hooded/cultrobes/alt,
+	/obj/item/storage/backpack/cultpack,
+	/obj/item/clothing/shoes/cult/alt,
+	/obj/item/melee/cultblade/dagger,
+	/obj/item/restraints/legcuffs/bola/cult,
+))
+
 /datum/action/innate/cult/blood_spell/equipment/Activate()
 	if(!length(radial_cache))
-		var/datum/radial_menu_choice/robe_option = new
-		robe_option.image = image(
-			icon = /obj/item/clothing/suit/hooded/cultrobes/alt::icon,
-			icon_state = /obj/item/clothing/suit/hooded/cultrobes/alt::icon_state,
-		)
-		radial_cache[/obj/item/clothing/suit/hooded/cultrobes/alt] = robe_option
-
-		var/datum/radial_menu_choice/backpack_option = new
-		backpack_option.image = image(
-			icon = /obj/item/storage/backpack/cultpack::icon,
-			icon_state = /obj/item/storage/backpack/cultpack::icon_state,
-		)
-		radial_cache[/obj/item/storage/backpack/cultpack] = backpack_option
-
-		var/datum/radial_menu_choice/dagger_option = new
-		dagger_option.image = image(
-			icon = /obj/item/melee/cultblade/dagger::icon,
-			icon_state = /obj/item/melee/cultblade/dagger::icon_state,
-		)
-		radial_cache[/obj/item/melee/cultblade/dagger] = dagger_option
-
-		var/datum/radial_menu_choice/bola_option = new
-		bola_option.image = image(
-			icon = /obj/item/restraints/legcuffs/bola/cult::icon,
-			icon_state = /obj/item/restraints/legcuffs/bola/cult::icon_state,
-		)
-		radial_cache[/obj/item/restraints/legcuffs/bola/cult] = bola_option
+		for(var/obj/item/cult_item_path as anything in GLOB.cult_equipment_paths)
+			var/datum/radial_menu_choice/option = new
+			option.image = image(
+				icon = cult_item_path::icon,
+				icon_state = cult_item_path::icon_state,
+			)
+			option.info = cult_item_path::desc
+			radial_cache[cult_item_path] = option
 
 	show_radial_menu(
 		owner,

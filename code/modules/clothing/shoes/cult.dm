@@ -1,7 +1,9 @@
 /obj/item/clothing/shoes/cult
 	name = "\improper Nar'Sian boots"
-	desc = "A pair of boots worn by the followers of Nar'Sie."
+	desc = "A pair of boots worn by the followers of Nar'Sie. Prevents the tracking of blood."
 	icon_state = "cult"
+	item_flags = parent_type::item_flags | NO_BLOOD_ON_ITEM
+	can_be_bloody = FALSE
 	inhand_icon_state = null
 	cold_protection = FEET
 	min_cold_protection_temperature = SHOES_MIN_TEMP_PROTECT
