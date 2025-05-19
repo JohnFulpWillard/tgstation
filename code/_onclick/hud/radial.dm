@@ -315,8 +315,6 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	setup_menu(use_tooltips, set_page, click_on_hover)
 
 /datum/radial_menu/proc/extract_image(to_extract_from)
-	if(to_extract_from in selected_choices)
-		to_chat(world, "[to_extract_from] is selected.")
 	if (istype(to_extract_from, /datum/radial_menu_choice))
 		var/datum/radial_menu_choice/choice = to_extract_from
 		to_extract_from = choice.image
