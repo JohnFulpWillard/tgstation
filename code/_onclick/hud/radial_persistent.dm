@@ -8,7 +8,7 @@
 
 /atom/movable/screen/radial/persistent/center/Click(location, control, params)
 	if(usr.client == parent.current_user)
-		parent.element_chosen(null, usr, params)
+		parent.element_chosen(null, usr, params, src)
 
 /atom/movable/screen/radial/persistent/center/MouseEntered(location, control, params)
 	. = ..()
@@ -29,7 +29,7 @@
 	close_button.set_parent(src)
 
 
-/datum/radial_menu/persistent/element_chosen(choice_id, mob/user, params)
+/datum/radial_menu/persistent/element_chosen(choice_id, mob/user, params, atom/movable/screen/radial/persistent/center/button)
 	select_proc_callback.Invoke(choices_values[choice_id], params)
 
 ///Version of wait used by persistent radial menus.

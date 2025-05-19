@@ -110,30 +110,68 @@
 	health_cost = 12
 
 /datum/action/innate/cult/blood_spell/equipment
-	name = "Summon Combat Equipment"
-	desc = "Empowers your hand to summon combat gear onto a cultist you touch, including cult armor, a cult bola, and a cult sword. Not recommended for use before the blood cult's presence has been revealed."
-	button_icon_state = "equip"
-	magic_path = /obj/item/melee/blood_magic/armor
-
-/datum/action/innate/cult/blood_spell/dagger
-	name = "Summon Ritual Dagger"
-	desc = "Allows you to summon a ritual dagger, in case you've lost the dagger that was given to you."
+	name = "Summon Equipment"
+	desc = "Allows you to summon Cult gear where you stand."
 	invocation = "Wur d'dai leev'mai k'sagan!" //where did I leave my keys, again?
-	button_icon_state = "equip" //this is the same icon that summon equipment uses, but eh, I'm not a spriter
-	/// The item given to the cultist when the spell is invoked. Typepath.
-	var/obj/item/summoned_type = /obj/item/melee/cultblade/dagger
+	button_icon_state = "equip"
+	///Contains images of all radial icons
+	var/static/list/radial_cache = list()
 
-/datum/action/innate/cult/blood_spell/dagger/Activate()
+/datum/action/innate/cult/blood_spell/equipment/Activate()
+	if(!length(radial_cache))
+		var/datum/radial_menu_choice/robe_option = new
+		robe_option.image = image(
+			icon = /obj/item/clothing/suit/hooded/cultrobes/alt::icon,
+			icon_state = /obj/item/clothing/suit/hooded/cultrobes/alt::icon_state,
+		)
+		radial_cache[/obj/item/clothing/suit/hooded/cultrobes/alt] = robe_option
+
+		var/datum/radial_menu_choice/backpack_option = new
+		backpack_option.image = image(
+			icon = /obj/item/storage/backpack/cultpack::icon,
+			icon_state = /obj/item/storage/backpack/cultpack::icon_state,
+		)
+		radial_cache[/obj/item/storage/backpack/cultpack] = backpack_option
+
+		var/datum/radial_menu_choice/dagger_option = new
+		dagger_option.image = image(
+			icon = /obj/item/melee/cultblade/dagger::icon,
+			icon_state = /obj/item/melee/cultblade/dagger::icon_state,
+		)
+		radial_cache[/obj/item/melee/cultblade/dagger] = dagger_option
+
+		var/datum/radial_menu_choice/bola_option = new
+		bola_option.image = image(
+			icon = /obj/item/restraints/legcuffs/bola/cult::icon,
+			icon_state = /obj/item/restraints/legcuffs/bola/cult::icon_state,
+		)
+		radial_cache[/obj/item/restraints/legcuffs/bola/cult] = bola_option
+
+	show_radial_menu(
+		owner,
+		owner,
+		radial_cache,
+		tooltips = TRUE,
+		no_repeat_close = TRUE,
+		custom_cancel_callback = CALLBACK(src, PROC_REF(on_close)),
+		max_choices = length(radial_cache) + 1,
+	)
+
+/datum/action/innate/cult/blood_spell/equipment/proc/on_close(list/items_summoned)
+	if(!length(items_summoned))
+		return
 	var/turf/owner_turf = get_turf(owner)
+	for(var/obj/item/summoned_item as anything in items_summoned)
+		summoned_item = new summoned_item(owner_turf)
+		if(owner.equip_to_appropriate_slot(summoned_item))
+			continue
+		owner.put_in_hands(summoned_item)
+
 	owner.whisper(invocation, language = /datum/language/common, forced = "cult invocation")
-	owner.visible_message(span_warning("[owner]'s hand glows red for a moment."), \
-		span_cult_italic("Your plea for aid is answered, and light begins to shimmer and take form within your hand!"))
-	var/obj/item/summoned_blade = new summoned_type(owner_turf)
-	if(owner.put_in_hands(summoned_blade))
-		to_chat(owner, span_warning("A [summoned_blade] appears in your hand!"))
-	else
-		owner.visible_message(span_warning("A [summoned_blade] appears at [owner]'s feet!"), \
-			span_cult_italic("A [summoned_blade] materializes at your feet."))
+	owner.visible_message(
+		span_warning("[owner]'s hand glows red for a moment."),
+		span_cult_italic("Your plea for aid is answered, and light begins to shimmer and take form within your hand!"),
+	)
 	SEND_SOUND(owner, sound('sound/effects/magic.ogg', FALSE, 0, 25))
 	charges--
 	SSblackbox.record_feedback("tally", "cult_spell_invoke", 1, "[name]")
@@ -618,29 +656,6 @@
 	if(user.incapacitated || !user.Adjacent(src))
 		return FALSE
 	return TRUE
-
-
-//Armor: Gives the target (cultist) a basic cultist combat loadout
-/obj/item/melee/blood_magic/armor
-	name = "Arming Aura"
-	desc = "Will equip cult combat gear onto a cultist on contact."
-	color = "#33cc33" // green
-
-/obj/item/melee/blood_magic/armor/cast_spell(mob/living/target, mob/living/carbon/user)
-	if(!iscarbon(target) || !IS_CULTIST(target))
-		return
-	uses--
-	var/mob/living/carbon/carbon_target = target
-	carbon_target.visible_message(span_warning("Otherworldly armor suddenly appears on [carbon_target]!"))
-	carbon_target.equip_to_slot_or_del(new /obj/item/clothing/under/color/black,ITEM_SLOT_ICLOTHING)
-	carbon_target.equip_to_slot_or_del(new /obj/item/clothing/suit/hooded/cultrobes/alt(user), ITEM_SLOT_OCLOTHING)
-	carbon_target.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult/alt(user), ITEM_SLOT_FEET)
-	carbon_target.equip_to_slot_or_del(new /obj/item/storage/backpack/cultpack(user), ITEM_SLOT_BACK)
-	if(carbon_target == user)
-		qdel(src) //Clears the hands
-	carbon_target.put_in_hands(new /obj/item/melee/cultblade/dagger(user))
-	carbon_target.put_in_hands(new /obj/item/restraints/legcuffs/bola/cult(user))
-	return ..()
 
 /obj/item/melee/blood_magic/manipulator
 	name = "Blood Rite Aura"

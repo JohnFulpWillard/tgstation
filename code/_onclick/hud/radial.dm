@@ -54,7 +54,7 @@ GLOBAL_LIST_EMPTY(radial_menus)
 		if(next_page)
 			parent.next_page()
 		else
-			parent.element_chosen(choice, usr, params)
+			parent.element_chosen(choice, usr, params, src)
 
 /atom/movable/screen/radial/center
 	name = "Close Menu"
@@ -70,6 +70,7 @@ GLOBAL_LIST_EMPTY(radial_menus)
 
 /atom/movable/screen/radial/center/Click(location, control, params)
 	if(usr.client == parent.current_user)
+		parent.on_center_clicked()
 		parent.finished = TRUE
 
 /datum/radial_menu
@@ -88,7 +89,8 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	var/list/page_data = list() //list of choices per page
 
 
-	var/selected_choice
+	var/list/selected_choices
+	var/max_choices = 1
 	var/list/atom/movable/screen/elements = list()
 	var/atom/movable/screen/radial/center/close_button
 	var/client/current_user
@@ -96,6 +98,8 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	var/image/menu_holder
 	var/finished = FALSE
 	var/datum/callback/custom_check_callback
+	///Callback sent when the radial menu is cancelled out of.
+	var/datum/callback/custom_cancel_callback
 	var/next_check = 0
 	var/check_delay = DEFAULT_CHECK_DELAY
 
@@ -268,7 +272,8 @@ GLOBAL_LIST_EMPTY(radial_menus)
 			info_button.layer = RADIAL_CONTENT_LAYER
 			E.vis_contents += info_button
 
-/datum/radial_menu/New(display_close_button)
+/datum/radial_menu/New(display_close_button, max_choices = 1)
+	src.max_choices = max_choices
 	if(!display_close_button)
 		return
 	close_button = new
@@ -281,8 +286,14 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	choice_datums.Cut()
 	current_page = 1
 
-/datum/radial_menu/proc/element_chosen(choice_id,mob/user)
-	selected_choice = choices_values[choice_id]
+/datum/radial_menu/proc/element_chosen(choice_id, mob/user, params, atom/movable/screen/radial/slice/button)
+	if(choices_values[choice_id] in selected_choices)
+		LAZYREMOVE(selected_choices, choices_values[choice_id])
+		button.remove_filter("selected_outline")
+		return
+	LAZYADD(selected_choices, choices_values[choice_id])
+	if(length(selected_choices) < max_choices)
+		button.add_filter("selected_outline", 1, list("type" = "outline", "color" = COLOR_GREEN, "size" = 1))
 
 /datum/radial_menu/proc/get_next_id()
 	return "c_[choices.len]"
@@ -304,6 +315,8 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	setup_menu(use_tooltips, set_page, click_on_hover)
 
 /datum/radial_menu/proc/extract_image(to_extract_from)
+	if(to_extract_from in selected_choices)
+		to_chat(world, "[to_extract_from] is selected.")
 	if (istype(to_extract_from, /datum/radial_menu_choice))
 		var/datum/radial_menu_choice/choice = to_extract_from
 		to_extract_from = choice.image
@@ -344,7 +357,7 @@ GLOBAL_LIST_EMPTY(radial_menus)
 		current_user.images -= menu_holder
 
 /datum/radial_menu/proc/wait(atom/user, atom/anchor, require_near = FALSE)
-	while (current_user && !finished && !selected_choice)
+	while (current_user && !finished && (length(selected_choices) < max_choices))
 		if(require_near && !in_range(anchor, user))
 			return
 		if(custom_check_callback && next_check < world.time)
@@ -366,14 +379,40 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	Reset()
 	hide()
 	custom_check_callback = null
-	. = ..()
+	custom_cancel_callback = null
+	return ..()
+
+/datum/radial_menu/proc/on_center_clicked()
+	finished = TRUE
+	if(custom_cancel_callback)
+		custom_cancel_callback.Invoke(selected_choices)
 
 /*
 	Presents radial menu to user anchored to anchor (or user if the anchor is currently in users screen)
 	Choices should be a list where list keys are movables or text used for element names and return value
 	and list values are movables/icons/images used for element icons
 */
-/proc/show_radial_menu(mob/user, atom/anchor, list/choices, uniqueid, radius, datum/callback/custom_check, require_near = FALSE, tooltips = FALSE, no_repeat_close = FALSE, radial_slice_icon = "radial_slice", autopick_single_option = TRUE, button_animation_flags = BUTTON_SLIDE_IN, click_on_hover = FALSE, user_space = FALSE, check_delay = DEFAULT_CHECK_DELAY, display_close_button = TRUE, radial_menu_offset = list(0, 0))
+/proc/show_radial_menu(
+	mob/user,
+	atom/anchor,
+	list/choices,
+	uniqueid,
+	radius,
+	datum/callback/custom_check,
+	require_near = FALSE,
+	tooltips = FALSE,
+	no_repeat_close = FALSE,
+	radial_slice_icon = "radial_slice",
+	autopick_single_option = TRUE,
+	button_animation_flags = BUTTON_SLIDE_IN,
+	click_on_hover = FALSE,
+	user_space = FALSE,
+	check_delay = DEFAULT_CHECK_DELAY,
+	display_close_button = TRUE,
+	radial_menu_offset = list(0, 0),
+	datum/callback/custom_cancel_callback,
+	max_choices = 1,
+)
 	if(!user || !anchor || !length(choices))
 		return
 
@@ -389,7 +428,7 @@ GLOBAL_LIST_EMPTY(radial_menus)
 			menu.finished = TRUE
 		return
 
-	var/datum/radial_menu/menu = new(display_close_button)
+	var/datum/radial_menu/menu = new(display_close_button, max_choices)
 	menu.button_animation_flags = button_animation_flags
 	menu.check_delay = check_delay
 	GLOB.radial_menus[uniqueid] = menu
@@ -397,6 +436,8 @@ GLOBAL_LIST_EMPTY(radial_menus)
 		menu.radius = radius
 	if(istype(custom_check))
 		menu.custom_check_callback = custom_check
+	if(istype(custom_cancel_callback))
+		menu.custom_cancel_callback = custom_cancel_callback
 	menu.anchor = user_space ? user : anchor
 	menu.radial_slice_icon = radial_slice_icon
 	menu.check_screen_border(user) //Do what's needed to make it look good near borders or on hud
@@ -412,7 +453,7 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	offset_y += radial_menu_offset[2]
 	menu.show_to(user, offset_x, offset_y)
 	menu.wait(user, anchor, require_near)
-	var/answer = menu.selected_choice
+	var/list/answer = menu.selected_choices
 	menu.remove_menu()
 	GLOB.radial_menus -= uniqueid
 	if(require_near && !in_range(anchor, user))
@@ -420,6 +461,8 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	if(istype(custom_check))
 		if(!custom_check.Invoke())
 			return
+	if(length(answer) == 1)
+		return answer[1]
 	return answer
 
 /// Can be provided to choices in radial menus if you want to provide more information
