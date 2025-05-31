@@ -27,45 +27,52 @@ export const PlayerList = (props) => {
   return (
     <Window width={420} height={415}>
       <Window.Content>
-        <Stack vertical fill style={{ overflowY: 'auto' }}>
-          <Section align="center" title="Admins">
-            {admin.map((individual_admin) => (
-              <Stack.Item key={individual_admin.name}>
+        <Section scrollable fill>
+          <Stack vertical>
+            <Section align="center" title="Admins">
+              {admin.length === 0 ? (
+                <Stack.Item grow>No Admins online!</Stack.Item>
+              ) : (
+                <Stack.Item>
+                  {admin.map((individual_admin) => (
+                    <Stack.Item my={1} grow key={individual_admin.name}>
+                      <Button
+                        mx={1}
+                        color={individual_admin.ignored ? 'red' : 'green'}
+                        tooltip={
+                          individual_admin.ignored
+                            ? 'Click to Unignore'
+                            : 'Click to Ignore'
+                        }
+                        onClick={() =>
+                          act('ignore', {
+                            name: individual_admin.name,
+                          })
+                        }
+                      >
+                        {individual_admin.name}
+                      </Button>
+                      is a {individual_admin.rank}
+                      {individual_admin.feedback_link && (
+                        <Button
+                          onClick={() =>
+                            act('feedback_link', {
+                              link: individual_admin.feedback_link,
+                            })
+                          }
+                        >
+                          Feedback
+                        </Button>
+                      )}
+                    </Stack.Item>
+                  ))}
+                </Stack.Item>
+              )}
+            </Section>
+            <Section align="center" title="Players">
+              {player.map((individual_player) => (
                 <Button
-                  mx={1}
-                  color={individual_admin.ignored ? 'red' : 'green'}
-                  tooltip={
-                    individual_admin.ignored
-                      ? 'Click to Unignore'
-                      : 'Click to Ignore'
-                  }
-                  onClick={() =>
-                    act('ignore', {
-                      name: individual_admin.name,
-                    })
-                  }
-                >
-                  {individual_admin.name}
-                </Button>
-                is a {individual_admin.rank}
-                {individual_admin.feedback_link && (
-                  <Button
-                    onClick={() =>
-                      act('feedback_link', {
-                        link: individual_admin.feedback_link,
-                      })
-                    }
-                  >
-                    Feedback
-                  </Button>
-                )}
-              </Stack.Item>
-            ))}
-          </Section>
-          <Section align="center" title="Players">
-            {player.map((individual_player) => (
-              <Stack.Item key={individual_player.name}>
-                <Button
+                  key={individual_player.name}
                   color={individual_player.ignored ? 'red' : 'green'}
                   tooltip={
                     individual_player.ignored
@@ -75,10 +82,10 @@ export const PlayerList = (props) => {
                 >
                   {individual_player.name}
                 </Button>
-              </Stack.Item>
-            ))}
-          </Section>
-        </Stack>
+              ))}
+            </Section>
+          </Stack>
+        </Section>
       </Window.Content>
     </Window>
   );
