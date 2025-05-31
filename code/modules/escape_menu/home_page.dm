@@ -44,12 +44,23 @@
 	)
 
 	page_holder.give_screen_object(
+		new /atom/movable/screen/escape_menu/home_button(
+			null,
+			/* hud_owner = */ null,
+			src,
+			"Players",
+			/* offset = */ 5,
+			CALLBACK(src, PROC_REF(open_player_list)),
+		)
+	)
+
+	page_holder.give_screen_object(
 		new /atom/movable/screen/escape_menu/home_button/leave_body(
 			null,
 			/* hud_owner = */ null,
 			src,
 			"Leave Body",
-			/* offset = */ 5,
+			/* offset = */ 6,
 			CALLBACK(src, PROC_REF(open_leave_body)),
 		)
 	)
@@ -179,3 +190,8 @@
 	client?.prefs.ui_interact(client?.mob)
 	qdel(src)
 
+/datum/escape_menu/proc/open_player_list()
+	if(!GLOB.player_list_tgui)
+		GLOB.player_list_tgui = new /datum/player_list()
+	GLOB.player_list_tgui.ui_interact(client?.mob)
+	qdel(src)
