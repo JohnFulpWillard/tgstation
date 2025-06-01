@@ -20,4 +20,4 @@
 
 /datum/action/changeling/digitalcamo/Remove(mob/user)
 	user.RemoveElement(/datum/element/digitalcamo)
-	..()
+	return ..()

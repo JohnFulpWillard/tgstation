@@ -10,6 +10,7 @@
 	. = ..()
 	if(!isliving(target) || (target in attached_mobs))
 		return ELEMENT_INCOMPATIBLE
+	ADD_TRAIT(target, TRAIT_INVISIBLE_TO_CAMERA, REF(src))
 	RegisterSignal(target, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(target, COMSIG_LIVING_CAN_TRACK, PROC_REF(can_track))
 	var/image/img = image(loc = target)
@@ -19,6 +20,7 @@
 
 /datum/element/digitalcamo/Detach(datum/target)
 	. = ..()
+	REMOVE_TRAIT(target, TRAIT_INVISIBLE_TO_CAMERA, REF(src))
 	UnregisterSignal(target, list(COMSIG_ATOM_EXAMINE, COMSIG_LIVING_CAN_TRACK))
 	for(var/mob/living/silicon/ai/AI in GLOB.player_list)
 		AI.client.images -= attached_mobs[target]
