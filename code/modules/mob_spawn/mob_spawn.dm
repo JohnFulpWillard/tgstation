@@ -141,13 +141,13 @@
 /obj/effect/mob_spawn/ghost_role/Initialize(mapload)
 	. = ..()
 	SSpoints_of_interest.make_point_of_interest(src)
-	LAZYADD(GLOB.mob_spawners[name], src)
+	LAZYADD(GLOB.mob_spawners[format_text(name)], src)
 
 /obj/effect/mob_spawn/ghost_role/Destroy()
-	var/list/spawners = GLOB.mob_spawners[name]
+	var/list/spawners = GLOB.mob_spawners[format_text(name)]
 	LAZYREMOVE(spawners, src)
 	if(!LAZYLEN(spawners))
-		GLOB.mob_spawners -= name
+		GLOB.mob_spawners -= format_text(name)
 	return ..()
 
 //ATTACK GHOST IGNORING PARENT RETURN VALUE
@@ -344,8 +344,7 @@
 		// Or on crew monitors
 		var/obj/item/clothing/under/sensor_clothes = spawned_human.w_uniform
 		if(istype(sensor_clothes))
-			sensor_clothes.sensor_mode = SENSOR_OFF
-			spawned_human.update_suit_sensors()
+			sensor_clothes.set_sensor_mode(SENSOR_OFF)
 
 //don't use this in subtypes, just add 1000 brute yourself. that being said, this is a type that has 1000 brute. it doesn't really have a home anywhere else, it just needs to exist
 /obj/effect/mob_spawn/corpse/human/damaged
@@ -360,4 +359,6 @@
 /obj/effect/mob_spawn/cockroach/Initialize(mapload)
 	if(prob(bloodroach_chance))
 		mob_type = /mob/living/basic/cockroach/bloodroach
-	return ..()
+	. = ..()
+	INVOKE_ASYNC(src, PROC_REF(create))
+	qdel(src)

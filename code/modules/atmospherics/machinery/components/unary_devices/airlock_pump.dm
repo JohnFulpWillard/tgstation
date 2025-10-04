@@ -51,7 +51,7 @@
 	///Which pressure holds docked vessel\station for override of external_pressure_target
 	var/docked_side_pressure
 	///Rate of the pump to remove gases from the air
-	var/volume_rate = 1000
+	var/volume_rate = 2000
 	///The start time of the current cycle to calculate cycle duration
 	var/cycle_start_time
 	///Max duration of cycle, after which the pump will unlock the airlocks with a warning
@@ -153,7 +153,7 @@
 			tile_air_pressure = max(0, local_turf.return_air().return_pressure())
 		on_dock_request(tile_air_pressure)
 
-/obj/machinery/atmospherics/components/unary/airlock_pump/New()
+/obj/machinery/atmospherics/components/unary/airlock_pump/Initialize(mapload)
 	. = ..()
 	var/datum/gas_mixture/distro_air = airs[1]
 	var/datum/gas_mixture/waste_air = airs[2]
@@ -300,7 +300,7 @@
 	stoplag(1 SECONDS) // Wait for closing animation
 	airlocks_animating = FALSE
 
-	on = TRUE
+	set_on(TRUE)
 	cycle_start_time = world.time
 
 	var/turf/local_turf = get_turf(src)
@@ -334,7 +334,6 @@
 		if(is_cycling_audible)
 			source_airlock.say("Decompressing airlock.")
 
-	update_appearance(UPDATE_ICON)
 	return TRUE
 
 
@@ -342,7 +341,7 @@
 /obj/machinery/atmospherics/components/unary/airlock_pump/proc/stop_cycle(message = null, unbolt_only = FALSE)
 	if(!on)
 		return FALSE
-	on = FALSE
+	set_on(FALSE)
 
 	// In case we can open both sides safe_dock will do it for us
 	// it also handles its own messages. If we can't - procceed
