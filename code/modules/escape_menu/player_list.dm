@@ -7,7 +7,7 @@
 			/* hud_owner = */ null,
 			"Back",
 			/* tooltip_text = */ null,
-			/* pixel_offset = */ list(-260, 190),
+			/* button_screen_loc = */ "TOP:-30,LEFT:30",
 			CALLBACK(src, PROC_REF(open_home_page)),
 			/* button_overlay = */ "back",
 		)
@@ -18,7 +18,7 @@
 
 	if(length(GLOB.admins))
 		page_holder.give_screen_object(
-			new /atom/movable/screen/escape_menu/text(
+			new /atom/movable/screen/escape_menu/text/center(
 				null,
 				/* hud_owner = */ null,
 				/* escape_menu = */ src,
@@ -45,7 +45,7 @@
 			var/ranks = "Admin"//admin.holder.rank_names()
 			var/feedback_link = prob(50) ? "https://google.com/" : null//admin.holder.feedback_link()
 			page_holder.give_screen_object(
-				new /atom/movable/screen/escape_menu/text(
+				new /atom/movable/screen/escape_menu/text/center(
 					null,
 					/* hud_owner = */ null,
 					/* escape_menu = */ src,
@@ -57,7 +57,7 @@
 			horizontal_amount += 150
 	else
 		page_holder.give_screen_object(
-			new /atom/movable/screen/escape_menu/text(
+			new /atom/movable/screen/escape_menu/text/center(
 				null,
 				/* hud_owner = */ null,
 				/* escape_menu = */ src,
@@ -68,7 +68,7 @@
 
 	vertical_amount -= 30
 	page_holder.give_screen_object(
-		new /atom/movable/screen/escape_menu/text(
+		new /atom/movable/screen/escape_menu/text/center(
 			null,
 			/* hud_owner = */ null,
 			/* escape_menu = */ src,
@@ -98,7 +98,7 @@
 	vertical_amount -= 30
 	if(length(client.prefs.ignoring))
 		page_holder.give_screen_object(
-			new /atom/movable/screen/escape_menu/text(
+			new /atom/movable/screen/escape_menu/text/center(
 				null,
 				/* hud_owner = */ null,
 				/* escape_menu = */ src,
@@ -130,8 +130,8 @@
 		/* hud_owner = */ null,
 		/* button_text = */ null,
 		/* tooltip_text = */ null,
-		/* pixel_offset = */ list(280, -10),
-		CALLBACK(page_holder, TYPE_PROC_REF(/datum/screen_object_holder, scroll), TRUE),
+		/* button_screen_loc = */ "RIGHT:-10,CENTER:-10",
+		/* on_click_callback */ CALLBACK(page_holder, TYPE_PROC_REF(/datum/screen_object_holder, scroll), TRUE),
 		/* button_overlay = */ "arrow-up",
 	))
 	page_holder.give_screen_object(new /atom/movable/screen/escape_menu/lobby_button/scroll(
@@ -139,8 +139,8 @@
 		/* hud_owner = */ null,
 		/* button_text = */ null,
 		/* tooltip_text = */ null,
-		/* pixel_offset = */ list(280, -110),
-		CALLBACK(page_holder, TYPE_PROC_REF(/datum/screen_object_holder, scroll)),
+		/* button_screen_loc = */ "RIGHT:-10,CENTER:-110",
+		/* on_click_callback */ CALLBACK(page_holder, TYPE_PROC_REF(/datum/screen_object_holder, scroll)),
 		/* button_overlay = */ "arrow-down",
 	))
 	page_holder.lowest_point = vertical_amount

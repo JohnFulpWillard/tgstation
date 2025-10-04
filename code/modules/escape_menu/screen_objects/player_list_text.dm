@@ -1,4 +1,5 @@
 /atom/movable/screen/escape_menu/text/clickable/ignoring
+	screen_directions = list("NORTH", "CENTER")
 	///The ckey this targets, this has to be its own thing because of admin fake keys.
 	///otherwise, by default, this is simply button_text.
 	var/player_ckey
