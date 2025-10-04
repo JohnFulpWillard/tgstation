@@ -35,15 +35,15 @@
 					null,
 					/* hud_owner = */ null,
 					/* escape_menu = */ src,
-					/* button_text = */ admin.ckey,//admin.holder.fakekey ? admin.holder.fakekey : admin.ckey,
+					/* button_text = */ admin.holder.fakekey ? admin.holder.fakekey : admin.ckey,
 					/* offset = */ list(vertical_amount, horizontal_amount),
 					/* font_size = */ 12,
 					/* on_click_callback = */ CALLBACK(src, PROC_REF(ignore_or_unignore), admin.ckey),
 					/* player_ckey = */ admin.ckey,
 				)
 			)
-			var/ranks = "Admin"//admin.holder.rank_names()
-			var/feedback_link = prob(50) ? "https://google.com/" : null//admin.holder.feedback_link()
+			var/ranks = admin.holder.rank_names()
+			var/feedback_link = admin.holder.feedback_link()
 			page_holder.give_screen_object(
 				new /atom/movable/screen/escape_menu/text/center(
 					null,
