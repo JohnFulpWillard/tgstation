@@ -23,8 +23,8 @@
 
 	//this decides how far out you can 'click' on this, so it's important to keep it short.
 	//yes even here, maptext can still embed links without using clickable subtype.
-	src.maptext_width = round((max(length(button_text), 20) * (font_size / 1.2)), 1)
-	src.maptext_height = maptext_height * (font_size / 5)
+	src.maptext_width = max(round(length(button_text) * font_size * 0.75), font_size * 4)
+	src.maptext_height = round(font_size * 1.4)
 
 	update_text()
 	screen_loc = "[screen_directions[1]]:[offset[1]],[screen_directions[2]]:[offset[2]]"

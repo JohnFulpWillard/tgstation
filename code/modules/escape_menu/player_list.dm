@@ -13,7 +13,7 @@
 		)
 	)
 
-	var/vertical_amount = -30 //we start at -50, add -10 each time we go down.
+	var/vertical_amount = -30 //we start at -50, add -20 (40 for admins due to feedback links) each time we go down.
 	var/horizontal_amount = -170 //increasing by 150, we fit 3 per line this way.
 
 	if(length(GLOB.admins))
@@ -29,7 +29,7 @@
 		for(var/client/admin as anything in GLOB.admins) //we list admins first
 			if(horizontal_amount >= 280)
 				horizontal_amount = -170
-				vertical_amount -= 30 //admins push further down for feedback links to fit
+				vertical_amount -= 40
 			page_holder.give_screen_object(
 				new /atom/movable/screen/escape_menu/text/clickable/ignoring(
 					null,

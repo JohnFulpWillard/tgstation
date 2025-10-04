@@ -45,6 +45,20 @@
 			/* on_click_callback = */ CALLBACK(src, PROC_REF(admin_notice)),
 		)
 	)
+	if(CONFIG_GET(flag/see_own_notes))
+		page_holder.give_screen_object(
+			new /atom/movable/screen/escape_menu/text/clickable(
+				null,
+				/* hud_owner = */ null,
+				/* escape_menu = */ src,
+				/* button_text = */ "See Notes",
+				/* offset = */ list(-241, 30),
+				/* font_size = */ 24,
+				/* on_click_callback = */ CALLBACK(src, PROC_REF(see_notes)),
+			)
+		)
+
+	browse_messages(null, usr.ckey, null, TRUE)
 
 ///Opens your latest admin ticket.
 /datum/escape_menu/proc/view_latest_ticket()
@@ -59,3 +73,9 @@
 		return
 	client?.adminhelp()
 	qdel(src)
+
+/datum/escape_menu/proc/see_notes()
+	if(!CONFIG_GET(flag/see_own_notes))
+		to_chat(client.mob, span_notice("Seeing notes has been disabled on this server."))
+		return
+	browse_messages(null, client.ckey, null, TRUE)
