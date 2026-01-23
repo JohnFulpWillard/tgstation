@@ -18,7 +18,7 @@
 	///Boolean on whether the machine is currently working.
 	var/activated = FALSE
 	///Amount of sheets of plasma is currently in the machine.
-	var/sheets_of_plasma
+	var/sheets_of_plasma = 0
 	///Amount of sheets of plasma is required to work once.
 	var/required_sheets = MAX_PLASMA_SHEETS
 
@@ -158,6 +158,7 @@
 /obj/machinery/weather_remover/emag_act(mob/user, obj/item/card/emag/emag_card)
 	if(obj_flags & EMAGGED)
 		return FALSE
+	balloon_alert(user, "sensors shortened!")
 	playsound(src, SFX_SPARKS, 50, vary = TRUE, extrarange = SHORT_RANGE_SOUND_EXTRARANGE)
 	do_sparks(3, cardinal_only = FALSE, source = src)
 	obj_flags |= EMAGGED
