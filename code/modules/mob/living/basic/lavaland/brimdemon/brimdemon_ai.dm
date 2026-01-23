@@ -13,7 +13,6 @@
 		/datum/ai_planning_subtree/escape_captivity,
 		/datum/ai_planning_subtree/simple_find_target,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/opportunistic,
-		/datum/ai_planning_subtree/find_and_hunt_target/look_for_functional_pipes,
 		/datum/ai_planning_subtree/move_to_cardinal/brimdemon,
 		/datum/ai_planning_subtree/targeted_mob_ability/brimbeam,
 	)

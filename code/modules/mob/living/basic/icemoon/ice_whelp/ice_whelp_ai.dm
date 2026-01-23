@@ -14,7 +14,6 @@
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/ice_whelp,
 		/datum/ai_planning_subtree/sculpt_statues,
 		/datum/ai_planning_subtree/find_and_hunt_target/corpses/ice_whelp,
-		/datum/ai_planning_subtree/find_and_hunt_target/look_for_functional_pipes,
 		/datum/ai_planning_subtree/burn_trees,
 	)
 

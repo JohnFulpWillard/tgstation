@@ -89,7 +89,7 @@
 		var/name = initial(gas.name)
 		var/datum/supply_pack/materials/pack = new
 		if(!initial(gas.purchaseable))
-			pack.hidden = TRUE
+			pack.order_flags |= ORDER_INVISIBLE
 		pack.name = "[name] Canister"
 		pack.desc = "Contains a canister of [name]."
 		if(initial(gas.dangerous))

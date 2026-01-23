@@ -101,11 +101,13 @@
 	QDEL_NULL(display_panel_ref)
 	//makes plasma canisters & weather manipulators purchasable from Cargo
 	var/datum/supply_pack/plasma_pack = SSshuttle.supply_packs["/datum/supply_pack/materials/gas_canisters/plasma"] //canister IDs are uniquely stored as strings
-	plasma_pack.hidden = FALSE
+	if(plasma_pack)
+		plasma_pack.order_flags &= ~ORDER_INVISIBLE
 	var/datum/supply_pack/weather_pack = SSshuttle.supply_packs[/datum/supply_pack/imports/weather_remover]
-	weather_pack.hidden = FALSE
+	if(weather_pack)
+		weather_pack.order_flags &= ~ORDER_INVISIBLE
 	//give miners their points
-	if(SSeconomy.bank_accounts_by_job[/datum/job/shaft_miner])
+	if(length(SSeconomy.bank_accounts_by_job[/datum/job/shaft_miner]))
 		for(var/datum/bank_account/miners as anything in SSeconomy.bank_accounts_by_job[/datum/job/shaft_miner])
 			miners.mining_points += OBJECTIVE_MINING_POINTS_AWARD
 			miners.bank_card_talk("You've been awarded [OBJECTIVE_MINING_POINTS_AWARD] mining points for the completion of the plasma extraction objective.")

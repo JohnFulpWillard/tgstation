@@ -35,14 +35,14 @@
 
 /datum/component/pipe_laying/RegisterWithParent()
 	. = ..()
-	RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attackby))
+	RegisterSignal(parent, COMSIG_ATOM_ITEM_INTERACTION, PROC_REF(on_item_interact))
 	var/atom/atom_target = parent
 	atom_target.flags_1 |= HAS_CONTEXTUAL_SCREENTIPS_1
 	RegisterSignal(parent, COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM, PROC_REF(on_adding_context))
 
 /datum/component/pipe_laying/UnregisterFromParent()
 	. = ..()
-	UnregisterSignal(parent, list(COMSIG_ATOM_ATTACKBY, COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM))
+	UnregisterSignal(parent, list(COMSIG_ATOM_ITEM_INTERACTION, COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM))
 	if(pipe_placing)
 		UnregisterSignal(pipe_placing, COMSIG_MOVABLE_MOVED)
 
@@ -52,10 +52,10 @@
  * and give the lock on component so we can listen in on where they are trying
  * to build.
  */
-/datum/component/pipe_laying/proc/on_attackby(datum/source, obj/item/weapon, mob/user, params)
-	if(!istype(weapon, /obj/item/pipe_dispenser) || building_pipes)
+/datum/component/pipe_laying/proc/on_item_interact(obj/item/source, mob/living/user, obj/item/tool, modifiers)
+	if(!istype(tool, /obj/item/pipe_dispenser) || building_pipes)
 		return
-	pipe_placing = weapon
+	pipe_placing = tool
 	RegisterSignal(pipe_placing, COMSIG_MOVABLE_MOVED, PROC_REF(on_dispenser_move))
 	pipe_placer = user
 	lockon_component = pipe_placer.AddComponent( \

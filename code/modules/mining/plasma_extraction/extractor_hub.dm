@@ -94,6 +94,7 @@
 	for(var/obj/structure/liquid_plasma_extraction_pipe/part_pipes as anything in connected_pipes)
 		part_pipes.pipe_status = PIPE_STATUS_ON
 		part_pipes.update_appearance(UPDATE_ICON)
+		part_pipes.AddElement(/datum/element/hostile_machine)
 	var/obj/structure/liquid_plasma_extraction_pipe/random_pipe = pick(connected_pipes)
 	//one pipe on each side is spitting enemies, so we're putting randomness into spawn times.
 	var/time_between_spawns = rand(15 SECONDS, 30 SECONDS)
@@ -117,6 +118,7 @@
 		part_pipes.pipe_status = PIPE_STATUS_OFF
 		part_pipes.update_appearance(UPDATE_ICON)
 		SEND_SIGNAL(part_pipes, COMSIG_VENT_WAVE_CONCLUDED) //shuts off all spawners.
+		part_pipes.RemoveElement(/datum/element/hostile_machine)
 	currently_functional = FALSE
 
 ///Returns whether the pipe is able to drill. If it can't, and it currently is drilling,
@@ -144,6 +146,7 @@
 	SHOULD_CALL_PARENT(TRUE)
 	for(var/obj/structure/liquid_plasma_extraction_pipe/part_pipes as anything in connected_pipes)
 		SEND_SIGNAL(part_pipes, COMSIG_VENT_WAVE_CONCLUDED) //shuts off all spawners.
+		part_pipes.RemoveElement(/datum/element/hostile_machine)
 
 /**
  * Handle logging for mobs spawned

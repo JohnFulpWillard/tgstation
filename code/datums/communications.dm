@@ -79,7 +79,8 @@ GLOBAL_DATUM_INIT(communications_controller, /datum/communciations_controller, n
 	. = "<b><i>Nanotrasen Department of Intelligence Threat Advisory, Spinward Sector, TCD [time2text(world.realtime, "DDD, MMM DD")], [CURRENT_STATION_YEAR]:</i></b><hr>"
 	. += dynamic_report
 
-	SSstation.generate_station_goals(greenshift ? INFINITY : CONFIG_GET(number/station_goal_budget))
+	SSstation.generate_station_goals(greenshift ? INFINITY : CONFIG_GET(number/station_goal_budget), STATION_GOAL)
+	SSstation.generate_station_goals(greenshift ? INFINITY : CONFIG_GET(number/station_goal_budget), MINING_GOAL)
 
 	var/list/datum/station_goal/goals = SSstation.get_station_goals()
 	if(length(goals))

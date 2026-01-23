@@ -338,7 +338,7 @@
 	)
 	crate_name = "weather manipulator crate"
 	crate_type = /obj/structure/closet/crate/cargo
-	hidden = TRUE
+	order_flags = parent_type::order_flags | ORDER_INVISIBLE
 
 /datum/supply_pack/imports/floortilecamo
 	name = "Floor-tile Camouflage Uniform"
