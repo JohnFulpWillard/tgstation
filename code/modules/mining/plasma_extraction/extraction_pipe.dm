@@ -29,6 +29,16 @@
 		connected_hub = null
 	return ..()
 
+/obj/structure/liquid_plasma_extraction_pipe/examine(mob/user)
+	. = ..()
+	switch(pipe_state)
+		if(PIPE_STATE_UNBUILT)
+			. += span_notice("You can [EXAMINE_HINT("wrench")] the pipe in, or [EXAMINE_HINT("weld")] it apart.")
+		if(PIPE_STATE_DAMAGED)
+			. += span_notice("The pipe is damaged. You can repair it with a [EXAMINE_HINT("welder")].")
+		if(PIPE_STATE_FINE)
+			. += span_notice("The pipe seems perfectly operational. You can [EXAMINE_HINT("unwrench")] it.")
+
 /obj/structure/liquid_plasma_extraction_pipe/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	switch(pipe_state)
 		if(PIPE_STATE_UNBUILT)
