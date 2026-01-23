@@ -14,19 +14,18 @@
 	var/active = FALSE
 	var/transfer_rate = TANK_COMPRESSOR_MAX_TRANSFER_RATE
 	var/datum/gas_mixture/leaked_gas_buffer
-	var/list/compressor_record
+	var/list/compressor_record = list()
 	var/last_recorded_pressure = 0
 	var/record_number = 1
 	var/obj/item/tank/inserted_tank
 	/// Reference to a disk we are going to print to.
-	var/obj/item/computer_disk/inserted_disk
+	var/obj/item/disk/computer/inserted_disk
 
 	pipe_flags = PIPING_ONE_PER_TURF | PIPING_DEFAULT_LAYER_ONLY
 
 /obj/machinery/atmospherics/components/binary/tank_compressor/Initialize(mapload)
 	. = ..()
 	leaked_gas_buffer = new(200)
-	compressor_record = list()
 
 	RegisterSignal(src, COMSIG_ATOM_INTERNAL_EXPLOSION, PROC_REF(explosion_handle))
 
@@ -61,8 +60,8 @@
 		RegisterSignal(inserted_tank, COMSIG_QDELETING, PROC_REF(tank_destruction))
 		update_appearance()
 		return
-	if(istype(item, /obj/item/computer_disk))
-		var/obj/item/computer_disk/attacking_disk = item
+	if(istype(item, /obj/item/disk/computer))
+		var/obj/item/disk/computer/attacking_disk = item
 		eject_disk(user)
 		if(user.transferItemToLoc(attacking_disk, src))
 			inserted_disk = attacking_disk
@@ -221,10 +220,10 @@
 /obj/machinery/atmospherics/components/binary/tank_compressor/proc/eject_disk(mob/user)
 	if(!inserted_disk)
 		return FALSE
-	if(user)
-		user.put_in_hands(inserted_disk)
-	else
+	if(!user || !Adjacent(user))
 		inserted_disk.forceMove(drop_location())
+	else
+		user.put_in_hands(inserted_disk)
 	playsound(src, 'sound/machines/card_slide.ogg', 50)
 	return TRUE
 
@@ -247,7 +246,7 @@
 	inserted_tank = null
 	inserted_disk = null
 	leaked_gas_buffer = null
-	QDEL_NULL(compressor_record) //We only want the list nuked, not the contents.
+	compressor_record.Cut() // We only want to clear the list itself, not delete its contents.
 	return ..()
 
 /obj/machinery/atmospherics/components/binary/tank_compressor/update_icon_state()

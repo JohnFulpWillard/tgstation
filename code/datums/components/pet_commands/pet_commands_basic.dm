@@ -47,6 +47,8 @@
 	callout_type = /datum/callout_option/move
 	///the behavior we use to follow
 	var/follow_behavior = /datum/ai_behavior/pet_follow_friend
+	///should we activate immediately if we're doing nothing else and gain a friend?
+	var/activate_on_befriend = FALSE
 
 /datum/pet_command/follow/set_command_active(mob/living/parent, mob/living/commander)
 	. = ..()
@@ -58,6 +60,18 @@
 /datum/pet_command/follow/execute_action(datum/ai_controller/controller)
 	controller.queue_behavior(follow_behavior, BB_CURRENT_PET_TARGET)
 	return SUBTREE_RETURN_FINISH_PLANNING
+
+/datum/pet_command/follow/add_new_friend(mob/living/tamer)
+	. = ..()
+	var/mob/living/parent = weak_parent.resolve()
+	if (!parent)
+		return
+	if (activate_on_befriend && !parent.ai_controller.blackboard_key_exists(BB_ACTIVE_PET_COMMAND))
+		try_activate_command(tamer)
+
+/// Like follow but start active
+/datum/pet_command/follow/start_active
+	activate_on_befriend = TRUE
 
 /**
  * # Pet Command: Play Dead
@@ -147,16 +161,16 @@
 // Refuse to target things we can't target, chiefly other friends
 /datum/pet_command/attack/set_command_target(mob/living/parent, atom/target)
 	if (!target)
-		return
+		return FALSE
 	var/mob/living/living_parent = parent
 	if (!living_parent.ai_controller)
-		return
+		return FALSE
 	var/datum/targeting_strategy/targeter = GET_TARGETING_STRATEGY(living_parent.ai_controller.blackboard[targeting_strategy_key])
 	if (!targeter)
-		return
+		return FALSE
 	if (!targeter.can_attack(living_parent, target))
 		refuse_target(parent, target)
-		return
+		return FALSE
 	return ..()
 
 /datum/pet_command/attack/retrieve_command_text(atom/living_pet, atom/target)
@@ -186,16 +200,16 @@
 
 /datum/pet_command/breed/set_command_target(mob/living/parent, atom/target)
 	if(isnull(target) || !isliving(target))
-		return
+		return FALSE
 	if(!HAS_TRAIT(parent, TRAIT_MOB_BREEDER) || !HAS_TRAIT(target, TRAIT_MOB_BREEDER))
-		return
+		return FALSE
 	if(isnull(parent.ai_controller))
-		return
+		return FALSE
 	if(!parent.ai_controller.blackboard[BB_BREED_READY] || isnull(parent.ai_controller.blackboard[BB_BABIES_PARTNER_TYPES]))
-		return
+		return FALSE
 	var/mob/living/living_target = target
 	if(!living_target.ai_controller?.blackboard[BB_BREED_READY])
-		return
+		return FALSE
 	return ..()
 
 /datum/pet_command/breed/execute_action(datum/ai_controller/controller)
@@ -263,6 +277,9 @@
 	var/mob/living/victim = controller.blackboard[BB_CURRENT_PET_TARGET]
 	if(QDELETED(victim))
 		return
+	var/datum/targeting_strategy/targeter = GET_TARGETING_STRATEGY(controller.blackboard[targeting_strategy_key])
+	if(!targeter.can_attack(controller.pawn, victim))
+		return
 	// cancel the action if they're below our given crit stat, OR if we're trying to attack ourselves (this can happen on tamed mobs w/ protect subtree rarely)
 	if(victim.stat > controller.blackboard[BB_TARGET_MINIMUM_STAT] || victim == controller.pawn)
 		controller.clear_blackboard_key(BB_ACTIVE_PET_COMMAND)
@@ -274,8 +291,8 @@
 	. = ..()
 	set_command_target(parent, victim)
 
-/datum/pet_command/protect_owner/valid_callout_target(mob/living/caller, datum/callout_option/callout, atom/target)
-	return target == caller || get_dist(caller, target) <= 1
+/datum/pet_command/protect_owner/valid_callout_target(mob/living/speaker, datum/callout_option/callout, atom/target)
+	return target == speaker || get_dist(speaker, target) <= 1
 
 /datum/pet_command/protect_owner/proc/set_attacking_target(atom/source, mob/living/attacker)
 	SIGNAL_HANDLER

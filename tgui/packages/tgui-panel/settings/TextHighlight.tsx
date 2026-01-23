@@ -1,30 +1,23 @@
-import { useDispatch, useSelector } from 'tgui/backend';
 import {
   Box,
   Button,
   ColorBox,
   Divider,
+  Icon,
   Input,
   Section,
   Stack,
   TextArea,
-} from 'tgui/components';
-
-import { rebuildChat } from '../chat/actions';
-import {
-  addHighlightSetting,
-  removeHighlightSetting,
-  updateHighlightSetting,
-} from './actions';
-import { MAX_HIGHLIGHT_SETTINGS } from './constants';
-import {
-  selectHighlightSettingById,
-  selectHighlightSettings,
-} from './selectors';
+} from 'tgui-core/components';
+import { chatRenderer } from '../chat/renderer';
+import { WARN_AFTER_HIGHLIGHT_AMT } from './constants';
+import { useHighlights } from './use-highlights';
 
 export function TextHighlightSettings(props) {
-  const highlightSettings = useSelector(selectHighlightSettings);
-  const dispatch = useDispatch();
+  const {
+    highlights: { highlightSettings },
+    addHighlight,
+  } = useHighlights();
 
   return (
     <Section fill scrollable height="250px">
@@ -36,23 +29,28 @@ export function TextHighlightSettings(props) {
             mb={i + 1 === highlightSettings.length ? 0 : '10px'}
           />
         ))}
-        {highlightSettings.length < MAX_HIGHLIGHT_SETTINGS && (
-          <Stack.Item>
+        <Stack.Item>
+          <Box>
             <Button
               color="transparent"
               icon="plus"
-              onClick={() => {
-                dispatch(addHighlightSetting());
-              }}
+              onClick={() => addHighlight()}
             >
               Add Highlight Setting
             </Button>
-          </Stack.Item>
-        )}
+            {highlightSettings.length >= WARN_AFTER_HIGHLIGHT_AMT && (
+              <Box inline fontSize="0.9em" ml={1} color="red">
+                <Icon mr={1} name="triangle-exclamation" />
+                Large amounts of highlights can potentially cause performance
+                issues!
+              </Box>
+            )}
+          </Box>
+        </Stack.Item>
       </Stack>
       <Divider />
       <Box>
-        <Button icon="check" onClick={() => dispatch(rebuildChat())}>
+        <Button icon="check" onClick={() => chatRenderer.rebuildChat()}>
           Apply now
         </Button>
         <Box inline fontSize="0.9em" ml={1} color="label">
@@ -65,8 +63,11 @@ export function TextHighlightSettings(props) {
 
 function TextHighlightSetting(props) {
   const { id, ...rest } = props;
-  const highlightSettingById = useSelector(selectHighlightSettingById);
-  const dispatch = useDispatch();
+  const {
+    highlights: { highlightSettingById },
+    updateHighlight,
+    removeHighlight,
+  } = useHighlights();
   const {
     highlightColor,
     highlightText,
@@ -82,13 +83,7 @@ function TextHighlightSetting(props) {
           <Button
             color="transparent"
             icon="times"
-            onClick={() =>
-              dispatch(
-                removeHighlightSetting({
-                  id: id,
-                }),
-              )
-            }
+            onClick={() => removeHighlight(id)}
           >
             Delete
           </Button>
@@ -98,12 +93,10 @@ function TextHighlightSetting(props) {
             checked={highlightWholeMessage}
             tooltip="If this option is selected, the entire message will be highlighted in yellow."
             onClick={() =>
-              dispatch(
-                updateHighlightSetting({
-                  id: id,
-                  highlightWholeMessage: !highlightWholeMessage,
-                }),
-              )
+              updateHighlight({
+                id,
+                highlightWholeMessage: !highlightWholeMessage,
+              })
             }
           >
             Whole Message
@@ -115,12 +108,10 @@ function TextHighlightSetting(props) {
             tooltipPosition="bottom-start"
             tooltip="If this option is selected, only exact matches (no extra letters before or after) will trigger. Not compatible with punctuation. Overriden if regex is used."
             onClick={() =>
-              dispatch(
-                updateHighlightSetting({
-                  id: id,
-                  matchWord: !matchWord,
-                }),
-              )
+              updateHighlight({
+                id,
+                matchWord: !matchWord,
+              })
             }
           >
             Exact
@@ -131,12 +122,10 @@ function TextHighlightSetting(props) {
             tooltip="If this option is selected, the highlight will be case-sensitive."
             checked={matchCase}
             onClick={() =>
-              dispatch(
-                updateHighlightSetting({
-                  id: id,
-                  matchCase: !matchCase,
-                }),
-              )
+              updateHighlight({
+                id,
+                matchCase: !matchCase,
+              })
             }
           >
             Case
@@ -149,28 +138,25 @@ function TextHighlightSetting(props) {
             monospace
             placeholder="#ffffff"
             value={highlightColor}
-            onInput={(e, value) =>
-              dispatch(
-                updateHighlightSetting({
-                  id: id,
-                  highlightColor: value,
-                }),
-              )
+            onBlur={(value) =>
+              updateHighlight({
+                id,
+                highlightColor: value,
+              })
             }
           />
         </Stack.Item>
       </Stack>
       <TextArea
+        fluid
         height="3em"
         value={highlightText}
         placeholder="Put words to highlight here. Separate terms with commas, i.e. (term1, term2, term3)"
-        onChange={(e, value) =>
-          dispatch(
-            updateHighlightSetting({
-              id: id,
-              highlightText: value,
-            }),
-          )
+        onBlur={(value) =>
+          updateHighlight({
+            id: id,
+            highlightText: value,
+          })
         }
       />
     </Stack.Item>

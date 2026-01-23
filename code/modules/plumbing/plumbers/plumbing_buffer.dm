@@ -9,25 +9,20 @@
 	pass_flags_self = PASSMACHINE | LETPASSTHROW // It looks short enough.
 	buffer = 200
 
+	///Buffer net that connects multiple buffers
 	var/datum/buffer_net/buffer_net
+	///Volume of reagents at which which this buffer is ready to send
 	var/activation_volume = 100
+	///The state of this machine see defines
 	var/mode
 
-/obj/machinery/plumbing/buffer/Initialize(mapload, bolt, layer)
+/obj/machinery/plumbing/buffer/Initialize(mapload, layer)
 	. = ..()
-
-	AddComponent(/datum/component/plumbing/buffer, bolt, layer)
+	AddComponent(/datum/component/plumbing/buffer, layer)
 
 /obj/machinery/plumbing/buffer/create_reagents(max_vol, flags)
 	. = ..()
-	RegisterSignals(reagents, list(COMSIG_REAGENTS_ADD_REAGENT, COMSIG_REAGENTS_NEW_REAGENT, COMSIG_REAGENTS_REM_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_CLEAR_REAGENTS, COMSIG_REAGENTS_REACTED), PROC_REF(on_reagent_change))
-	RegisterSignal(reagents, COMSIG_QDELETING, PROC_REF(on_reagents_del))
-
-/// Handles properly detaching signal hooks.
-/obj/machinery/plumbing/buffer/proc/on_reagents_del(datum/reagents/reagents)
-	SIGNAL_HANDLER
-	UnregisterSignal(reagents, list(COMSIG_REAGENTS_ADD_REAGENT, COMSIG_REAGENTS_NEW_REAGENT, COMSIG_REAGENTS_REM_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_CLEAR_REAGENTS, COMSIG_REAGENTS_REACTED, COMSIG_QDELETING))
-	return NONE
+	RegisterSignal(reagents, COMSIG_REAGENTS_HOLDER_UPDATED, PROC_REF(on_reagent_change))
 
 /obj/machinery/plumbing/buffer/proc/on_reagent_change()
 	SIGNAL_HANDLER
@@ -84,7 +79,7 @@
 	to_chat(user, span_notice("New activation threshold is now [activation_volume]."))
 	return
 
-/obj/machinery/plumbing/buffer/attackby(obj/item/item, mob/user, params)
+/obj/machinery/plumbing/buffer/attackby(obj/item/item, mob/user, list/modifiers, list/attack_modifiers)
 	if(item.tool_behaviour == TOOL_SCREWDRIVER)
 		to_chat(user, span_notice("You reset the automatic buffer."))
 

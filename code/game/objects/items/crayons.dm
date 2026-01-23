@@ -30,7 +30,6 @@
 	w_class = WEIGHT_CLASS_TINY
 	attack_verb_continuous = list("attacks", "colours")
 	attack_verb_simple = list("attack", "colour")
-	grind_results = list()
 	interaction_flags_atom = parent_type::interaction_flags_atom | INTERACT_ATOM_IGNORE_MOBILITY
 
 	/// Icon state to use when capped
@@ -44,6 +43,8 @@
 	var/crayon_color = "red"
 	/// Current paint colour
 	var/paint_color = COLOR_RED
+	///How strong the outline should be when drawing around something.
+	var/outline_strength = 0.5
 
 	/// Contains chosen symbol to draw
 	var/drawtype
@@ -213,12 +214,20 @@
 	drawtype = pick(all_drawables)
 
 	AddElement(/datum/element/venue_price, FOOD_PRICE_EXOTIC)
-	if(can_change_colour)
+	//This makes sure that spraycans do not rename stuff instead of painting
+	if(!can_change_colour)
+		AddElement(/datum/element/tool_renaming)
+	else
 		AddComponent(/datum/component/palette, AVAILABLE_SPRAYCAN_SPACE, paint_color)
 
 	refill()
 	if(edible)
-		AddComponent(/datum/component/edible, bite_consumption = reagents.total_volume / (charges_left / 5), after_eat = CALLBACK(src, PROC_REF(after_eat)))
+		AddComponentFrom(
+			SOURCE_EDIBLE_INNATE, \
+			/datum/component/edible, \
+			bite_consumption = reagents.total_volume / (charges_left / 5), \
+			after_eat = CALLBACK(src, PROC_REF(after_eat)), \
+		)
 
 /// Used for edible component to reduce charges_left on bite.
 /obj/item/toy/crayon/proc/after_eat(mob/user)
@@ -316,7 +325,7 @@
 		ui = new(user, src, "Crayon", name)
 		ui.open()
 
-/obj/item/toy/crayon/proc/staticDrawables()
+/obj/item/toy/crayon/proc/staticDrawables(is_literate_user)
 	. = list()
 
 	var/list/g_items = list()
@@ -352,20 +361,23 @@
 	var/list/rand_items = list()
 	. += list(list(name = "Random", "items" = rand_items))
 	for(var/i in randoms)
+		if(!is_literate_user) // no spelling allowed
+			if(i == RANDOM_LETTER || i == RANDOM_NUMBER || i == RANDOM_PUNCTUATION)
+				continue
 		rand_items += list(list("item" = i))
 
+/obj/item/toy/crayon/ui_data(mob/user)
+	var/list/crayon_drawables
+	var/is_literate_user = user.is_literate()
 
-/obj/item/toy/crayon/ui_data()
-	var/static/list/crayon_drawables
-
-	if (!crayon_drawables)
-		crayon_drawables = staticDrawables()
+	if(!crayon_drawables)
+		crayon_drawables = staticDrawables(is_literate_user)
 
 	. = list()
 	.["drawables"] = crayon_drawables
 	.["selected_stencil"] = drawtype
 	.["text_buffer"] = text_buffer
-
+	.["is_literate_user"] = is_literate_user
 	.["has_cap"] = has_cap
 	.["is_capped"] = is_capped
 	.["can_change_colour"] = can_change_colour
@@ -475,7 +487,7 @@
 
 	var/temp = "rune"
 	var/ascii = (length(drawing) == 1)
-	if(ascii && is_alpha(drawing))
+	if(ascii && is_lowercase_character(drawing))
 		temp = "letter"
 	else if(ascii && is_digit(drawing))
 		temp = "number"
@@ -508,7 +520,7 @@
 		clicky = clamp(text2num(LAZYACCESS(modifiers, ICON_Y)) - 16, -(ICON_SIZE_Y/2), ICON_SIZE_Y/2)
 
 	if(!instant)
-		to_chat(user, span_notice("You start drawing a [temp] on the [target.name]..."))
+		to_chat(user, span_notice("You start drawing a [temp] on \the [target]..."))
 
 	if(pre_noise)
 		audible_message(span_notice("You hear spraying."))
@@ -520,7 +532,7 @@
 	if(istagger)
 		wait_time *= 0.5
 
-	if(!instant && !do_after(user, wait_time, target = target, max_interact_count = 4))
+	if(!instant && !do_after(user, wait_time, target = target, max_interact_count = 4, extra_checks = CALLBACK(src, PROC_REF(adjacency_check), user, target)))
 		return ITEM_INTERACT_BLOCKING
 
 	if(!use_charges(user, cost))
@@ -577,13 +589,39 @@
 	check_empty(user)
 	return ITEM_INTERACT_SUCCESS
 
+///Checks if the user is still adjacent to the target (used for do_after extra_checks)
+/obj/item/toy/crayon/proc/adjacency_check(mob/user, atom/target)
+	if(!user.Adjacent(target))
+		user.balloon_alert(user, "moved too far away!")
+		return FALSE
+	return TRUE
+
 /obj/item/toy/crayon/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if (!check_allowed_items(interacting_with))
 		return NONE
 
 	if(can_use_on(interacting_with, user, modifiers))
 		return use_on(interacting_with, user, modifiers)
-	return NONE
+
+	if(!ishuman(interacting_with) || user.combat_mode)
+		return NONE
+
+	var/mob/living/carbon/human/pwned_human = interacting_with
+	if(!(pwned_human.stat == DEAD || HAS_TRAIT(pwned_human, TRAIT_FAKEDEATH)))
+		return NONE
+
+	interacting_with.balloon_alert(user, "drawing outline...")
+	if(!do_after(user, DRAW_TIME, target = pwned_human))
+		return ITEM_INTERACT_FAILURE
+	if(!use_charges(user, 1))
+		return ITEM_INTERACT_FAILURE
+
+	to_chat(user, span_notice("You draw a chalk outline around [pwned_human]."))
+	var/obj/effect/decal/cleanable/crayon/chalk_line = new(get_turf(pwned_human), paint_color, "body", "chalk outline", null, null, "A vaguely [pwned_human] shaped body outline.", outline_strength)
+	chalk_line.pixel_y = (pwned_human.pixel_y + pwned_human.pixel_z)
+	chalk_line.pixel_x = (pwned_human.pixel_x + pwned_human.pixel_w)
+	chalk_line.create_outline(pwned_human, add_mouse_opacity = TRUE)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/item/toy/crayon/get_writing_implement_details()
 	return list(
@@ -657,30 +695,7 @@
 	crayon_color = "white"
 	reagent_contents = list(/datum/reagent/consumable/nutriment = 0.5,  /datum/reagent/colorful_reagent/powder/white/crayon = 1.5)
 	dye_color = DYE_WHITE
-
-/obj/item/toy/crayon/white/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
-	/// Wherein, we draw a chalk body outline vaguely around the dead or "dead" mob
-	if(!ishuman(interacting_with) || user.combat_mode)
-		return ..()
-
-	var/mob/living/carbon/human/pwned_human = interacting_with
-
-	if(!(pwned_human.stat == DEAD || HAS_TRAIT(pwned_human, TRAIT_FAKEDEATH)))
-		balloon_alert_to_viewers("FEEDING TIME")
-		return ..()
-
-	balloon_alert_to_viewers("drawing outline...")
-	if(!do_after(user, DRAW_TIME, target = pwned_human, max_interact_count = 4))
-		return NONE
-	if(!use_charges(user, 1))
-		return NONE
-
-	var/decal_rotation = GET_LYING_ANGLE(pwned_human) - 90
-	var/obj/effect/decal/cleanable/crayon/chalk_line = new(get_turf(pwned_human), paint_color, "body", "chalk outline", decal_rotation, null, "A vaguely [pwned_human] shaped outline of a body.")
-	to_chat(user, span_notice("You draw a chalk outline around [pwned_human]."))
-	chalk_line.pixel_y = (pwned_human.pixel_y + pwned_human.pixel_z) + rand(-2, 2)
-	chalk_line.pixel_x = (pwned_human.pixel_x + pwned_human.pixel_w) + rand(-1, 1)
-	return ITEM_INTERACT_SUCCESS
+	outline_strength = 1
 
 /obj/item/toy/crayon/mime
 	name = "mime crayon"
@@ -717,17 +732,7 @@
 	icon_state = "crayonbox"
 	w_class = WEIGHT_CLASS_SMALL
 	custom_materials = list(/datum/material/cardboard = SHEET_MATERIAL_AMOUNT)
-
-/obj/item/storage/crayons/Initialize(mapload)
-	. = ..()
-	atom_storage.set_holdable(
-		can_hold_list = /obj/item/toy/crayon,
-		cant_hold_list = list(
-			/obj/item/toy/crayon/spraycan,
-			/obj/item/toy/crayon/mime,
-			/obj/item/toy/crayon/rainbow,
-		),
-	)
+	storage_type = /datum/storage/crayons
 
 /obj/item/storage/crayons/PopulateContents()
 	new /obj/item/toy/crayon/red(src)
@@ -752,7 +757,7 @@
 	if(flags_1 & HOLOGRAM_1)
 		return
 
-	var/obj/item/stack/sheet/cardboard/cardboard = new /obj/item/stack/sheet/cardboard(user.drop_location())
+	var/obj/item/stack/sheet/cardboard/cardboard = new (user.drop_location())
 	to_chat(user, span_notice("You fold the [src] into cardboard."))
 	user.put_in_active_hand(cardboard)
 	qdel(src)
@@ -793,6 +798,7 @@
 	var/static/list/direct_color_types = typecacheof(list(
 		/obj/item/paper, // Uses color for TGUI backgrounds, doesn't look very good either
 		/obj/item/fish, // Used for aquarium sprites
+		/obj/structure/window, // Does not play nice with window tint
 	))
 
 /obj/item/toy/crayon/spraycan/Initialize(mapload)
@@ -805,6 +811,10 @@
 	)
 	register_context()
 	register_item_context()
+	// If default crayon red colour, pick a more fun spraycan colour
+	if(!paint_color)
+		set_painting_tool_color(pick(COLOR_CRAYON_RED, COLOR_CRAYON_ORANGE, COLOR_CRAYON_YELLOW, COLOR_CRAYON_GREEN, COLOR_CRAYON_BLUE, COLOR_CRAYON_PURPLE))
+	refill()
 
 /obj/item/toy/crayon/spraycan/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	. = ..()
@@ -829,9 +839,7 @@
 	if(isbodypart(target))
 		var/obj/item/bodypart/limb = target
 		if(IS_ROBOTIC_LIMB(limb))
-			context[SCREENTIP_CONTEXT_CTRL_LMB] = "Restyle robotic limb"
-	else
-		context[SCREENTIP_CONTEXT_CTRL_LMB] = "Copy color"
+			context[SCREENTIP_CONTEXT_LMB] = "Restyle robotic limb"
 
 	return CONTEXTUAL_SCREENTIP_SET
 
@@ -857,13 +865,6 @@
 	reagents.trans_to(user, used, volume_multiplier, transferred_by = user, methods = VAPOR)
 	return OXYLOSS
 
-/obj/item/toy/crayon/spraycan/Initialize(mapload)
-	. = ..()
-	// If default crayon red colour, pick a more fun spraycan colour
-	if(!paint_color)
-		set_painting_tool_color(pick(COLOR_CRAYON_RED, COLOR_CRAYON_ORANGE, COLOR_CRAYON_YELLOW, COLOR_CRAYON_GREEN, COLOR_CRAYON_BLUE, COLOR_CRAYON_PURPLE))
-	refill()
-
 /obj/item/toy/crayon/spraycan/examine(mob/user)
 	. = ..()
 	if(charges != INFINITE_CHARGES)
@@ -871,7 +872,7 @@
 			. += "It's roughly [PERCENT(charges_left/charges)]% full."
 		else
 			. += "It is empty."
-	. += span_notice("Alt-click [src] to [ is_capped ? "take the cap off" : "put the cap on"]. Right-click a colored object to match its existing color.")
+	. += span_notice("Alt-click [src] to [ is_capped ? "take the cap off" : "put the cap on"].")
 
 
 /obj/item/toy/crayon/spraycan/can_use_on(atom/target, mob/user, list/modifiers)
@@ -887,9 +888,6 @@
 	return ..()
 
 /obj/item/toy/crayon/spraycan/use_on(atom/target, mob/user, list/modifiers)
-	if (LAZYACCESS(modifiers, CTRL_CLICK))
-		return ctrl_interact(target, user)
-
 	if(is_capped)
 		balloon_alert(user, "take the cap off first!")
 		return ITEM_INTERACT_BLOCKING
@@ -897,9 +895,16 @@
 	if(check_empty(user))
 		return ITEM_INTERACT_BLOCKING
 
+	if (isbodypart(target))
+		if (color_limb(target, user))
+			return ITEM_INTERACT_SUCCESS
+
 	if(iscarbon(target))
 		if(pre_noise || post_noise)
 			playsound(user.loc, 'sound/effects/spray.ogg', 25, TRUE, 5)
+
+		if(SEND_SIGNAL(target, COMSIG_CARBON_SPRAYPAINTED, user, src))
+			return ITEM_INTERACT_BLOCKING
 
 		var/mob/living/carbon/carbon_target = target
 		user.visible_message(span_danger("[user] sprays [src] into the face of [target]!"))
@@ -994,30 +999,9 @@
 	user.visible_message(span_notice("[user] coats [target] with spray paint!"), span_notice("You coat [target] with spray paint."))
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/toy/crayon/spraycan/proc/ctrl_interact(atom/interacting_with, mob/living/user)
-	if(is_capped)
-		if(!interacting_with.color)
-			// let's be generous and assume if they're trying to match something with no color, while capped,
-			// we shouldn't be blocking further interactions
-			return NONE
-		balloon_alert(user, "take the cap off first!")
-		return ITEM_INTERACT_BLOCKING
-
-	if(check_empty(user))
-		return ITEM_INTERACT_BLOCKING
-
-	if(!isbodypart(interacting_with) || !actually_paints)
-		if(interacting_with.color)
-			paint_color = interacting_with.color
-			balloon_alert(user, "matched colour of target")
-			update_appearance()
-			return ITEM_INTERACT_BLOCKING
-		balloon_alert(user, "can't match those colours!")
-		return ITEM_INTERACT_BLOCKING
-
-	var/obj/item/bodypart/limb = interacting_with
+/obj/item/toy/crayon/spraycan/proc/color_limb(obj/item/bodypart/limb, mob/living/user)
 	if(!IS_ROBOTIC_LIMB(limb))
-		return ITEM_INTERACT_BLOCKING
+		return FALSE
 
 	var/list/skins = list()
 	var/static/list/style_list_icons = list(
@@ -1036,7 +1020,7 @@
 	if(choice && (use_charges(user, 5, requires_full = FALSE)))
 		playsound(user.loc, 'sound/effects/spray.ogg', 5, TRUE, 5)
 		limb.change_appearance(style_list_icons[choice], greyscale = FALSE)
-	return ITEM_INTERACT_SUCCESS
+	return TRUE
 
 /obj/item/toy/crayon/spraycan/click_alt(mob/user)
 	if(!has_cap)

@@ -1,6 +1,3 @@
-import { BooleanLike } from 'common/react';
-
-import { useBackend } from '../backend';
 import {
   Box,
   Button,
@@ -10,8 +7,11 @@ import {
   ProgressBar,
   Section,
   Stack,
-} from '../components';
-import { formatPower } from '../format';
+} from 'tgui-core/components';
+import { formatPower } from 'tgui-core/format';
+import type { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
 type TurbineInfo = {
@@ -47,12 +47,13 @@ const TurbineDisplay = (props) => {
         <LabeledList.Item label="Intake Regulator">
           <NumberInput
             animated
+            tickWhileDragging
             value={data.regulator * 100}
             unit="%"
             step={1}
             minValue={1}
             maxValue={100}
-            onDrag={(value) =>
+            onChange={(value) =>
               act('regulate', {
                 regulate: value * 0.01,
               })

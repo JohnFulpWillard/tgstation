@@ -24,9 +24,7 @@
 	id = "[rand(1000, 9999)]"
 	link_power_station()
 
-	AddComponent(/datum/component/usb_port, list(
-		/obj/item/circuit_component/teleporter_control_console,
-	))
+	AddComponent(/datum/component/usb_port, typecacheof(list(/obj/item/circuit_component/teleporter_control_console), only_root_path = TRUE))
 
 /obj/machinery/computer/teleporter/Destroy()
 	if (power_station)
@@ -233,8 +231,7 @@
 		return FALSE
 	if(is_centcom_level(T.z) || is_away_level(T.z))
 		return FALSE
-	var/area/A = get_area(T)
-	if(!A || (A.area_flags & NOTELEPORT))
+	if(!check_teleport_valid(AM, get_turf(src)))
 		return FALSE
 	return TRUE
 

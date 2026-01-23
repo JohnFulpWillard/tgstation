@@ -209,8 +209,6 @@
 
 /datum/drift_handler/proc/attempt_halt(movement_dir, continuous_move, atom/backup)
 	if ((backup.density || !backup.CanPass(parent, get_dir(backup, parent))) && (get_dir(parent, backup) == movement_dir || parent.loc == backup.loc))
-		if (drift_force >= INERTIA_FORCE_THROW_FLOOR)
-			parent.throw_at(backup, 1, floor(1 + (drift_force - INERTIA_FORCE_THROW_FLOOR) / INERTIA_FORCE_PER_THROW_FORCE), spin = FALSE)
 		return FALSE
 
 	if (drift_force < INERTIA_FORCE_SPACEMOVE_GRAB || isnull(drifting_loop))
@@ -241,7 +239,7 @@
 	/// Lack of angle means that we are trying to halt movement
 	if (isnull(target_angle))
 		// Going through newtonian_move ensures that all Process_Spacemove code runs properly, instead of directly adjusting forces
-		parent.newtonian_move(reverse_angle(drifting_loop.angle), drift_force = min(drift_force, stabilization_force))
+		parent.newtonian_move(REVERSE_ANGLE(drifting_loop.angle), drift_force = min(drift_force, stabilization_force))
 		return
 
 	// Force required to be applied in order to get to the desired movement vector, with projection of current movement onto desired vector to ensure that we only compensate for excess
@@ -264,4 +262,4 @@
 
 	var/projected_force = max(0, cos(target_angle - drifting_loop.angle)) * drift_force
 	if (projected_force > 0)
-		parent.newtonian_move(reverse_angle(target_angle), projected_force)
+		parent.newtonian_move(REVERSE_ANGLE(target_angle), projected_force)

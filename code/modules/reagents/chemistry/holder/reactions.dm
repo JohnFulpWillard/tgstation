@@ -120,9 +120,6 @@
 	else
 		is_reacting = FALSE
 
-	if(.)
-		SEND_SIGNAL(src, COMSIG_REAGENTS_REACTED, .)
-
 	TEST_ONLY_ASSERT(!. || MC_RUNNING(), "We reacted during subsystem init, that shouldn't be happening!")
 
 /**
@@ -212,13 +209,13 @@
 
 	var/reaction_message = null
 
-	if (!HAS_TRAIT(my_atom, TRAIT_SILENT_REACTIONS))
+	if (!isnull(my_atom) && !HAS_TRAIT(my_atom, TRAIT_SILENT_REACTIONS))
 		reaction_message = equilibrium.reaction.mix_message
 		if(equilibrium.reaction.mix_sound)
 			playsound(get_turf(my_atom), equilibrium.reaction.mix_sound, 80, TRUE)
 	qdel(equilibrium)
 	update_total()
-	SEND_SIGNAL(src, COMSIG_REAGENTS_REACTED, .)
+
 	return reaction_message
 
 /*
@@ -240,7 +237,7 @@
 	var/list/mix_message = list()
 	for(var/datum/equilibrium/equilibrium as anything in reaction_list)
 		mix_message += end_reaction(equilibrium)
-	if(my_atom && length(mix_message))
+	if(!QDELETED(my_atom) && length(mix_message))
 		my_atom.audible_message(span_notice("[icon2html(my_atom, viewers(DEFAULT_MESSAGE_RANGE, src))] [mix_message.Join()]"))
 	finish_reacting()
 
@@ -342,7 +339,7 @@
 				my_atom.visible_message(span_notice("[iconhtml] \The [my_atom]'s power is consumed in the reaction."))
 				extract.name = "used slime extract"
 				extract.desc = "This extract has been used up."
-				extract.grind_results.Cut()
+				extract.can_grind = FALSE
 
 	//finish the reaction
 	selected_reaction.on_reaction(src, null, multiplier)

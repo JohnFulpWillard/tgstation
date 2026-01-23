@@ -42,7 +42,7 @@
 
 /datum/ai_behavior/find_and_set/find_playmate
 
-/datum/ai_behavior/find_and_set/find_playmate/search_tactic(datum/ai_controller/controller, locate_path, search_range)
+/datum/ai_behavior/find_and_set/find_playmate/search_tactic(datum/ai_controller/controller, locate_path, search_range = SEARCH_TACTIC_DEFAULT_RANGE)
 	for(var/mob/living/basic/orbie/playmate in oview(search_range, controller.pawn))
 		if(playmate == controller.pawn || playmate.stat == DEAD || isnull(playmate.ai_controller))
 			continue
@@ -104,6 +104,14 @@
 
 /datum/pet_command/follow/orbie
 	follow_behavior = /datum/ai_behavior/pet_follow_friend/orbie
+
+/datum/pet_command/follow/orbie/New(mob/living/parent)
+	. = ..()
+	RegisterSignal(parent, COMSIG_VIRTUAL_PET_SUMMONED, PROC_REF(on_summon))
+
+/datum/pet_command/follow/orbie/proc/on_summon(datum/source, mob/living/friend)
+	SIGNAL_HANDLER
+	set_command_active(source, friend)
 
 /datum/ai_behavior/pet_follow_friend/orbie
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_MOVE_AND_PERFORM | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION

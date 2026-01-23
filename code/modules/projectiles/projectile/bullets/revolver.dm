@@ -20,19 +20,19 @@
 	ricochet_auto_aim_angle = 10
 	ricochet_auto_aim_range = 3
 	wound_bonus = -20
-	bare_wound_bonus = 10
-	embed_type = /datum/embed_data/bullet_c38
+	exposed_wound_bonus = 10
+	embed_type = /datum/embedding/bullet/c38
 	embed_falloff_tile = -4
 
-/datum/embed_data/bullet_c38
-	embed_chance=25
-	fall_chance=2
-	jostle_chance=2
-	ignore_throwspeed_threshold=TRUE
-	pain_stam_pct=0.4
-	pain_mult=3
-	jostle_pain_mult=5
-	rip_time=1 SECONDS
+/datum/embedding/bullet/c38
+	embed_chance = 25
+	fall_chance = 2
+	jostle_chance = 2
+	ignore_throwspeed_threshold = TRUE
+	pain_stam_pct = 0.4
+	pain_mult = 3
+	jostle_pain_mult = 5
+	rip_time = 1 SECONDS
 
 /obj/projectile/bullet/c38/match
 	name = ".38 Match bullet"
@@ -65,6 +65,7 @@
 	ricochet_shoots_firer = FALSE
 	shrapnel_type = null
 	embed_type = null
+	armour_penetration = 30
 
 // premium .38 ammo from cargo, weak against armor, lower base damage, but excellent at embedding and causing slice wounds at close range
 /obj/projectile/bullet/c38/dumdum
@@ -74,20 +75,20 @@
 	ricochets_max = 0
 	sharpness = SHARP_EDGED
 	wound_bonus = 20
-	bare_wound_bonus = 20
-	embed_type = /datum/embed_data/bullet_c38_dumdum
+	exposed_wound_bonus = 20
+	embed_type = /datum/embedding/bullet/c38/dumdum
 	wound_falloff_tile = -5
 	embed_falloff_tile = -15
 
-/datum/embed_data/bullet_c38_dumdum
-	embed_chance=75
-	fall_chance=3
-	jostle_chance=4
-	ignore_throwspeed_threshold=TRUE
-	pain_stam_pct=0.4
-	pain_mult=5
-	jostle_pain_mult=6
-	rip_time=1 SECONDS
+/datum/embedding/bullet/c38/dumdum
+	embed_chance = 75
+	fall_chance = 3
+	jostle_chance = 4
+	ignore_throwspeed_threshold = TRUE
+	pain_stam_pct = 0.4
+	pain_mult = 5
+	jostle_pain_mult = 6
+	rip_time = 1 SECONDS
 
 /obj/projectile/bullet/c38/trac
 	name = ".38 TRAC bullet"
@@ -149,7 +150,6 @@
 	name = ".357 heartseeker bullet"
 	icon_state = "gauss"
 	damage = 50
-	homing = TRUE
 	homing_turn_speed = 120
 
 // admin only really, for ocelot memes
@@ -178,7 +178,7 @@
 /obj/projectile/bullet/pea/on_hit(mob/living/carbon/target, blocked = 0, pierce_hit)
 	if(istype(target) && blocked != 100)
 		if(iszombie(target)) // https://www.youtube.com/watch?v=ssZoq1eUK-s
-			target.adjustBruteLoss(15)
+			target.adjust_brute_loss(15)
 		if(target.can_inject(target_zone = def_zone)) // Pass the hit zone to see if it can inject by whether it hit the head or the body.
 			..()
 			reagents.trans_to(target, reagents.total_volume, methods = INJECT)
@@ -186,7 +186,6 @@
 		blocked = 100
 		target.visible_message(span_danger("\The [src] is deflected!"), span_userdanger("You are protected against \the [src]!"))
 	. = ..()
-	if(reagents & NO_REACT) //first impact on a noncarbon
+	if(reagents.flags & NO_REACT) //first impact on a noncarbon
 		reagents.flags &= ~(NO_REACT)
 		reagents.handle_reactions()
-

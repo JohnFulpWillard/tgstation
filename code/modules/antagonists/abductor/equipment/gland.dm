@@ -49,14 +49,12 @@
 /obj/item/organ/heart/gland/proc/update_gland_hud()
 	if(!owner)
 		return
-	var/image/holder = owner.hud_list[GLAND_HUD]
-	holder.pixel_y = owner.get_cached_height() - ICON_SIZE_Y
 	if(active_mind_control)
-		holder.icon_state = "hudgland_active"
+		owner.set_hud_image_state(GLAND_HUD, "hudgland_active")
 	else if(mind_control_uses)
-		holder.icon_state = "hudgland_ready"
+		owner.set_hud_image_state(GLAND_HUD, "hudgland_ready")
 	else
-		holder.icon_state = "hudgland_spent"
+		owner.set_hud_image_state(GLAND_HUD, "hudgland_spent")
 
 /obj/item/organ/heart/gland/proc/mind_control(command, mob/living/user)
 	if(!ownerCheck() || !mind_control_uses || active_mind_control)
@@ -101,7 +99,9 @@
 	hud.add_atom_to_hud(gland_owner)
 	update_gland_hud()
 
-/obj/item/organ/heart/gland/on_life(seconds_per_tick, times_fired)
+/obj/item/organ/heart/gland/on_life(seconds_per_tick)
+	. = ..()
+
 	if(!active)
 		return
 	if(!ownerCheck())

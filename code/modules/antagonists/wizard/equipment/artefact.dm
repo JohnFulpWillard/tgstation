@@ -63,13 +63,13 @@
 		qdel(src)
 		return PROCESS_KILL
 
-/obj/effect/rend/attackby(obj/item/I, mob/user, params)
-	if(istype(I, /obj/item/nullrod))
-		user.visible_message(span_danger("[user] seals \the [src] with \the [I]."))
-		qdel(src)
-		return
-	else
-		return ..()
+/obj/effect/rend/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(!HAS_TRAIT(tool, TRAIT_NULLROD_ITEM))
+		return NONE
+
+	user.visible_message(span_danger("[user] seals \the [src] with \the [tool]."))
+	qdel(src)
+	return ITEM_INTERACT_SUCCESS
 
 /obj/effect/rend/singularity_act()
 	return
@@ -284,7 +284,7 @@
 			continue
 		var/mob/living/carbon/human/H = X
 		if(H.stat == DEAD)
-			H.dust(TRUE)
+			H.dust(just_ash = TRUE)
 			spooky_scaries.Remove(X)
 			continue
 	list_clear_nulls(spooky_scaries)
@@ -304,7 +304,7 @@
 	uniform = /obj/item/clothing/under/costume/roman
 	shoes = /obj/item/clothing/shoes/roman
 	back = /obj/item/spear
-	r_hand = /obj/item/claymore
+	belt = /obj/item/storage/belt/sheath/gladius
 	l_hand = /obj/item/shield/roman
 
 /datum/outfit/roman/pre_equip(mob/living/carbon/human/H, visuals_only)
@@ -379,7 +379,7 @@
 	addtimer(CALLBACK(src, PROC_REF(send_away)), 2 SECONDS)
 
 /obj/effect/temp_visual/teleporting_tornado/proc/send_away()
-	var/turf/ending_turfs = get_safe_random_station_turf()
+	var/turf/ending_turfs = get_safe_random_station_turf_equal_weight()
 	for(var/mob/stored_mobs as anything in pickedup_mobs)
 		do_teleport(stored_mobs, ending_turfs, channel = TELEPORT_CHANNEL_MAGIC)
 		animate(stored_mobs, pixel_y = null, time = 1 SECONDS)

@@ -77,20 +77,31 @@
 			var/w = portrait_icon.Width()
 			var/h = portrait_icon.Height()
 			var/mutable_appearance/MA = mutable_appearance(portrait_icon)
+
+			MA.layer = FLOAT_LAYER + 0.1
+			MA.appearance_flags = RESET_COLOR | KEEP_APART
+
+			var/mutable_appearance/emissive_MA = emissive_appearance(portrait_icon, null, ai)
+
 			if(w == 23 || h == 23)
 				to_chat(ai, span_notice("Small note: 23x23 Portraits are accepted, but they do not fit perfectly inside the display frame."))
-				MA.pixel_x = 5
+				MA.pixel_w = 5
 				MA.pixel_z = 5
 			else if(w == 24 || h == 24)
 				to_chat(ai, span_notice("Portrait Accepted. Enjoy!"))
-				MA.pixel_x = 4
+				MA.pixel_w = 4
 				MA.pixel_z = 4
 			else
 				to_chat(ai, span_warning("Sorry, only 23x23 and 24x24 Portraits are accepted."))
 				return
+
+			emissive_MA.pixel_w = MA.pixel_w
+			emissive_MA.pixel_z = MA.pixel_z
+
 			ai.cut_overlays() //so people can't keep repeatedly select portraits to add stacking overlays
 			ai.icon_state = "ai-portrait-active"//background
 			ai.add_overlay(MA)
+			ai.add_overlay(emissive_MA)
 
 /datum/portrait_picker/proc/generate_matching_paintings_list()
 	matching_paintings = null

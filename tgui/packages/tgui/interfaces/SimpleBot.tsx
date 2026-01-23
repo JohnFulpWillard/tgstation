@@ -1,6 +1,5 @@
-import { BooleanLike } from 'common/react';
-import { capitalizeAll } from 'common/string';
 import { useBackend } from 'tgui/backend';
+import { Window } from 'tgui/layouts';
 import {
   Button,
   Icon,
@@ -10,8 +9,9 @@ import {
   Slider,
   Stack,
   Tooltip,
-} from 'tgui/components';
-import { Window } from 'tgui/layouts';
+} from 'tgui-core/components';
+import type { BooleanLike } from 'tgui-core/react';
+import { capitalizeAll } from 'tgui-core/string';
 
 type Data = {
   can_hack: BooleanLike;
@@ -262,7 +262,6 @@ function SettingsDisplay(props) {
 }
 
 enum ControlType {
-  MedbotSync = 'sync_tech',
   MedbotThreshold = 'heal_threshold',
   FloorbotTiles = 'tile_stack',
   FloorbotLine = 'line_mode',
@@ -280,8 +279,6 @@ function ControlHelper(props: ControlProps) {
   const { control } = props;
 
   switch (control[0]) {
-    case ControlType.MedbotSync:
-      return <MedbotSync />;
     case ControlType.MedbotThreshold:
       return <MedbotThreshold control={control} />;
     case ControlType.FloorbotTiles:
@@ -298,25 +295,6 @@ function ControlHelper(props: ControlProps) {
         />
       );
   }
-}
-
-/** Small button to sync medbots with research. */
-function MedbotSync(props) {
-  const { act } = useBackend<Data>();
-
-  return (
-    <Tooltip
-      content={`Synchronize surgical data with research network.
-       Improves Tending Efficiency.`}
-    >
-      <Icon
-        color="purple"
-        name="cloud-download-alt"
-        size={2}
-        onClick={() => act('sync_tech')}
-      />
-    </Tooltip>
-  );
 }
 
 /** Slider button for medbot healing thresholds */
@@ -372,10 +350,8 @@ function FloorbotLine(props: ControlProps) {
         name={control[1] ? 'compass' : 'toggle-off'}
         onClick={() => act('line_mode')}
         size={!control[1] ? 2 : 1.5}
-      >
-        {' '}
-        {control[1] ? control[1].toString().charAt(0).toUpperCase() : ''}
-      </Icon>
+      />
+      {control[1] ? control[1].toString().charAt(0).toUpperCase() : ''}
     </Tooltip>
   );
 }
