@@ -508,13 +508,6 @@ function remove_listedturf() {
   }
 }
 
-function remove_status() {
-  removePermanentTab('Status');
-  if (current_tab == 'Status') {
-    tab_change(defaultTab);
-  }
-}
-
 function remove_mc() {
   removePermanentTab('MC');
   if (current_tab == 'MC') {
@@ -881,10 +874,16 @@ Byond.subscribeTo('create_listedturf', (TN) => {
   tab_change(turfname);
 });
 
+Byond.subscribeTo('remove_status_tab', () => {
+  defaultTab = 'IC';
+  removePermanentTab('Status');
+  if (current_tab == 'Status') {
+    tab_change(defaultTab);
+  }
+});
+
 Byond.subscribeTo('remove_admin_tabs', () => {
   href_token = null;
-  defaultTab = 'IC';
-  remove_status();
   remove_mc();
   remove_tickets();
   remove_sdql2();
@@ -917,6 +916,12 @@ Byond.subscribeTo('update_split_admin_tabs', (status) => {
     update_verbs();
   }
   split_admin_tabs = status;
+});
+
+Byond.subscribeTo('add_status_tab', () => {
+  addPermanentTab('Status');
+  defaultTab = 'Status';
+  tab_change(defaultTab);
 });
 
 Byond.subscribeTo('add_admin_tabs', (ht) => {

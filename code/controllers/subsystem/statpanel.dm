@@ -67,16 +67,21 @@ SUBSYSTEM_DEF(statpanels)
 		if(!target.stat_panel.is_ready())
 			continue
 
+		if(target.should_have_stat_panel()) //Check if they need Status tab, not taking prefs into account.
+			if(!("Status" in target.panel_tabs))
+				target.stat_panel.send_message("add_status_tab")
+			if(target.stat_tab == "Status" && (num_fires % status_wait == 0))
+				set_status_tab(target)
+		else
+			target.stat_panel.send_message("remove_status_tab")
+
 		if(!target.holder)
 			target.stat_panel.send_message("remove_admin_tabs")
 		else
 			target.stat_panel.send_message("update_split_admin_tabs", !!(target.prefs.toggles & SPLIT_ADMIN_TABS))
 
-			if(!("Status" in target.panel_tabs) || !("MC" in target.panel_tabs) || !("Tickets" in target.panel_tabs))
+			if(!("MC" in target.panel_tabs) || !("Tickets" in target.panel_tabs))
 				target.stat_panel.send_message("add_admin_tabs", target.holder.href_token)
-
-			if(target.stat_tab == "Status" && (num_fires % status_wait == 0))
-				set_status_tab(target)
 
 			if(target.stat_tab == "MC" && ((num_fires % mc_wait == 0) || target?.prefs.read_preference(/datum/preference/toggle/fast_mc_refresh)))
 				set_MC_tab(target)
