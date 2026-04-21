@@ -1,3 +1,6 @@
+///How much the `production_coefficient` has to be at or below to remove the green color synthetic limbs get.
+#define FUNCTIONAL_COLOR_REQUIREMENT 0.5
+
 /// The limbgrower. Makes organd and limbs with synthflesh and chems.
 /// See [limbgrower_designs.dm] for everything we can make.
 /obj/machinery/limbgrower
@@ -17,13 +20,21 @@
 	/// How efficient our machine is. Better parts = less chemicals used and less power used. Range of 1 to 0.25.
 	var/production_coefficient = 1
 	/// How long it takes for us to print a limb. Affected by production_coefficient.
-	var/production_speed = 3 SECONDS
+	var/production_speed = 9 SECONDS
 	/// The design we're printing currently.
 	var/datum/design/being_built
 	/// Our internal techweb for limbgrower designs.
 	var/datum/techweb/autounlocking/stored_research
 	/// All the categories of organs we can print.
-	var/list/categories = list(SPECIES_HUMAN, SPECIES_LIZARD, SPECIES_MOTH, SPECIES_PLASMAMAN, SPECIES_ETHEREAL, RND_CATEGORY_LIMBS_OTHER, RND_CATEGORY_LIMBS_DIGITIGRADE)
+	var/list/categories = list(
+		SPECIES_HUMAN,
+		SPECIES_LIZARD,
+		SPECIES_MOTH,
+		SPECIES_PLASMAMAN,
+		SPECIES_ETHEREAL,
+		RND_CATEGORY_LIMBS_OTHER,
+		RND_CATEGORY_LIMBS_DIGITIGRADE,
+	)
 	///Designs imported from technology disks that we can print.
 	var/list/imported_designs = list()
 
@@ -121,7 +132,7 @@
 			for(var/datum/reagent/reagent_id as anything in found_design.reagents_list)
 				var/list/reagent_data = list(
 					name = reagent_id::name,
-					amount = (found_design.reagents_list[reagent_id] * production_coefficient),
+					amount = (found_design.reagents_list[reagent_id]),
 				)
 				all_reagents += list(reagent_data)
 
@@ -196,7 +207,7 @@
 	if(.)
 		return
 
-	if (check_busy(usr))
+	if (check_busy(ui.user))
 		return
 
 	switch(action)
@@ -221,7 +232,6 @@
 			var/power = 0
 
 			for(var/reagent_id in consumed_reagents_list)
-				consumed_reagents_list[reagent_id] *= production_coefficient
 				if(!reagents.has_reagent(reagent_id, consumed_reagents_list[reagent_id]))
 					audible_message(span_notice("[src] buzzes."))
 					playsound(src, 'sound/machines/buzz/buzz-sigh.ogg', 50, FALSE)
@@ -281,7 +291,8 @@
 	limb = new buildpath(loc)
 	limb.name = "\improper synthetic [selected_category] [limb.plaintext_zone]"
 	limb.limb_id = selected_category
-	limb.species_color = "#62A262"
+	if(production_coefficient > FUNCTIONAL_COLOR_REQUIREMENT)
+		limb.species_color = "#62A262"
 	limb.update_icon_dropped()
 
 ///Returns a valid limb typepath based on the selected option
@@ -309,7 +320,7 @@
 /obj/machinery/limbgrower/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += span_notice("The status display reads: Storing up to <b>[reagents.maximum_volume]u</b> of reagents.<br>Reagent consumption rate at <b>[production_coefficient * 100]%</b>.")
+		. += span_notice("The status display reads: Storing up to <b>[reagents.maximum_volume]u</b> of reagents.")
 
 /**
  * Check if the limb grower is currently busy.
@@ -332,7 +343,7 @@
  */
 /obj/machinery/limbgrower/proc/can_build(datum/design/limb_design)
 	for(var/datum/reagent/reagent_id in limb_design.reagents_list)
-		if(!reagents.has_reagent(reagent_id, limb_design.reagents_list[reagent_id] * production_coefficient))
+		if(!reagents.has_reagent(reagent_id, limb_design.reagents_list[reagent_id]))
 			return FALSE
 	return TRUE
 

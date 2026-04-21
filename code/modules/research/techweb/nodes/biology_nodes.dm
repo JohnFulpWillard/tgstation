@@ -34,15 +34,11 @@
 /datum/techweb_node/xenobiology
 	id = TECHWEB_NODE_XENOBIOLOGY
 	display_name = "Xenobiology"
-	description = "Exploration of non-human biology, unlocking the secrets of extraterrestrial lifeforms and their unique biological processes."
+	description = "Consoles used in managing Xenobiology and its slimes."
 	prereq_ids = list(TECHWEB_NODE_CYTOLOGY)
 	design_ids = list(
 		"xenobioconsole",
 		"slime_scanner",
-		"limbdesign_ethereal",
-		"limbdesign_felinid",
-		"limbdesign_lizard",
-		"limbdesign_plasmaman",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_3_POINTS)
 	discount_experiments = list(/datum/experiment/scanning/cytology/slime = TECHWEB_TIER_3_POINTS)

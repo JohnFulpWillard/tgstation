@@ -107,3 +107,18 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_4_POINTS)
 	discount_experiments = list(/datum/experiment/scanning/reagent/cryostylane = TECHWEB_TIER_4_POINTS)
 	announce_channels = list(RADIO_CHANNEL_MEDICAL)
+
+/datum/techweb_node/limb_designs
+	id = TECHWEB_NODE_LIMB_DESIGNS
+	display_name = "Limb Designs"
+	description = "Exploration of non-human biology, unlocking the secrets of extraterrestrial lifeforms and their unique biological processes."
+	prereq_ids = list(TECHWEB_NODE_CYTOLOGY)
+	design_ids = list(
+		"limbdesign_ethereal",
+		"limbdesign_felinid",
+		"limbdesign_lizard",
+		"limbdesign_plasmaman",
+	)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_3_POINTS)
+	discount_experiments = list(/datum/experiment/autopsy/nonhuman = TECHWEB_TIER_3_POINTS)
+	announce_channels = list(RADIO_CHANNEL_MEDICAL)

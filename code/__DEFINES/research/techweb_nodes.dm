@@ -58,6 +58,7 @@
 #define TECHWEB_NODE_INTERGRATED_TOOLSETS "intergrated_toolsets"
 #define TECHWEB_NODE_INTERROGATION "interrogation"
 #define TECHWEB_NODE_LIGHT_APPS "light_apps"
+#define TECHWEB_NODE_LIMB_DESIGNS "limb_designs"
 #define TECHWEB_NODE_LOW_PRESSURE_EXCAVATION "low_pressure_excavation"
 #define TECHWEB_NODE_MARINE_UTIL "marine_util"
 #define TECHWEB_NODE_MATERIAL_PROC "material_proc"
