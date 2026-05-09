@@ -38,7 +38,7 @@ var statcontentdiv = document.getElementById('statcontent');
 var storedimages = [];
 var split_admin_tabs = false;
 //The 'default' tab that everyone should have, that we swap to if the tab you're on is deleted or anything similar.
-var defaultTab = 'Status';
+var defaultTab = 'Admin';
 
 // Any BYOND commands that could result in the client's focus changing go through this
 // to ensure that when we relinquish our focus, we don't do it after the result of
@@ -909,6 +909,20 @@ Byond.subscribeTo('update_split_admin_tabs', (status) => {
     update_verbs();
   }
   split_admin_tabs = status;
+});
+
+Byond.subscribeTo('add_status_tab', () => {
+  addPermanentTab('Status');
+  defaultTab = 'Status';
+  tab_change(defaultTab);
+});
+
+Byond.subscribeTo('remove_status_tab', () => {
+  defaultTab = 'Admin';
+  removePermanentTab('Status');
+  if (current_tab == 'Status') {
+    tab_change(defaultTab);
+  }
 });
 
 Byond.subscribeTo('add_admin_tabs', (ht) => {
