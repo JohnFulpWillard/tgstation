@@ -58,7 +58,7 @@ SUBSYSTEM_DEF(statpanels)
 		if(!target.stat_panel.is_ready())
 			continue
 
-		if(target.should_have_stat_panel()) //Check if they need Status tab, not taking prefs into account.
+		if(target.needs_stat_panel()) //Check if they need Status tab, not taking prefs into account.
 			if(!("Status" in target.panel_tabs))
 				target.stat_panel.send_message("add_status_tab")
 			if(target.stat_tab == "Status" && (num_fires % status_wait == 0))
