@@ -127,6 +127,7 @@
 
 	if(!GLOB.hotkeys_tgui)
 		GLOB.hotkeys_tgui = new /datum/hotkeys_help()
+
 	GLOB.hotkeys_tgui.ui_interact(mob)
 
 /client/verb/emote_panel()
