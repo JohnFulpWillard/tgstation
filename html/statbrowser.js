@@ -37,7 +37,7 @@ var menu = document.getElementById('menu');
 var statcontentdiv = document.getElementById('statcontent');
 var storedimages = [];
 var split_admin_tabs = false;
-var defaultTab = 'IC';
+var defaultTab = 'Admin';
 
 // Any BYOND commands that could result in the client's focus changing go through this
 // to ensure that when we relinquish our focus, we don't do it after the result of
@@ -875,7 +875,7 @@ Byond.subscribeTo('create_listedturf', (TN) => {
 });
 
 Byond.subscribeTo('remove_status_tab', () => {
-  defaultTab = 'IC';
+  defaultTab = 'Admin';
   removePermanentTab('Status');
   if (current_tab == 'Status') {
     tab_change(defaultTab);
