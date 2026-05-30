@@ -37,7 +37,7 @@ excluded_files = [
     # TGS files come from another repository so lets not worry about them.
     "code/modules/tgs/**/*.dm",
     # Doesn't come with the repo, but is in CI.
-    "DMCompiler_linux-x64/*.dm"",
+    "DMCompiler_linux-x64/*.dm",
 ]
 
 define_regex = re.compile(r"(\s+)?#define\s?([A-Z0-9_]+)\(?(.+)\)?")
