@@ -36,7 +36,7 @@
 	fdel(filename) //force refresh
 
 	for(var/state in states)
-		var/statename = lowertext(state)
+		var/statename = LOWER_TEXT(state)
 		outputIcon = icon(filename) //open the icon again each iteration, to work around byond memory limits
 
 		switch(statename)
