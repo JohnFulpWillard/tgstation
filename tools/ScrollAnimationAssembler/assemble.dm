@@ -1,3 +1,5 @@
+#define ASSEMBLE_TEST_DEFINE "test_define"
+
 /// Pull the icons from their files, iterate over frames, constructing each using Apply() and inserting into the output dmi
 /proc/Assemble(background_dmi as file, foreground_dmi as file, mask_dmi as file, frames, duration)
 
