@@ -26,7 +26,7 @@ if command -v rg >/dev/null 2>&1; then
 else
 	pcre2_support=0
 	grep=grep
-	code_files="-r --include=*/**/**.dm --exclude-dir=DMCompiler_linux-x64"
+	code_files="-r --include=*.dm --exclude-dir=DMCompiler_linux-x64 --exclude=od_lints.dm ."
 	map_files="-r --include=_maps/**/**.dmm"
 	shuttle_map_files="-r --include=_maps/shuttles/**.dmm"
 	code_x_515="-r --include=code/**/!(__byond_version_compat).dm"
