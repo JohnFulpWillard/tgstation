@@ -52,6 +52,8 @@
 #define LIMB_COLOR_ETHEREAL 7
 /// Hulk effect color priority
 #define LIMB_COLOR_HULK 10
+/// Temperature priority
+#define LIMB_COLOR_TEMPERATURE 12
 /// Fish infusion color priority
 #define LIMB_COLOR_FISH_INFUSION 15
 /// Carp infusion color priority

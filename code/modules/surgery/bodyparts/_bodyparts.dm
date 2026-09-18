@@ -1075,6 +1075,7 @@
 		return
 
 	owner.remove_traits(bodypart_traits, bodypart_trait_source)
+	remove_color_override(LIMB_COLOR_TEMPERATURE)
 
 ///Proc to change the value of the `can_be_disabled` variable and react to the event of its change.
 /obj/item/bodypart/proc/set_can_be_disabled(new_can_be_disabled)

@@ -1149,20 +1149,33 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			humi.throw_alert(ALERT_TEMPERATURE, /atom/movable/screen/alert/hot, 3)
 
 	// Body temperature is too cold, and we do not have resist traits
-	else if(bodytemp < bodytemp_cold_damage_limit && !HAS_TRAIT(humi, TRAIT_RESISTCOLD) && !humi.has_status_effect(/datum/status_effect/inebriated))
-		// clear any hot moods and apply cold mood
-		humi.clear_mood_event("hot")
-		humi.add_mood_event("cold", /datum/mood_event/cold)
-		// Apply cold slow down
-		humi.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/cold, multiplicative_slowdown = ((bodytemp_cold_damage_limit - humi.bodytemperature) / COLD_SLOWDOWN_FACTOR))
+	else if(bodytemp < bodytemp_cold_damage_limit && !HAS_TRAIT(humi, TRAIT_RESISTCOLD))
 		// Display alerts based how cold it is
 		// Can't be a switch due to http://www.byond.com/forum/post/2750423
+		var/severity
+		var/color_given
 		if(bodytemp in BODYTEMP_COLD_WARNING_2 to bodytemp_cold_damage_limit)
-			humi.throw_alert(ALERT_TEMPERATURE, /atom/movable/screen/alert/cold, 1)
+			severity = 1
+			color_given = blend_color(humi.skin_tone, COLOR_BLUE_VERY_LIGHT)
 		else if(bodytemp in BODYTEMP_COLD_WARNING_3 to BODYTEMP_COLD_WARNING_2)
-			humi.throw_alert(ALERT_TEMPERATURE, /atom/movable/screen/alert/cold, 2)
+			severity = 2
+			color_given = blend_color(humi.skin_tone, COLOR_HEALING_CYAN)
 		else
-			humi.throw_alert(ALERT_TEMPERATURE, /atom/movable/screen/alert/cold, 3)
+			severity = 3
+			color_given = blend_color(humi.skin_tone, COLOR_BLUE_LIGHT)
+
+		if(!humi.has_status_effect(/datum/status_effect/inebriated))
+			humi.throw_alert(ALERT_TEMPERATURE, /atom/movable/screen/alert/cold, severity)
+			// clear any hot moods and apply cold mood
+			humi.clear_mood_event("hot")
+			humi.add_mood_event("cold", /datum/mood_event/cold)
+			// Apply cold slow down
+			humi.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/cold, multiplicative_slowdown = ((bodytemp_cold_damage_limit - humi.bodytemperature) / COLD_SLOWDOWN_FACTOR))
+
+		for(var/obj/item/bodypart/part as anything in humi.get_bodyparts())
+			if (part.bodytype & BODYTYPE_ORGANIC)
+				part.add_color_override(color_given, LIMB_COLOR_TEMPERATURE)
+		humi.update_body_parts()
 
 	// We are not to hot or cold, remove status and moods
 	// Optimization here, we check these things based off the old temperature to avoid unneeded work
@@ -1172,6 +1185,10 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		humi.remove_movespeed_modifier(/datum/movespeed_modifier/cold)
 		humi.clear_mood_event("cold")
 		humi.clear_mood_event("hot")
+		for(var/obj/item/bodypart/part as anything in humi.get_bodyparts())
+			if (part.bodytype & BODYTYPE_ORGANIC)
+				part.remove_color_override(LIMB_COLOR_TEMPERATURE)
+		humi.update_body_parts()
 
 	// Store the old bodytemp for future checking
 	humi.old_bodytemperature = bodytemp
