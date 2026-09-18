@@ -206,6 +206,16 @@
 	desc = "You're not getting enough oxygen. Find some good air before you pass out! The box in your backpack has an oxygen tank and breath mask in it."
 	icon_state = ALERT_NOT_ENOUGH_OXYGEN
 
+/atom/movable/screen/alert/not_enough_oxy/Destroy()
+	var/mob/living/carbon/human/human_owner = owner
+	if(isnull(human_owner) || !istype(human_owner))
+		return ..()
+	var/obj/item/bodypart/head/part = human_owner.get_bodypart(BODY_ZONE_HEAD, FALSE)
+	if(part && part.bodytype & BODYTYPE_ORGANIC)
+		part.remove_color_override(LIMB_COLOR_SUFFOCATION)
+		human_owner.update_body_parts()
+	return ..()
+
 /atom/movable/screen/alert/too_much_oxy
 	name = "Choking (O2)"
 	desc = "There's too much oxygen in the air, and you're breathing it in! Find some good air before you pass out!"

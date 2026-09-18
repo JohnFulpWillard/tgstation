@@ -234,10 +234,15 @@
 		return
 
 /// Handles oxygen breathing. Always called by things that need o2, no matter what
-/obj/item/organ/lungs/proc/breathe_oxygen(mob/living/carbon/breather, datum/gas_mixture/breath, o2_pp, old_o2_pp)
+/obj/item/organ/lungs/proc/breathe_oxygen(mob/living/carbon/human/breather, datum/gas_mixture/breath, o2_pp, old_o2_pp)
 	if(o2_pp < safe_oxygen_min && !HAS_TRAIT(breather, TRAIT_NO_BREATHLESS_DAMAGE))
 		// Not safe to check the old pp because of can_breath_vacuum
 		breather.throw_alert(ALERT_NOT_ENOUGH_OXYGEN, /atom/movable/screen/alert/not_enough_oxy)
+		if(ishuman(breather))
+			var/obj/item/bodypart/head/part = breather.get_bodypart(BODY_ZONE_HEAD, FALSE)
+			if(part && part.bodytype & BODYTYPE_ORGANIC)
+				part.add_color_override(blend_color(breather.skin_tone, COLOR_STRONG_VIOLET), LIMB_COLOR_SUFFOCATION)
+				breather.update_body_parts()
 
 		var/gas_breathed = handle_suffocation(breather, o2_pp, safe_oxygen_min, breath.moles[/datum/gas/oxygen])
 		if(o2_pp)

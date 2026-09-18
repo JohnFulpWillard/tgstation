@@ -1172,6 +1172,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			// Apply cold slow down
 			humi.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/cold, multiplicative_slowdown = ((bodytemp_cold_damage_limit - humi.bodytemperature) / COLD_SLOWDOWN_FACTOR))
 
+		blend_color(humi.skin_tone, COLOR_HEALING_CYAN)
 		for(var/obj/item/bodypart/part as anything in humi.get_bodyparts())
 			if (part.bodytype & BODYTYPE_ORGANIC)
 				part.add_color_override(color_given, LIMB_COLOR_TEMPERATURE)

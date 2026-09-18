@@ -92,6 +92,10 @@
 	switch(dna?.species?.get_breath_type())
 		if(GAS_O2, null) // null means use oxyloss alert by default
 			throw_alert(ALERT_NOT_ENOUGH_OXYGEN, /atom/movable/screen/alert/not_enough_oxy)
+			var/obj/item/bodypart/head/part = get_bodypart(BODY_ZONE_HEAD, FALSE)
+			if(part && part.bodytype & BODYTYPE_ORGANIC)
+				part.add_color_override(blend_color(skin_tone, COLOR_STRONG_VIOLET), LIMB_COLOR_SUFFOCATION)
+				update_body_parts()
 		if(GAS_PLASMA)
 			throw_alert(ALERT_NOT_ENOUGH_PLASMA, /atom/movable/screen/alert/not_enough_plas)
 		if(GAS_CO2)
